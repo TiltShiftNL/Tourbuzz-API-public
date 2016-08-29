@@ -25,6 +25,13 @@ class Bericht
     /**
      * @var string
      *
+     * @ORM\Column(name="old_id", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $oldId;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="title", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
     private $title;
@@ -209,6 +216,30 @@ class Bericht
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set oldId
+     *
+     * @param string $oldId
+     *
+     * @return Bericht
+     */
+    public function setOldId($oldId)
+    {
+        $this->oldId = $oldId;
+
+        return $this;
+    }
+
+    /**
+     * Get oldId
+     *
+     * @return string
+     */
+    public function getOldId()
+    {
+        return $this->oldId;
     }
 
     /**

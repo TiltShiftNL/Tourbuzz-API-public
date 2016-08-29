@@ -29,10 +29,16 @@ migrateBerichten($argv[1], $em);
 function migrateBerichten($filePath, \Doctrine\ORM\EntityManager $em) {
     $messages = loadMessages($filePath);
     $messages = migrateMessages($messages);
+    $repo = $em->getRepository('App\Entity\Bericht');
 
     foreach ($messages as $obj) {
-        $bericht = new \App\Entity\Bericht();
 
+        $bericht = $repo->findOneByOldId($obj->id);
+        if (null === $bericht) {
+            $bericht = new \App\Entity\Bericht();
+        }
+
+        if (isset($obj->id)) $bericht->setOldId($obj->id);
         if (isset($obj->title)) $bericht->setTitle($obj->title);
         if (isset($obj->title_en)) $bericht->setTitleEn($obj->title_en);
         if (isset($obj->title_fr)) $bericht->setTitleFr($obj->title_fr);
