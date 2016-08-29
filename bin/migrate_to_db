@@ -1,0 +1,163 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/../vendor/autoload.php';
+
+session_start();
+
+// Instantiate the app
+$settings = require __DIR__ . '/../src/settings.php';
+$app = new \Slim\App($settings);
+
+// Set up dependencies
+require __DIR__ . '/../src/dependencies.php';
+
+// Register middleware
+require __DIR__ . '/../src/middleware.php';
+
+if (count($argv) !== 2) {
+    die('Usage php migrate_to_db [messages.json]');
+}
+
+require __DIR__ . '/../src/entity/Bericht.php';
+
+$em = $app->getContainer()->get('em');
+migrateBerichten($argv[1], $em);
+
+
+
+function migrateBerichten($filePath, \Doctrine\ORM\EntityManager $em) {
+    $messages = loadMessages($filePath);
+    $messages = migrateMessages($messages);
+
+    foreach ($messages as $obj) {
+        $bericht = new \App\Entity\Bericht();
+
+        if (isset($obj->title)) $bericht->setTitle($obj->title);
+        if (isset($obj->title_en)) $bericht->setTitleEn($obj->title_en);
+        if (isset($obj->title_fr)) $bericht->setTitleFr($obj->title_fr);
+        if (isset($obj->title_de)) $bericht->setTitleDe($obj->title_de);
+        if (isset($obj->advice)) $bericht->setAdvice($obj->advice);
+        if (isset($obj->advice_de)) $bericht->setAdviceDe($obj->advice_de);
+        if (isset($obj->advice_en)) $bericht->setAdviceEn($obj->advice_en);
+        if (isset($obj->advice_fr)) $bericht->setAdviceFr($obj->advice_fr);
+        if (isset($obj->body)) $bericht->setBody($obj->body);
+        if (isset($obj->body_de)) $bericht->setBodyDe($obj->body_de);
+        if (isset($obj->body_en)) $bericht->setBodyEn($obj->body_en);
+        if (isset($obj->body_fr)) $bericht->setBodyFr($obj->body_fr);
+        if (isset($obj->category)) $bericht->setCategory($obj->category);
+        if (isset($obj->enddate)) {
+            $endDate = new \DateTime($obj->enddate);
+            $bericht->setEndDdate($endDate);
+        }
+        if (isset($obj->startdate)) {
+            $startDate = new \DateTime($obj->startdate);
+            $bericht->setStartDate($startDate);
+        }
+        if (isset($obj->image_url)) $bericht->setImageUrl($obj->image_url);
+        if (isset($obj->important) && 'important' === $obj->important) {
+            $bericht->setImportant(true);
+        } else {
+            $bericht->setImportant(false);
+        }
+        if (isset($obj->link)) $bericht->setLink($obj->link);
+        if (isset($obj->is_live) && 'is_live' === $obj->is_live) {
+            $bericht->setIsLive(true);
+        } else {
+            $bericht->setIsLive(false);
+        }
+        if (isset($obj->location_lat)) $bericht->setLocationLat($obj->location_lat);
+        if (isset($obj->location_lng)) $bericht->setLocationLng($obj->location_lng);
+        if (isset($obj->include_map)) $bericht->setIncludeMap($obj->include_map);
+
+        $em->persist($bericht);
+    }
+    $em->flush();
+}
+
+
+
+
+/** Methods from the old api */
+
+
+function migrateMessages($messages) {
+    // If link is available, and it is a link to google maps
+    // Get location geo information.
+    $migrated = false; // Something changed and needs to be saved.
+    $messages = array_map(function ($message) use (&$migrated) {
+        if (preg_match("/goo\.gl/", $message->link)) {
+            $ch = curl_init($message->link);
+            curl_setopt($ch, CURLOPT_NOBODY, 1);
+            $rs = curl_exec($ch);
+            $link_info = curl_getinfo($ch, CURLINFO_REDIRECT_URL);
+            $matches = [];
+            preg_match("/@([0-9.]*),([0-9.]*),/", $link_info, $matches);
+            if (!empty($matches[1]) && !empty($matches[2])) {
+                $message->location_lat = $matches[1];
+                $message->location_lng = $matches[2];
+            }
+            preg_match("/\?q=([0-9.]*),([0-9.]*)&/", $link_info, $matches);
+            if (!empty($matches[1]) && !empty($matches[2])) {
+                $message->location_lat = $matches[1];
+                $message->location_lng = $matches[2];
+            }
+            $message->link = "";
+            $migrated = true; // Something changed and needs to be saved.
+        } else if (preg_match("/google\..*\/maps\//", $message->link)) {
+            $matches = [];
+            preg_match("/@([0-9.]*),([0-9.]*),/", $message->link, $matches);
+            if (!empty($matches[1]) && !empty($matches[2])) {
+                $message->location_lat = $matches[1];
+                $message->location_lng = $matches[2];
+            }
+            $message->link = "";
+            $migrated = true; // Something changed and needs to be saved.
+        }
+        if (!is_bool($message->include_map)) {
+            $message->include_map = true;
+            $migrated = true;
+        }
+        return $message;
+    }, $messages);
+    if ($migrated) {
+        saveMessages($messages);
+    }
+    return $messages;
+}
+
+function loadMessages($filePath) {
+    $messagesJson = file_get_contents($filePath);
+    $messages = json_decode($messagesJson);
+    if (!$messages) {
+        $messages = []; // FIXME backup here?
+    }
+    $messages = (array) $messages;
+    return $messages;
+}
+
+function saveMessages($messages) {
+    global $filePath;
+    backupMessagesFile();
+    if (!is_array($messages)) {
+        throw new Exception("Cannot store messages; Format invalid (needs to be an array).");
+    }
+    $messages = indexMessages($messages); //FIXME remove this later.
+    file_put_contents($filePath, json_encode($messages));
+}
+
+function indexMessages($messages) {
+    return array_combine(
+        array_map(function ($message) {
+            return $message->id;
+        }, $messages),
+        array_values($messages)
+    );
+}
+
+function backupMessagesFile($filePath) {
+    $backupFilePath = $filePath . ".backup." . date("Y-m-d");
+    if (!file_exists($backupFilePath)) {
+        copy($filePath, $backupFilePath);
+    }
+}
