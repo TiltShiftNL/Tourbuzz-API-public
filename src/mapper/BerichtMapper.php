@@ -11,6 +11,7 @@ class BerichtMapper {
         $object = new \stdClass();
 
         $object->id           = $bericht->getId();
+        $object->old_id       = $bericht->getOldId();
         $object->title        = $bericht->getTitle();
         $object->body         = $bericht->getBody();
         $object->advice       = $bericht->getAdvice();
