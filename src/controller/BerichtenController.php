@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\BerichtRepo;
 use App\Mapper\BerichtMapper;
 use Slim\Http\Request;
+use Slim\Http\Response;
 
 class BerichtenController {
     protected $ci;
@@ -13,7 +14,7 @@ class BerichtenController {
         $this->ci = $ci;
     }
 
-    public function get(Request $request, $response, $args) {
+    public function get(Request $request, Response $response, $args) {
         /**
          * @var \Doctrine\ORM\EntityManager $em;
          */
@@ -22,13 +23,14 @@ class BerichtenController {
 
         $bericht = $repo->findOneById($args['id']);
 
-        header("Content-type: application/json");
-        echo json_encode([
-            "message" => BerichtMapper::mapSingle($bericht)
-        ]);
+        $response
+            ->withStatus(200)
+            ->withJson([$bericht]);
+
+        return $response;
     }
 
-    public function index(Request $request, $response, $args) {
+    public function index(Request $request, Response $response, $args) {
         $date = new \DateTime($args['jaar'] . '-' . $args['maand'] . '-' . $args['dag']);
 
         /**
@@ -44,12 +46,18 @@ class BerichtenController {
 
         $mappedBerichten = BerichtMapper::mapCollection($berichten);
 
-        header("Content-type: application/json");
-        echo json_encode([
+        //$response->headers->set('Content-Type', 'application/json');
+
+        $response
+            ->withStatus(200)
+            ->withJson([
+            "_timestamp" => $date->format('Y-m-d'),
             "_date" => $date->format('Y-m-d'),
             "_nextDate" => date("Y-m-d", strtotime("+1 day", strtotime($date->format('Y-m-d')))),
             "_prevDate" => date("Y-m-d", strtotime("-1 day", strtotime($date->format('Y-m-d')))),
             "messages" => $mappedBerichten
         ]);
+
+        return $response;
     }
 }
