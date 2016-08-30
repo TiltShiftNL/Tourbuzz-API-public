@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use Slim\Http\Request;
 
-class HaltesController {
+class ParkeerController {
     protected $ci;
     //Constructor
     public function __construct(\Interop\Container\ContainerInterface $ci) {
@@ -16,8 +16,8 @@ class HaltesController {
 
         $settings = $this->ci->get('settings');
 
-        if (!isset($settings['haltesUrl'])) {
-            throw new \Exception('Missing haltesUrl in settings.php');
+        if (!isset($settings['parkeerUrl'])) {
+            throw new \Exception('Missing parkeerUrl in settings.php');
         }
 
         if (!isset($settings['messagesUrl'])) {
@@ -27,7 +27,7 @@ class HaltesController {
         $guzzle = new \GuzzleHttp\Client();
 
         try {
-            $res = $guzzle->request('GET', $settings['haltesUrl']);
+            $res = $guzzle->request('GET', $settings['parkeerUrl']);
             $jsonData = json_decode($res->getBody());
         } catch (\Exception $e) {
             header("HTTP/1.1 404 Not Found");
@@ -39,7 +39,7 @@ class HaltesController {
             $res = $guzzle->request('GET', $settings['messagesUrl']);
             $messages = json_decode($res->getBody());
             foreach ($messages->messages as $msg) {
-                if ($msg->is_live && preg_match("/((H|h)[0-9]{1,2}).* niet beschikbaar/", $msg->title, $matches)) {
+                if ($msg->is_live && preg_match("/((P|p)[0-9]{1,2}).* niet beschikbaar/", $msg->title, $matches)) {
                     $disabled[$matches[1]] = $matches[1];
                 }
             }
@@ -50,52 +50,49 @@ class HaltesController {
         $result = [
             "_datum" => date("Y-m-d"),
             "_uri" => $args,
-            "_bron" => $settings['haltesUrl'],
+            "_bron" => $settings['parkeerUrl'],
             "_pogingen" => 0,
         ];
 
-        foreach ($jsonData->in_uitstaphaltes as $data) {
-            $data = $data->in_uitstaphalte;
+        foreach ($jsonData->parkeerplaatsen as $data) {
+            $data = $data->parkeerplaats;
             $titleParts = explode(":", $data->title);
-            $haltenummer = array_shift($titleParts);
-            if (!preg_match('/^H[0-9]{1,2}$/', $haltenummer)) continue;
-            $straat = trim(array_shift($titleParts));
             $geoJson = json_decode($data->Lokatie);
-            $locatie = trim($data->Bijzonderheden);
-            $capaciteit = intval($data->Busplaatsen);
             $mapsImageUrl = "https://maps.googleapis.com/maps/api/staticmap?center={$geoJson->coordinates[1]},{$geoJson->coordinates[0]}&zoom=16&size=600x300&maptype=roadmap&markers={$geoJson->coordinates[1]},{$geoJson->coordinates[0]}&key=AIzaSyA_o88ovC0-TE8YyYqtIXFQIkRPeJX2VKU";
             $mapsUrl = "https://www.google.com/maps/?q=loc:{$geoJson->coordinates[1]},{$geoJson->coordinates[0]}";
-            $halte = (object) [
-                "haltenummer" => $haltenummer,
-                "straat" => $straat,
-                "locatie" => $locatie,
-                "capaciteit" => $capaciteit,
+            $nummer = array_shift($titleParts);
+            if (!preg_match('/^P[0-9]{1,2}$/', $nummer)) continue;
+            $parkeerplaats = (object) [
+                "nummer" => $nummer,
+                "naam" => trim(array_shift($titleParts)),
+                "capaciteit" => intval(str_replace("maximaal ", "", $data->Busplaatsen)),
                 "location" => [
                     "lat" => $geoJson->coordinates[1],
                     "lng" => $geoJson->coordinates[0]
                 ],
                 "mapsImageUrl" => $mapsImageUrl,
                 "mapsUrl" => $mapsUrl,
-                "beschikbaar" => empty($disabled[$haltenummer]),
+                "beschikbaar" => empty($disabled[$nummer]),
                 "_origineel" => $data
             ];
             if (isset($args['id']) && !empty($args['id'])) {
-                if (strtolower($haltenummer) !== strtolower($args['id'])) {
+                if (strtolower($parkeerplaats->nummer) !== strtolower($args['id'])) {
                     continue;
                 } else {
-                    $result["halte"] = $halte;
+                    $result["parkeerplaats"] = $parkeerplaats;
                     break;
                 }
             } else {
-                $result["haltes"][$halte->haltenummer] = $halte;
+                $result["parkeerplaatsen"][$parkeerplaats->nummer] = $parkeerplaats;
             }
         }
 
-        if (isset($result['haltes'])) {
-            uksort($result["haltes"], function ($a, $b) {
-                return (int) substr($a, 1) > (int) substr($b, 1);
+        if (isset($result["parkeerplaatsen"])) {
+            uksort($result["parkeerplaatsen"], function ($a, $b) {
+                return (int)substr($a, 1) > (int)substr($b, 1);
             });
         }
+
 
         $response
             ->withStatus(200)

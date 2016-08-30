@@ -25,7 +25,7 @@ class BerichtenController {
 
         $response
             ->withStatus(200)
-            ->withJson([$bericht]);
+            ->withJson($bericht);
 
         return $response;
     }
