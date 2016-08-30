@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Bericht
  *
  * @ORM\Table(name="berichten")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Entity\BerichtRepo");
  */
 class Bericht
 {
@@ -744,5 +744,15 @@ class Bericht
     public function getLocationLng()
     {
         return $this->locationLng;
+    }
+
+    public function getStatus() {
+        $today = new \DateTime();
+        if ($this->getEndDdate() < $today) {
+            return 'archived';
+        } else if ($this->getStartDate() > $today) {
+            return 'scheduled';
+        }
+        return 'active';
     }
 }
