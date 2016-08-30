@@ -24,16 +24,11 @@ require __DIR__ . '/../src/dependencies.php';
 require __DIR__ . '/../src/middleware.php';
 
 
-$uri = explode('/',$_SERVER['REQUEST_URI']);
-if (!isset($uri[1]) || 0 === strlen($uri[1])) {
-    require __DIR__ . '/../src/index.php';
+$file = __DIR__ . '/../src/routes.php';
+if (!file_exists($file)) {
+    require __DIR__ . '/../src/404.php';
 } else {
-    $file = __DIR__ . '/../src/routes.php';
-    if (!file_exists($file)) {
-        require __DIR__ . '/../src/404.php';
-    } else {
-        require $file;
-    }
+    require $file;
 }
 
 // Run app
