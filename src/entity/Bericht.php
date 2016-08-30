@@ -537,7 +537,7 @@ class Bericht
      *
      * @return Bericht
      */
-    public function setEndDate($endDdate)
+    public function setEndDate($endDate)
     {
         $this->endDate = $endDate;
 
