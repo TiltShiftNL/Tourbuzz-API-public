@@ -2,26 +2,31 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use App\Entity\Bericht;
 
 class BerichtRepo extends EntityRepository
 {
-    public function getCurrent() {
-        $connection = $this->getEntityManager()->getConnection();
+    public function getByDate($date) {
+        /**
+         * @var EntityManager $em
+         */
+        $em = $this->getEntityManager();
 
-        $today = new \DateTime();
+        $query = $em->createQuery('
+            SELECT
+                b
+            FROM
+               App\Entity\Bericht b
+            WHERE
+                b.startDate <= :qdate
+                AND b.endDate > :qdate
+            ORDER BY b.endDate DESC'
+        );
 
-        return $connection->fetchAll("
-    SELECT
-		*
-	FROM
-		berichten
-	WHERE
-		startdate <= :today
-		AND enddate > :today
-	ORDER BY enddate DESC",
-            [
-                'today' => $today->format('Y-m-d')
-            ]);
+        $query->setParameter('qdate', $date->format('Y-m-d'));
+
+        return $query->getResult();
     }
 }

@@ -54,7 +54,7 @@ function migrateBerichten($filePath, \Doctrine\ORM\EntityManager $em) {
         if (isset($obj->category)) $bericht->setCategory($obj->category);
         if (isset($obj->enddate)) {
             $endDate = new \DateTime($obj->enddate);
-            $bericht->setEndDdate($endDate);
+            $bericht->setEndDate($endDate);
         }
         if (isset($obj->startdate)) {
             $startDate = new \DateTime($obj->startdate);

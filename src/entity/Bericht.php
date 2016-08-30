@@ -20,168 +20,168 @@ class Bericht
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="berichten_id_seq", allocationSize=1, initialValue=1)
      */
-    private $id;
+    public $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="old_id", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    private $oldId;
+    public $oldId;
 
     /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    private $title;
+    public $title;
 
     /**
      * @var string
      *
      * @ORM\Column(name="body", type="text", precision=0, scale=0, nullable=true, unique=false)
      */
-    private $body;
+    public $body;
 
     /**
      * @var string
      *
      * @ORM\Column(name="advice", type="text", precision=0, scale=0, nullable=true, unique=false)
      */
-    private $advice;
+    public $advice;
 
     /**
      * @var string
      *
      * @ORM\Column(name="title_en", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    private $title_en;
+    public $title_en;
 
     /**
      * @var string
      *
      * @ORM\Column(name="body_en", type="text", precision=0, scale=0, nullable=true, unique=false)
      */
-    private $body_en;
+    public $body_en;
 
     /**
      * @var string
      *
      * @ORM\Column(name="advice_en", type="text", precision=0, scale=0, nullable=true, unique=false)
      */
-    private $advice_en;
+    public $advice_en;
 
     /**
      * @var string
      *
      * @ORM\Column(name="title_fr", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    private $title_fr;
+    public $title_fr;
 
     /**
      * @var string
      *
      * @ORM\Column(name="body_fr", type="text", precision=0, scale=0, nullable=true, unique=false)
      */
-    private $body_fr;
+    public $body_fr;
 
     /**
      * @var string
      *
      * @ORM\Column(name="advice_fr", type="text", precision=0, scale=0, nullable=true, unique=false)
      */
-    private $advice_fr;
+    public $advice_fr;
 
     /**
      * @var string
      *
      * @ORM\Column(name="title_de", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    private $title_de;
+    public $title_de;
 
     /**
      * @var string
      *
      * @ORM\Column(name="body_de", type="text", precision=0, scale=0, nullable=true, unique=false)
      */
-    private $body_de;
+    public $body_de;
 
     /**
      * @var string
      *
      * @ORM\Column(name="advice_de", type="text", precision=0, scale=0, nullable=true, unique=false)
      */
-    private $advice_de;
+    public $advice_de;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="startdate", type="date", precision=0, scale=0, nullable=false, unique=false)
      */
-    private $startDate;
+    public $startDate;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="enddate", type="date", precision=0, scale=0, nullable=false, unique=false)
      */
-    private $endDdate;
+    public $endDate;
 
     /**
      * @var string
      *
      * @ORM\Column(name="category", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    private $category;
+    public $category;
 
     /**
      * @var string
      *
      * @ORM\Column(name="link", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    private $link;
+    public $link;
 
     /**
      * @var string
      *
      * @ORM\Column(name="image_url", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    private $imageUrl;
+    public $imageUrl;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="important", type="boolean", precision=0, scale=0, nullable=false, unique=false)
      */
-    private $important;
+    public $important;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_live", type="boolean", precision=0, scale=0, nullable=false, unique=false)
      */
-    private $isLive;
+    public $isLive;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="include_map", type="boolean", precision=0, scale=0, nullable=false, unique=false)
      */
-    private $includeMap;
+    public $includeMap;
 
     /**
      * @var string
      *
      * @ORM\Column(name="location_lat", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    private $locationLat;
+    public $locationLat;
 
     /**
      * @var string
      *
      * @ORM\Column(name="location_lng", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    private $locationLng;
+    public $locationLng;
 
 
     /**
@@ -537,9 +537,9 @@ class Bericht
      *
      * @return Bericht
      */
-    public function setEndDdate($endDdate)
+    public function setEndDate($endDdate)
     {
-        $this->endDdate = $endDdate;
+        $this->endDate = $endDate;
 
         return $this;
     }
@@ -549,9 +549,9 @@ class Bericht
      *
      * @return \DateTime
      */
-    public function getEndDdate()
+    public function getEndDate()
     {
-        return $this->endDdate;
+        return $this->endDate;
     }
 
     /**
@@ -748,7 +748,7 @@ class Bericht
 
     public function getStatus() {
         $today = new \DateTime();
-        if ($this->getEndDdate() < $today) {
+        if ($this->getEndDate() < $today) {
             return 'archived';
         } else if ($this->getStartDate() > $today) {
             return 'scheduled';
