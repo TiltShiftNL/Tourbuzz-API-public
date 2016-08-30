@@ -14,3 +14,5 @@ $app->get('/parkeerplaatsen/{id}', 'App\Controller\ParkeerController:index');
 $app->get('/afbeeldingen', 'App\Controller\AfbeeldingController:transform');
 
 $app->get('/poi', 'App\Controller\PoiController:index');
+
+$app->get('/distance', 'App\Controller\DistanceController:distance');
