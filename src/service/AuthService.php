@@ -142,7 +142,7 @@ class AuthService {
         if (null === $user) {
             throw new UnknownCredentialsException();
         }
-        
+
         $this->setPassword($user, $password);
 
         $this->em->persist($user);
@@ -184,5 +184,45 @@ class AuthService {
         if ($flush) {
             $this->em->flush();
         }
+    }
+
+    /**
+     * @param $string
+     * @return null|Token
+     */
+    public function getToken($string) {
+        /**
+         * @var Token $token
+         */
+        $token = $this->tokenRepo->findOneByToken($string);
+        if (null !== $token) {
+            $timestamp = $token->getLastAction()->getTimestamp();
+            $now = time();
+            if ($now - $this->maxAge > $timestamp) {
+                $this->deleteToken($token);
+                $token = null;
+            }
+        }
+        return $token;
+    }
+
+    /**
+     * @param Token $token
+     * @return null
+     */
+    public function deleteToken(Token $token) {
+        $user = $token->getUser();
+        $user->setToken(null);
+        $token->setUser(null);
+        $this->em->remove($token);
+        $this->em->flush();
+    }
+
+    /**
+     * @param Token $token
+     * @return int
+     */
+    public function getExpires(Token $token) {
+        return $token->getLastAction()->getTimestamp() + $this->maxAge;
     }
 }
