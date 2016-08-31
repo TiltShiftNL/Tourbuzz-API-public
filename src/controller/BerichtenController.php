@@ -31,7 +31,14 @@ class BerichtenController {
     }
 
     public function index(Request $request, Response $response, $args) {
-        $date = new \DateTime($args['jaar'] . '-' . $args['maand'] . '-' . $args['dag']);
+        $date = null;
+        if (isset(
+            $args['jaar'],
+            $args['maand'],
+            $args['dag']
+        )) {
+            $date = new \DateTime($args['jaar'] . '-' . $args['maand'] . '-' . $args['dag']);
+        }
 
         /**
          * @var \Doctrine\ORM\EntityManager $em;
@@ -42,12 +49,15 @@ class BerichtenController {
          */
         $repo =  $em->getRepository('App\Entity\Bericht');
 
-        $berichten = $repo->getByDate($date);
+        $berichten = null === $date ? $repo->getSortedAll() : $repo->getByDate($date);
 
         $mappedBerichten = BerichtMapper::mapCollection($berichten);
 
         //$response->headers->set('Content-Type', 'application/json');
 
+        if (null === $date) {
+            $date = new \DateTime();
+        }
         $response
             ->withStatus(200)
             ->withJson([

@@ -29,4 +29,21 @@ class BerichtRepo extends EntityRepository
 
         return $query->getResult();
     }
+
+    public function getSortedAll() {
+        /**
+         * @var EntityManager $em
+         */
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery('
+            SELECT
+                b
+            FROM
+               App\Entity\Bericht b
+            ORDER BY b.endDate DESC'
+        );
+
+        return $query->getResult();
+    }
 }
