@@ -25,7 +25,7 @@ class Token
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=255, precision=0, scale=0, nullable=true, unique=true)
+     * @ORM\Column(name="token", type="string", length=255, precision=0, scale=0, nullable=true, unique=true)
      */
     private $token;
 

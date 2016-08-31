@@ -30,3 +30,7 @@ $container['em'] = function ($c) {
     );
     return \Doctrine\ORM\EntityManager::create($settings['doctrine']['connection'], $config);
 };
+
+$container['auth'] = function ($c) {
+    return new \App\Service\AuthService($c);
+};

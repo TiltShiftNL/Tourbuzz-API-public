@@ -16,3 +16,6 @@ $app->get('/afbeeldingen', 'App\Controller\AfbeeldingController:transform');
 $app->get('/poi', 'App\Controller\PoiController:index');
 
 $app->get('/distance', 'App\Controller\DistanceController:distance');
+
+$app->get('/auth/create', 'App\Controller\AuthController:create');
+$app->get('/auth/login', 'App\Controller\AuthController:login');
