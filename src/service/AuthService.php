@@ -6,6 +6,7 @@ use App\Entity\Token;
 use App\Entity\TokenRepo;
 use App\Entity\User;
 use App\Entity\UserRepo;
+use App\Exception\NotAuthenticatedException;
 use App\Exception\UnknownCredentialsException;
 use App\Exception\UsernameExistsException;
 use Doctrine\ORM\EntityManager;
@@ -204,6 +205,16 @@ class AuthService {
             }
         }
         return $token;
+    }
+
+    /**
+     * @param $tokenString
+     */
+    public function requireAuthentication($tokenString) {
+        $token = $this->getToken($tokenString);
+        if (null === $token) {
+            throw new NotAuthenticatedException();
+        }
     }
 
     /**

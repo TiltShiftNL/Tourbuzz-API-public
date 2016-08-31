@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Exception\NotAuthenticatedException;
 use App\Exception\UnknownCredentialsException;
 use App\Service\AuthService;
 use Slim\Http\Request;
