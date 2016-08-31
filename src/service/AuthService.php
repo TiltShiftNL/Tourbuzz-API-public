@@ -9,9 +9,8 @@ use App\Entity\UserRepo;
 use App\Exception\UnknownCredentialsException;
 use App\Exception\UsernameExistsException;
 use Doctrine\ORM\EntityManager;
+use Interop\Container\ContainerInterface;
 use Ramsey\Uuid\Uuid;
-use Slim\Http\Request;
-use Slim\Http\Response;
 
 class AuthService {
 
@@ -44,7 +43,7 @@ class AuthService {
      * AuthService constructor.
      * @param \Interop\Container\ContainerInterface $ci
      */
-    public function __construct(\Interop\Container\ContainerInterface $ci) {
+    public function __construct(ContainerInterface $ci) {
         $this->ci        = $ci;
         $this->em        = $this->ci->get('em');
         $this->userRepo  = $this->em->getRepository('App\Entity\User');
@@ -124,6 +123,26 @@ class AuthService {
 
         $user = new User();
         $user->setUsername($username);
+        $this->setPassword($user, $password);
+
+        $this->em->persist($user);
+        $this->em->flush();
+        return $user;
+    }
+
+    /**
+     * @param string $username
+     * @param string $password
+     * @return User
+     * @throws UnknownCredentialsException
+     *
+     */
+    public function update($username, $password) {
+        $user = $this->userRepo->findOneByUsername($username);
+        if (null === $user) {
+            throw new UnknownCredentialsException();
+        }
+        
         $this->setPassword($user, $password);
 
         $this->em->persist($user);
