@@ -37,6 +37,13 @@ class User
     private $password;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="salt", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $salt;
+
+    /**
      * @var \App\Entity\Token
      *
      * @ORM\OneToOne(targetEntity="App\Entity\Token", inversedBy="user")
@@ -103,6 +110,30 @@ class User
     public function getPassword()
     {
         return $this->password;
+    }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     *
+     * @return User
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
+    }
+
+    /**
+     * Get salt
+     *
+     * @return string
+     */
+    public function getSalt()
+    {
+        return $this->salt;
     }
 
     /**

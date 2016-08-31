@@ -30,11 +30,18 @@ class Token
     private $token;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="lastAction", type="datetime", precision=0, scale=0, nullable=false, unique=false)
+     */
+    private $lastAction;
+
+    /**
      * @var \App\Entity\User
      *
      * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="token")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", unique=true)
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", unique=true, nullable=true)
      * })
      */
     private $user;
@@ -72,6 +79,30 @@ class Token
     public function getToken()
     {
         return $this->token;
+    }
+
+    /**
+     * Set lastAction
+     *
+     * @param \DateTime $lastAction
+     *
+     * @return Token
+     */
+    public function setLastAction($lastAction)
+    {
+        $this->lastAction = $lastAction;
+
+        return $this;
+    }
+
+    /**
+     * Get lastAction
+     *
+     * @return \DateTime
+     */
+    public function getLastAction()
+    {
+        return $this->lastAction;
     }
 
     /**
