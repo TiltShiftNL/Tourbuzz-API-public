@@ -97,55 +97,51 @@ class BerichtenController {
          */
         $em  = $this->ci->get('em');
 
-        try {
 
-            /**
-             * @var BerichtRepo $repo
-             */
-            $repo = $em->getRepository('App\Entity\Bericht');
+        /**
+         * @var BerichtRepo $repo
+         */
+        $repo = $em->getRepository('App\Entity\Bericht');
 
-            if (isset($post['id']) && !empty($post['id'])) {
-                $bericht = $repo->findOneById($post['id']);
-                if (null === $bericht) {
-                    $bericht = new Bericht();
-                    $em->persist($bericht);
-                }
-            } else {
+        if (isset($post['id']) && !empty($post['id'])) {
+            $bericht = $repo->findOneById($post['id']);
+            if (null === $bericht) {
                 $bericht = new Bericht();
                 $em->persist($bericht);
             }
-
-            $bericht->setTitle($post['title']);
-            $bericht->setBody($post['body']);
-            $bericht->setAdvice($post['advice']);
-            $bericht->setTitleEn($post['title_en']);
-            $bericht->setBodyEn($post['body_en']);
-            $bericht->setAdviceEn($post['advice_en']);
-            $bericht->setTitleDe($post['title_de']);
-            $bericht->setBodyDe($post['body_de']);
-            $bericht->setAdviceDe($post['advice_de']);
-            $startDate = new \DateTime($post['startdate']);
-            $bericht->setStartDate($startDate);
-            $endDate = new \DateTime($post['enddate']);
-            if ($startDate > $endDate) {
-                $endDate = $startDate;
-            }
-            $bericht->setEndDate($endDate);
-            $bericht->setLink($post['link']);
-            $bericht->setIncludeMap($post['include_map'] ? true : false);
-            if (isset($post['category'])) $bericht->setCategory($post['category']);
-            if (isset($post['image_url'])) $bericht->setImageUrl($post['image_url']);
-            $bericht->setImportant(isset($post['important']));
-            $bericht->setIsLive(isset($post['is_live']));
-            if (isset($post['location_lat'])) $bericht->setLocationLat($post['location_lat']);
-            if (isset($post['location_lng'])) $bericht->setLocationLng($post['location_lng']);
-
-            $em->flush();
-
-            $response = $response->withJson(BerichtMapper::mapSingle($bericht));
-            return $response;
-        } catch (\Exception $e) {
-            error_log(var_export($e->getMessage(),true));
+        } else {
+            $bericht = new Bericht();
+            $em->persist($bericht);
         }
+
+        $bericht->setTitle($post['title']);
+        $bericht->setBody($post['body']);
+        $bericht->setAdvice($post['advice']);
+        $bericht->setTitleEn($post['title_en']);
+        $bericht->setBodyEn($post['body_en']);
+        $bericht->setAdviceEn($post['advice_en']);
+        $bericht->setTitleDe($post['title_de']);
+        $bericht->setBodyDe($post['body_de']);
+        $bericht->setAdviceDe($post['advice_de']);
+        $startDate = new \DateTime($post['startdate']);
+        $bericht->setStartDate($startDate);
+        $endDate = new \DateTime($post['enddate']);
+        if ($startDate > $endDate) {
+            $endDate = $startDate;
+        }
+        $bericht->setEndDate($endDate);
+        $bericht->setLink($post['link']);
+        $bericht->setIncludeMap($post['include_map'] ? true : false);
+        if (isset($post['category'])) $bericht->setCategory($post['category']);
+        if (isset($post['image_url'])) $bericht->setImageUrl($post['image_url']);
+        $bericht->setImportant(isset($post['important']));
+        $bericht->setIsLive(isset($post['is_live']));
+        if (isset($post['location_lat'])) $bericht->setLocationLat($post['location_lat']);
+        if (isset($post['location_lng'])) $bericht->setLocationLng($post['location_lng']);
+
+        $em->flush();
+
+        $response = $response->withJson(BerichtMapper::mapSingle($bericht));
+        return $response;
     }
 }
