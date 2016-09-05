@@ -144,4 +144,41 @@ class BerichtenController {
         $response = $response->withJson(BerichtMapper::mapSingle($bericht));
         return $response;
     }
+
+    public function delete(Request $request, Response $response, $args) {
+        $get = $request->getQueryParams();
+        if (!isset($get['token'])) {
+            $response = $response->withStatus(401);
+            return $response;
+        }
+
+        $authService = $this->ci->get('auth');
+
+        try {
+            $authService->requireAuthentication($get['token']);
+        } catch (NotAuthenticatedException $e) {
+            $response = $response->withStatus(401);
+            return $response;
+        }
+
+        /**
+         * @var EntityManager $em
+         */
+        $em  = $this->ci->get('em');
+
+
+        /**
+         * @var BerichtRepo $repo
+         */
+        $repo = $em->getRepository('App\Entity\Bericht');
+
+		$ids = isset($args['id']) ? [$args['id']] : $get["ids"];
+        foreach ($ids as $id) {
+            $bericht = $repo->findOneById($id);
+            if (null !== $bericht) {
+                $em->remove($bericht);
+            }
+        }
+        $em->flush();
+    }
 }
