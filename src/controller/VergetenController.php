@@ -11,7 +11,7 @@ class VergetenController extends Controller {
     public function vergeten(Request $request, Response $response, $args) {
         $post = $request->getParsedBody();
         if (!isset($post['username'])) {
-            $response = $response = $response->withStatus(406);
+            $response = $response = $response->withStatus(404);
             return $response;
         }
 

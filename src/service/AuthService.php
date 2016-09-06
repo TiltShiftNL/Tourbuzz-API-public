@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Entity\UserRepo;
 use App\Entity\VergetenToken;
 use App\Entity\VergetenTokenRepo;
+use App\Exception\InvalidCredentialsException;
 use App\Exception\NoMailException;
 use App\Exception\NotAuthenticatedException;
 use App\Exception\UnknownCredentialsException;
@@ -125,9 +126,15 @@ class AuthService {
      * @param string $mail
      * @return User
      * @throws UsernameExistsException
+     * @throws InvalidCredentialsException
      *
      */
     public function create($username, $password, $mail = null) {
+
+        if (strlen($username) < 2 || strlen($password) < 8) {
+            throw new InvalidCredentialsException();
+        }
+
         $user = $this->userRepo->findOneByUsername($username);
         if (null !== $user) {
             throw new UsernameExistsException();
@@ -148,10 +155,15 @@ class AuthService {
      * @param string $password
      * @return User
      * @throws UnknownCredentialsException
+     * @throws InvalidCredentialsException
      *
      */
     public function update($username, $password, $mail)
     {
+        if (strlen($username) < 2 || strlen($password) < 8) {
+            throw new InvalidCredentialsException();
+        }
+
         /**
          * @var User $user ;
          */

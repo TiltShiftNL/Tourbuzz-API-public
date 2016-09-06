@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Exception\InvalidCredentialsException;
 use App\Exception\UnknownCredentialsException;
 use App\Exception\UsernameExistsException;
 use App\Mapper\UserMapper;
@@ -23,6 +24,9 @@ class AccountController extends Controller {
             $this->authService->create($post['username'], $post['password'], $post['mail']);
         } catch (UsernameExistsException $e) {
             $response = $response->withJson(['error' => 'username exists'])->withStatus(409);
+            return $response;
+        } catch (InvalidCredentialsException $e) {
+            $response = $response->withJson(['error' => 'invalid credentials'])->withStatus(407);
             return $response;
         }
 
@@ -72,6 +76,9 @@ class AccountController extends Controller {
             $this->authService->update($post['username'], $password, $post['mail']);
         } catch (UnknownCredentialsException $e) {
             $response = $response->withJson(['error' => 'Unknown user'])->withStatus(409);
+            return $response;
+        } catch (InvalidCredentialsException $e) {
+            $response = $response->withJson(['error' => 'invalid credentials'])->withStatus(407);
             return $response;
         }
 
