@@ -62,4 +62,23 @@ class AccountController extends Controller {
         $response = $response->withJson(['success' => true]);
         return $response;
     }
+
+    public function delete(Request $request, Response $response, $args) {
+        $this->requireAuthentication($request, $response);
+
+        if (!isset($args['username'])) {
+            $response = $response = $response->withStatus(406);
+            return $response;
+        }
+
+        try {
+            $this->authService->delete($args['username']);
+        } catch (UnknownCredentialsException $e) {
+            $response = $response->withJson(['error' => 'Unknown user'])->withStatus(409);
+            return $response;
+        }
+
+        $response = $response->withJson(['success' => true]);
+        return $response;
+    }
 }

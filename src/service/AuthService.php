@@ -250,4 +250,32 @@ class AuthService {
         $users = $this->userRepo->findAll();
         return $users;
     }
+
+    /**
+     * @param $username
+     * @return bool
+     * @throws UnknownCredentialsException
+     */
+    public function delete($username) {
+        /**
+         * @var User $user ;
+         */
+        $user = $this->userRepo->findOneByUsername($username);
+        if (null === $user) {
+            throw new UnknownCredentialsException();
+        }
+
+        $token = $user->getToken();
+        if (null !== $token) {
+            $user->setToken(null);
+            $token->setUser(null);
+            $this->em->flush();
+            $this->em->remove($token);
+        }
+
+        $this->em->remove($user);
+
+        $this->em->flush();
+        return true;
+    }
 }
