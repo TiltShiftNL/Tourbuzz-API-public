@@ -25,3 +25,4 @@ $app->get('/auth', 'App\Controller\AuthController:token');
 $app->post('/auth', 'App\Controller\AuthController:login');
 
 $app->post('/accounts', 'App\Controller\AccountController:create');
+$app->get('/accounts', 'App\Controller\AccountController:index');

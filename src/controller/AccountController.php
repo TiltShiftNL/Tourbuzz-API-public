@@ -7,6 +7,7 @@ use App\Entity\BerichtRepo;
 use App\Exception\NotAuthenticatedException;
 use App\Exception\UsernameExistsException;
 use App\Mapper\BerichtMapper;
+use App\Mapper\UserMapper;
 use App\Service\AuthService;
 use Doctrine\ORM\EntityManager;
 use Slim\Http\Request;
@@ -63,6 +64,30 @@ class AccountController {
         }
 
         $response = $response->withJson(['success' => true]);
+        return $response;
+    }
+
+    public function index(Request $request, Response $response, $args) {
+        $get = $request->getQueryParams();
+        if (!isset($get['token'])) {
+            $response = $response->withStatus(401);
+            return $response;
+        }
+
+        $authService = $this->ci->get('auth');
+
+        try {
+            $authService->requireAuthentication($get['token']);
+        } catch (NotAuthenticatedException $e) {
+            $response = $response->withStatus(401);
+            return $response;
+        }
+
+        $users = $this->authService->getAllUsers();
+
+        $mappedUsers = UserMapper::mapCollection($users);
+
+        $response = $response->withJson($mappedUsers);
         return $response;
     }
 }

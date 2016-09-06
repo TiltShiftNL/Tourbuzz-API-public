@@ -241,4 +241,9 @@ class AuthService {
     public function getExpires(Token $token) {
         return $token->getLastAction()->getTimestamp() + $this->maxAge;
     }
+
+    public function getAllUsers() {
+        $users = $this->userRepo->findAll();
+        return $users;
+    }
 }
