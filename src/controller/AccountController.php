@@ -41,6 +41,22 @@ class AccountController extends Controller {
         return $response;
     }
 
+    public function single(Request $request, Response $response, $args) {
+        $this->requireAuthentication($request, $response);
+
+        $user = $this->authService->getByUsername($args['username']);
+
+        if (null === $user) {
+            $response = $response->withStatus(404);
+            return $response;
+        }
+
+        $mappedUser = UserMapper::mapSingle($user);
+
+        $response = $response->withJson($mappedUser);
+        return $response;
+    }
+
     public function update(Request $request, Response $response, $args) {
         $this->requireAuthentication($request, $response);
 
@@ -65,11 +81,6 @@ class AccountController extends Controller {
 
     public function delete(Request $request, Response $response, $args) {
         $this->requireAuthentication($request, $response);
-
-        if (!isset($args['username'])) {
-            $response = $response = $response->withStatus(406);
-            return $response;
-        }
 
         try {
             $this->authService->delete($args['username']);

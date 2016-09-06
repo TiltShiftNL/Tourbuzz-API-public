@@ -278,4 +278,12 @@ class AuthService {
         $this->em->flush();
         return true;
     }
+
+    /**
+     * @param string $username
+     * @return null|User
+     */
+    public function getByUsername($username) {
+        return $this->userRepo->findOneByUsername($username);
+    }
 }
