@@ -23,3 +23,5 @@ $app->get('/distance', 'App\Controller\DistanceController:distance');
 
 $app->get('/auth', 'App\Controller\AuthController:token');
 $app->post('/auth', 'App\Controller\AuthController:login');
+
+$app->post('/accounts', 'App\Controller\AccountController:create');

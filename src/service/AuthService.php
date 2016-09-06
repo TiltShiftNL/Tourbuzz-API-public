@@ -112,11 +112,12 @@ class AuthService {
     /**
      * @param string $username
      * @param string $password
+     * @param string $mail
      * @return User
      * @throws UsernameExistsException
      *
      */
-    public function create($username, $password) {
+    public function create($username, $password, $mail = null) {
         $user = $this->userRepo->findOneByUsername($username);
         if (null !== $user) {
             throw new UsernameExistsException();
@@ -125,6 +126,7 @@ class AuthService {
         $user = new User();
         $user->setUsername($username);
         $this->setPassword($user, $password);
+        $user->setMail($mail);
 
         $this->em->persist($user);
         $this->em->flush();
@@ -138,15 +140,18 @@ class AuthService {
      * @throws UnknownCredentialsException
      *
      */
-    public function update($username, $password) {
+    public function update($username, $password, $mail) {
+        /**
+         * @var User $user;
+         */
         $user = $this->userRepo->findOneByUsername($username);
         if (null === $user) {
             throw new UnknownCredentialsException();
         }
 
         $this->setPassword($user, $password);
+        $user->setMail($mail);
 
-        $this->em->persist($user);
         $this->em->flush();
         return $user;
     }

@@ -32,6 +32,13 @@ class User
     /**
      * @var string
      *
+     * @ORM\Column(name="mail", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $mail;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="password", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
     private $password;
@@ -86,6 +93,30 @@ class User
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * Set mail
+     *
+     * @param string $mail
+     *
+     * @return User
+     */
+    public function setMail($mail)
+    {
+        $this->mail = $mail;
+
+        return $this;
+    }
+
+    /**
+     * Get mail
+     *
+     * @return string
+     */
+    public function getMail()
+    {
+        return $this->mail;
     }
 
     /**
