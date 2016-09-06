@@ -6,6 +6,9 @@ use App\Entity\Token;
 use App\Entity\TokenRepo;
 use App\Entity\User;
 use App\Entity\UserRepo;
+use App\Entity\VergetenToken;
+use App\Entity\VergetenTokenRepo;
+use App\Exception\NoMailException;
 use App\Exception\NotAuthenticatedException;
 use App\Exception\UnknownCredentialsException;
 use App\Exception\UsernameExistsException;
@@ -41,6 +44,11 @@ class AuthService {
     protected $tokenRepo;
 
     /**
+     * @var VergetenTokenRepo
+     */
+    protected $vergetenTokenRepo;
+
+    /**
      * AuthService constructor.
      * @param \Interop\Container\ContainerInterface $ci
      */
@@ -49,6 +57,7 @@ class AuthService {
         $this->em        = $this->ci->get('em');
         $this->userRepo  = $this->em->getRepository('App\Entity\User');
         $this->tokenRepo = $this->em->getRepository('App\Entity\Token');
+        $this->vergetenTokenRepo = $this->em->getRepository('App\Entity\VergetenToken');
     }
 
     /**
@@ -258,7 +267,7 @@ class AuthService {
      */
     public function delete($username) {
         /**
-         * @var User $user ;
+         * @var User $user
          */
         $user = $this->userRepo->findOneByUsername($username);
         if (null === $user) {
@@ -285,5 +294,50 @@ class AuthService {
      */
     public function getByUsername($username) {
         return $this->userRepo->findOneByUsername($username);
+    }
+
+    /**
+     * @param $username
+     * @throws UnknownCredentialsException
+     */
+    public function sendForgotLink($username) {
+        /**
+         * @var User $user
+         */
+        $user = $this->userRepo->findOneByUsername($username);
+        if (null === $user) {
+            throw new UnknownCredentialsException();
+        }
+
+        if (null === $user->getMail()) {
+            throw new NoMailException();
+        }
+
+        $vergetenToken = $user->getVergetenToken();
+        if (null === $vergetenToken) {
+            $vergetenToken = new VergetenToken();
+            $vergetenToken->setUser($user);
+            $user->setVergetenToken($vergetenToken);
+        }
+
+        $uuid = Uuid::uuid4();
+        $vergetenToken->setToken($uuid->toString());
+
+        $now = new \DateTime();
+        $vergetenToken->setCreated($now);
+
+        $this->em->flush();
+
+        $transport = \Swift_MailTransport::newInstance();
+        $mailer = \Swift_Mailer::newInstance($transport);
+
+        // Create a message
+        $message = \Swift_Message::newInstance('Wachtwoord vergeten')
+            ->setFrom(['noreply@tourbuzz.nl' => 'Tourbuzz wachtwoord vergeten'])
+            ->setTo([$user->getMail() => $user->getUsername()])
+            ->setBody('Hierbij de code: ' . $vergetenToken->getToken())
+        ;
+
+        $result = $mailer->send($message);
     }
 }

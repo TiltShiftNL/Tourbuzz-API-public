@@ -60,6 +60,16 @@ class User
      */
     private $token;
 
+    /**
+     * @var \App\Entity\VergetenToken
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\VergetenToken", inversedBy="user")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="vergeten_token_id", referencedColumnName="id", unique=true, nullable=true)
+     * })
+     */
+    private $vergetenToken;
+
 
     /**
      * Get id
@@ -189,5 +199,29 @@ class User
     public function getToken()
     {
         return $this->token;
+    }
+
+    /**
+     * Set vergetenToken
+     *
+     * @param \App\Entity\VergetenToken $vergetenToken
+     *
+     * @return User
+     */
+    public function setVergetenToken(\App\Entity\VergetenToken $vergetenToken = null)
+    {
+        $this->vergetenToken = $vergetenToken;
+
+        return $this;
+    }
+
+    /**
+     * Get vergetenToken
+     *
+     * @return \App\Entity\VergetenToken
+     */
+    public function getVergetenToken()
+    {
+        return $this->vergetenToken;
     }
 }

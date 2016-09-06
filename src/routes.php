@@ -29,3 +29,5 @@ $app->get('/accounts', 'App\Controller\AccountController:index');
 $app->get('/accounts/{username}', 'App\Controller\AccountController:single');
 $app->put('/accounts', 'App\Controller\AccountController:update');
 $app->delete('/accounts/{username}', 'App\Controller\AccountController:delete');
+
+$app->post('/vergeten', 'App\Controller\VergetenController:vergeten');
