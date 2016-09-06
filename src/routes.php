@@ -31,3 +31,4 @@ $app->put('/accounts', 'App\Controller\AccountController:update');
 $app->delete('/accounts/{username}', 'App\Controller\AccountController:delete');
 
 $app->post('/vergeten', 'App\Controller\VergetenController:vergeten');
+$app->get('/vergeten/{token}', 'App\Controller\VergetenController:checkToken');

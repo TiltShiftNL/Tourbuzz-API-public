@@ -36,7 +36,8 @@
             "App\\Controller\\": "src/controller",
             "App\\Mapper\\": "src/mapper",
             "App\\Service\\": "src/service",
-            "App\\Exception\\": "src/exception"
+            "App\\Exception\\": "src/exception",
+            "App\\View\\Mail\\": "src/view/mail"
         }
     }
 }

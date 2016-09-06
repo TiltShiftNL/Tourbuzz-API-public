@@ -12,6 +12,7 @@ use App\Exception\NoMailException;
 use App\Exception\NotAuthenticatedException;
 use App\Exception\UnknownCredentialsException;
 use App\Exception\UsernameExistsException;
+use App\View\Mail\ForgotPasswordMail;
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 use Ramsey\Uuid\Uuid;
@@ -296,8 +297,11 @@ class AuthService {
         return $this->userRepo->findOneByUsername($username);
     }
 
+
     /**
-     * @param $username
+     * @param string $username
+     * @return bool
+     * @throws NoMailException
      * @throws UnknownCredentialsException
      */
     public function sendForgotLink($username) {
@@ -318,6 +322,7 @@ class AuthService {
             $vergetenToken = new VergetenToken();
             $vergetenToken->setUser($user);
             $user->setVergetenToken($vergetenToken);
+            $this->em->persist($vergetenToken);
         }
 
         $uuid = Uuid::uuid4();
@@ -328,16 +333,45 @@ class AuthService {
 
         $this->em->flush();
 
-        $transport = \Swift_MailTransport::newInstance();
+        $settings = $this->ci->get('settings');
+
+        $transport = \Swift_SmtpTransport::newInstance($settings['smtpServer'], $settings['smtpPort'], 'tls')
+            ->setUsername($settings['smtpUsername'])
+            ->setPassword($settings['smtpPassword']);
         $mailer = \Swift_Mailer::newInstance($transport);
 
         // Create a message
         $message = \Swift_Message::newInstance('Wachtwoord vergeten')
-            ->setFrom(['noreply@tourbuzz.nl' => 'Tourbuzz wachtwoord vergeten'])
+            ->setFrom([$settings['smtpUsername'] => 'Tourbuzz wachtwoord vergeten'])
             ->setTo([$user->getMail() => $user->getUsername()])
-            ->setBody('Hierbij de code: ' . $vergetenToken->getToken())
+            ->setBody(ForgotPasswordMail::parse($settings['wachtwoordVergetenUrl'], $vergetenToken->getToken(), $user->getUsername()))
         ;
 
-        $result = $mailer->send($message);
+        $mailer->send($message);
+        return true;
+    }
+
+    public function checkVergetenToken($token) {
+        /**
+         * @var VergetenToken $token
+         */
+        $token = $this->vergetenTokenRepo->findOneByToken($token);
+        if (null === $token) {
+            return null;
+        }
+
+        $yesterday = new \DateTime();
+        $yesterday->modify('-1 day');
+        if ($token->getCreated() < $yesterday) {
+            return null;
+        }
+
+        $user = $token->getUser();
+        $user->setVergetenToken(null);
+        $token->setUser(null);
+        $this->em->remove($token);
+        $this->em->flush();
+
+        return $user;
     }
 }
