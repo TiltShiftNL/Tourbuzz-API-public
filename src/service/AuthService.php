@@ -140,16 +140,20 @@ class AuthService {
      * @throws UnknownCredentialsException
      *
      */
-    public function update($username, $password, $mail) {
+    public function update($username, $password, $mail)
+    {
         /**
-         * @var User $user;
+         * @var User $user ;
          */
         $user = $this->userRepo->findOneByUsername($username);
         if (null === $user) {
             throw new UnknownCredentialsException();
         }
 
-        $this->setPassword($user, $password);
+        if (null !== $password) {
+            $this->setPassword($user, $password);
+        }
+
         $user->setMail($mail);
 
         $this->em->flush();

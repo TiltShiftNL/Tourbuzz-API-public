@@ -2,53 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\Bericht;
-use App\Entity\BerichtRepo;
-use App\Exception\NotAuthenticatedException;
+use App\Exception\UnknownCredentialsException;
 use App\Exception\UsernameExistsException;
-use App\Mapper\BerichtMapper;
 use App\Mapper\UserMapper;
-use App\Service\AuthService;
-use Doctrine\ORM\EntityManager;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class AccountController {
-
-    /**
-     * @var \Interop\Container\ContainerInterface
-     */
-    protected $ci;
-
-    /**
-     * @var AuthService
-     */
-    protected $authService;
-
-    /**
-     * AccountController constructor.
-     * @param \Interop\Container\ContainerInterface $ci
-     */
-    public function __construct(\Interop\Container\ContainerInterface $ci) {
-        $this->ci = $ci;
-        $this->authService = $ci->get('auth');
-    }
+class AccountController extends Controller {
 
     public function create(Request $request, Response $response, $args) {
-        $get = $request->getQueryParams();
-        if (!isset($get['token'])) {
-            $response = $response->withStatus(401);
-            return $response;
-        }
-
-        $authService = $this->ci->get('auth');
-
-        try {
-            $authService->requireAuthentication($get['token']);
-        } catch (NotAuthenticatedException $e) {
-            $response = $response->withStatus(401);
-            return $response;
-        }
+        $this->requireAuthentication($request, $response);
 
         $post = $request->getParsedBody();
         if (!isset($post['username']) || !isset($post['password'])  || !isset($post['mail'])) {
@@ -68,26 +31,35 @@ class AccountController {
     }
 
     public function index(Request $request, Response $response, $args) {
-        $get = $request->getQueryParams();
-        if (!isset($get['token'])) {
-            $response = $response->withStatus(401);
-            return $response;
-        }
-
-        $authService = $this->ci->get('auth');
-
-        try {
-            $authService->requireAuthentication($get['token']);
-        } catch (NotAuthenticatedException $e) {
-            $response = $response->withStatus(401);
-            return $response;
-        }
+        $this->requireAuthentication($request, $response);
 
         $users = $this->authService->getAllUsers();
 
         $mappedUsers = UserMapper::mapCollection($users);
 
         $response = $response->withJson($mappedUsers);
+        return $response;
+    }
+
+    public function update(Request $request, Response $response, $args) {
+        $this->requireAuthentication($request, $response);
+
+        $post = $request->getParsedBody();
+        if (!isset($post['username']) || !isset($post['mail'])) {
+            $response = $response = $response->withStatus(406);
+            return $response;
+        }
+
+        $password = isset($post['password']) ? $post['password'] : null;
+
+        try {
+            $this->authService->update($post['username'], $password, $post['mail']);
+        } catch (UnknownCredentialsException $e) {
+            $response = $response->withJson(['error' => 'Unknown user'])->withStatus(409);
+            return $response;
+        }
+
+        $response = $response->withJson(['success' => true]);
         return $response;
     }
 }

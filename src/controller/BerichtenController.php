@@ -10,13 +10,7 @@ use Doctrine\ORM\EntityManager;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class BerichtenController {
-    protected $ci;
-    //Constructor
-    public function __construct(\Interop\Container\ContainerInterface $ci) {
-        $this->ci = $ci;
-    }
-
+class BerichtenController extends Controller {
     public function get(Request $request, Response $response, $args) {
         /**
          * @var \Doctrine\ORM\EntityManager $em;
@@ -75,20 +69,7 @@ class BerichtenController {
     }
 
     public function post(Request $request, Response $response, $args) {
-        $get = $request->getQueryParams();
-        if (!isset($get['token'])) {
-            $response = $response->withStatus(401);
-            return $response;
-        }
-
-        $authService = $this->ci->get('auth');
-
-        try {
-            $authService->requireAuthentication($get['token']);
-        } catch (NotAuthenticatedException $e) {
-            $response = $response->withStatus(401);
-            return $response;
-        }
+        $this->requireAuthentication($request, $response);
 
         $post = $request->getParsedBody();
 
@@ -146,20 +127,7 @@ class BerichtenController {
     }
 
     public function delete(Request $request, Response $response, $args) {
-        $get = $request->getQueryParams();
-        if (!isset($get['token'])) {
-            $response = $response->withStatus(401);
-            return $response;
-        }
-
-        $authService = $this->ci->get('auth');
-
-        try {
-            $authService->requireAuthentication($get['token']);
-        } catch (NotAuthenticatedException $e) {
-            $response = $response->withStatus(401);
-            return $response;
-        }
+        $this->requireAuthentication($request, $response);
 
         /**
          * @var EntityManager $em

@@ -15,12 +15,12 @@ require __DIR__ . '/../src/dependencies.php';
 // Register middleware
 require __DIR__ . '/../src/middleware.php';
 
-if (count($argv) !== 3) {
-    die('Usage php create_user [username] [password]');
+if (count($argv) !== 4) {
+    die('Usage php create_user [username] [password] [mail]');
 }
 
 
 $authService = $app->getContainer()->get('auth');
-$authService->create($argv[1], $argv[2]);
+$authService->create($argv[1], $argv[2], $argv[3]);
 
 echo "Done\n";
