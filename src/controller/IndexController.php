@@ -13,7 +13,7 @@ class IndexController {
     }
 
     public function index(Request $request, Response $response, $args) {
-        $response->withJson([
+        $response = $response->withJson([
             "apps" => [
                 "tourbuzz" => [
                     "url" => "http://www.tourbuzz.nl"

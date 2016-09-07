@@ -97,7 +97,7 @@ class HaltesController {
             });
         }
 
-        $response
+        $response = $response
             ->withStatus(200)
             ->withJson($result);
 

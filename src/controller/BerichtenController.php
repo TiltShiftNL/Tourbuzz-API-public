@@ -20,7 +20,7 @@ class BerichtenController extends Controller {
 
         $bericht = $repo->findOneById($args['id']);
 
-        $response
+        $response = $response
             ->withStatus(200)
             ->withJson($bericht);
 
@@ -55,7 +55,7 @@ class BerichtenController extends Controller {
         if (null === $date) {
             $date = new \DateTime();
         }
-        $response
+        $response = $response
             ->withStatus(200)
             ->withJson([
             "_timestamp" => $date->format('Y-m-d'),
@@ -150,5 +150,7 @@ class BerichtenController extends Controller {
             }
         }
         $em->flush();
+
+        return $response;
     }
 }

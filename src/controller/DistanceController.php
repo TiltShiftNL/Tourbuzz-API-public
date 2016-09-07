@@ -15,7 +15,7 @@ class DistanceController {
     public function distance(Request $request, Response $response, $args) {
         $query = $request->getQueryParams();
 
-        $response->withJson([
+        $response = $response->withJson([
             "distance" => $this->distCalc($query['lat1'], $query['lng1'], $query['lat2'], $query['lng2'])
         ]);
         return $response;

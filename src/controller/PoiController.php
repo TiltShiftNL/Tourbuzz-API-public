@@ -32,7 +32,7 @@ class PoiController {
             $response->write("{$parkeerplaats->location->lng},{$parkeerplaats->location->lat},{$parkeerplaats->naam},parkeerplaats\n");
         }
 
-        $response
+        $response = $response
             ->withHeader('Content-type', 'application/x-download')
             ->withHeader('Content-Disposition', 'attachment; filename=touringcar.csv')
             ->withHeader('Content-Transfer-Encoding', 'binary');
