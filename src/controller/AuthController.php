@@ -8,22 +8,7 @@ use App\Service\AuthService;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class AuthController {
-    /**
-     * @var \Interop\Container\ContainerInterface
-     */
-    protected $ci;
-
-    /**
-     * @var AuthService
-     */
-    protected $authService;
-    //Constructor
-    public function __construct(\Interop\Container\ContainerInterface $ci) {
-        $this->ci          = $ci;
-        $this->authService = $ci->get('auth');
-    }
-
+class AuthController extends Controller {
     /**
      * @param Request $request
      * @param Response $response
@@ -45,6 +30,25 @@ class AuthController {
         }
 
         $response = $response->withJson(['token' => $token->getToken()]);
+        return $response;
+    }
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param $args
+     * @return Response
+     */
+    public function logout(Request $request, Response $response, $args) {
+        $this->requireAuthentication($request, $response);
+
+        $get = $request->getQueryParams();
+        $token = $this->authService->getToken($get['token']);
+
+        if (null !== $token) {
+            $this->authService->deleteToken($token);
+        }
+
         return $response;
     }
 
