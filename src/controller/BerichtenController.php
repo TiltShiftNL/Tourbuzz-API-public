@@ -140,7 +140,9 @@ class BerichtenController extends Controller {
          */
         $repo = $em->getRepository('App\Entity\Bericht');
 
-		$ids = isset($args['id']) ? [$args['id']] : $get["ids"];
+        $get = $request->getQueryParams();
+
+        $ids = isset($args['id']) ? [$args['id']] : $get["ids"];
         foreach ($ids as $id) {
             $bericht = $repo->findOneById($id);
             if (null !== $bericht) {

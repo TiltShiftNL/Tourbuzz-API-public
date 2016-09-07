@@ -6,7 +6,6 @@ $app->get('/berichten', 'App\Controller\BerichtenController:index');
 $app->get('/berichten/{jaar}/{maand}/{dag}', 'App\Controller\BerichtenController:index');
 $app->get('/berichten/{id}', 'App\Controller\BerichtenController:get');
 $app->post('/berichten', 'App\Controller\BerichtenController:post');
-$app->delete('/berichten/{id}', 'App\Controller\BerichtenController:delete');
 $app->delete('/berichten', 'App\Controller\BerichtenController:delete');
 
 $app->get('/haltes', 'App\Controller\HaltesController:index');
