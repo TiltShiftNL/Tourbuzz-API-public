@@ -1,18 +1,27 @@
-# Slim Framework 3 Skeleton Application
+# Tourbuzz API
 
-Use this skeleton application to quickly setup and start working on a new Slim Framework 3 application. This application uses the latest Slim 3 with the PHP-View template renderer. It also uses the Monolog logger.
+API for the tourbuzz applications. 
 
-This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
+## Requirements
+
+- PHP >= 5.5
+- PostgreSQL >= 9.4 
+
+## Uses
+
+- Slim framework 3
+- Doctrine 2
+- Doctrine migrations
+- Guzzle 6
+- ramsey/uuid
+- Swiftmailer
 
 ## Install the Application
 
-Run this command from the directory in which you want to install your new Slim Framework application.
+1. Copy src/settings.disp.php to src/settings.php
+2. Modify settings.php
+3. [Download composer](https://getcomposer.org/)
+4. run composer install
+5. run php vendor/bin/doctrine-migrations migrations:migrate
+6. create a user: php create_user {username} {password} {mail]}
 
-    php composer.phar create-project slim/slim-skeleton [my-app-name]
-
-Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
-
-* Point your virtual host document root to your new application's `public/` directory.
-* Ensure `logs/` is web writeable.
-
-That's it! Now go build something cool.
