@@ -34,3 +34,7 @@ $container['em'] = function ($c) {
 $container['auth'] = function ($c) {
     return new \App\Service\AuthService($c);
 };
+
+$container['mail'] = function ($c) {
+    return new \App\Service\MailService($c);
+};

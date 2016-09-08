@@ -32,3 +32,5 @@ $app->delete('/accounts/{username}', 'App\Controller\AccountController:delete');
 
 $app->post('/vergeten', 'App\Controller\VergetenController:vergeten');
 $app->get('/vergeten/{token}', 'App\Controller\VergetenController:checkToken');
+
+$app->post('/mail', 'App\Controller\MailController:register');
