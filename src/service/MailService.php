@@ -71,4 +71,20 @@ class MailService {
         $registerMail->send();
         return true;
     }
+
+    public function confirm($token) {
+        /**
+         * @var Mail $mail
+         */
+        $mail = $this->mailRepo->findOneByConfirmUUID($token);
+        if (null === $mail) {
+            return false;
+        }
+
+        $mail->setConfirmUUID(null);
+        $now = new \DateTime();
+        $mail->setConfirmed($now);
+        $this->em->flush();
+        return true;
+    }
 }

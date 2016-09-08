@@ -39,4 +39,9 @@ class MailController extends Controller {
         }
         return $response;
     }
+
+    public function confirm(Request $request, Response $response, $args) {
+        $response = $response->withJson(['confirmed' => $this->mailService->confirm($args['token'])]);
+        return $response;
+    }
 }

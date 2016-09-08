@@ -34,3 +34,4 @@ $app->post('/vergeten', 'App\Controller\VergetenController:vergeten');
 $app->get('/vergeten/{token}', 'App\Controller\VergetenController:checkToken');
 
 $app->post('/mail', 'App\Controller\MailController:register');
+$app->get('/mail/{token}', 'App\Controller\MailController:confirm');
