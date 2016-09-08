@@ -37,3 +37,4 @@ $app->post('/mail', 'App\Controller\MailController:register');
 $app->get('/mail/{token}', 'App\Controller\MailController:confirm');
 $app->post('/mail/unsubscribe', 'App\Controller\MailController:unsubscribe');
 $app->get('/mail/unsubscribe/{token}', 'App\Controller\MailController:unsubscribeConfirm');
+$app->get('/mail', 'App\Controller\MailController:index');

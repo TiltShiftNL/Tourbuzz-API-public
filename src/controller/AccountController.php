@@ -12,7 +12,10 @@ use Slim\Http\Response;
 class AccountController extends Controller {
 
     public function create(Request $request, Response $response, $args) {
-        $this->requireAuthentication($request, $response);
+        $r = $this->requireAuthentication($request, $response);
+        if (null !== $r) {
+            return $r;
+        }
 
         $post = $request->getParsedBody();
         if (!isset($post['username']) || !isset($post['password'])  || !isset($post['mail'])) {
@@ -35,7 +38,10 @@ class AccountController extends Controller {
     }
 
     public function index(Request $request, Response $response, $args) {
-        $this->requireAuthentication($request, $response);
+        $r = $this->requireAuthentication($request, $response);
+        if (null !== $r) {
+            return $r;
+        }
 
         $users = $this->authService->getAllUsers();
 
@@ -46,8 +52,10 @@ class AccountController extends Controller {
     }
 
     public function single(Request $request, Response $response, $args) {
-        $this->requireAuthentication($request, $response);
-
+        $r = $this->requireAuthentication($request, $response);
+        if (null !== $r) {
+            return $r;
+        }
         $user = $this->authService->getByUsername($args['username']);
 
         if (null === $user) {
@@ -62,7 +70,10 @@ class AccountController extends Controller {
     }
 
     public function update(Request $request, Response $response, $args) {
-        $this->requireAuthentication($request, $response);
+        $r = $this->requireAuthentication($request, $response);
+        if (null !== $r) {
+            return $r;
+        }
 
         $post = $request->getParsedBody();
         if (!isset($post['username']) || !isset($post['mail'])) {
@@ -87,7 +98,10 @@ class AccountController extends Controller {
     }
 
     public function delete(Request $request, Response $response, $args) {
-        $this->requireAuthentication($request, $response);
+        $r = $this->requireAuthentication($request, $response);
+        if (null !== $r) {
+            return $r;
+        }
 
         try {
             $this->authService->delete($args['username']);

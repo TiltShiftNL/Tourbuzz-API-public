@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Exception\MailExistsException;
 use App\Exception\NoMailException;
+use App\Mapper\MailMapper;
 use App\Service\MailService;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -67,6 +68,16 @@ class MailController extends Controller {
 
     public function unsubscribeConfirm(Request $request, Response $response, $args) {
         $response = $response->withJson(['unsubscribed' => $this->mailService->unsubscribeConfirm($args['token'])]);
+        return $response;
+    }
+
+    public function index(Request $request, Response $response, $args) {
+        $r = $this->requireAuthentication($request, $response);
+        if (null !== $r) {
+            return $r;
+        }
+
+        $response = $response->withJson(MailMapper::mapCollection($this->mailService->getAll()));
         return $response;
     }
 }

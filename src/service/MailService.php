@@ -157,4 +157,8 @@ class MailService {
         $this->em->flush();
         return true;
     }
+
+    public function getAll() {
+        return $this->mailRepo->findAll();
+    }
 }

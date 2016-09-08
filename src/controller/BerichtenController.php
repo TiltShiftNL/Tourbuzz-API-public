@@ -69,7 +69,10 @@ class BerichtenController extends Controller {
     }
 
     public function post(Request $request, Response $response, $args) {
-        $this->requireAuthentication($request, $response);
+        $r = $this->requireAuthentication($request, $response);
+        if (null !== $r) {
+            return $r;
+        }
 
         $post = $request->getParsedBody();
 
@@ -127,7 +130,10 @@ class BerichtenController extends Controller {
     }
 
     public function delete(Request $request, Response $response, $args) {
-        $this->requireAuthentication($request, $response);
+        $r = $this->requireAuthentication($request, $response);
+        if (null !== $r) {
+            return $r;
+        }
 
         /**
          * @var EntityManager $em
