@@ -48,15 +48,20 @@ class MailService {
      * @throws MailExistsException
      */
     public function register($mail, $language, $name) {
+        /**
+         * @var Mail $object
+         */
         $object = $this->mailRepo->findOneByMail($mail);
         if (null !== $object) {
-            throw new MailExistsException();
+            if (null !== $object->getConfirmed()) {
+                throw new MailExistsException();
+            }
         }
 
         $uuid = Uuid::uuid4();
         $now = new \DateTime();
 
-        $obj = new Mail();
+        $obj = null !== $object ? $object : new Mail();
         $obj->setMail($mail);
         $obj->setName($name);
         $obj->setLanguage($language);
