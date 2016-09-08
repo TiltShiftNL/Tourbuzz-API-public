@@ -40,6 +40,7 @@ return [
         'smtpUsername'          => 'mail',
         'smtpPassword'          => 'password',
         'wachtwoordVergetenUrl' => 'http://tour.b.nl/wachtwoordvergeten/',
-        'mailConfirmUrl'        => 'http://tour.b.nl/mailbevestigen/'
+        'mailConfirmUrl'        => 'http://tour.b.nl/mailbevestigen/',
+        'mailUnsubscribeUrl'    => 'http://tour.b.nl/mailannuleren/',
     ]
 ];

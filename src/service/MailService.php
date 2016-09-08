@@ -5,7 +5,9 @@ namespace App\Service;
 use App\Entity\Mail;
 use App\Entity\MailRepo;
 use App\Exception\MailExistsException;
+use App\Exception\NoMailException;
 use App\View\Mail\RegisterMail;
+use App\View\Mail\UnsubscribeMail;
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 use Ramsey\Uuid\Uuid;
@@ -72,6 +74,10 @@ class MailService {
         return true;
     }
 
+    /**
+     * @param string $token
+     * @return bool
+     */
     public function confirm($token) {
         /**
          * @var Mail $mail
@@ -84,6 +90,65 @@ class MailService {
         $mail->setConfirmUUID(null);
         $now = new \DateTime();
         $mail->setConfirmed($now);
+        $this->em->flush();
+        return true;
+    }
+
+    /**
+     * @param string $mail
+     * @return bool
+     * @throws NoMailException
+     */
+    public function unsubscribe($mail) {
+        /**
+         * @var Mail $obj
+         */
+        $obj = $this->mailRepo->findOneByMail($mail);
+        if (null === $obj) {
+            throw new NoMailException();
+        }
+
+        if (null === $obj->getConfirmed()) {
+            throw new NoMailException();
+        }
+
+        $uuid = Uuid::uuid4();
+        $now = new \DateTime();
+
+        $obj->setUnsubscribeUUID($uuid->toString());
+        $obj->setUnsubscribedRequested($now);
+
+        $this->em->flush();
+
+        $settings = $this->ci->get('settings');
+
+        $unsubscribeMail = new UnsubscribeMail($obj, $settings);
+
+        $unsubscribeMail->send();
+        return true;
+    }
+
+    /**
+     * @param string $token
+     * @return bool
+     */
+    public function unsubscribeConfirm($token) {
+        /**
+         * @var Mail $mail
+         */
+        $mail = $this->mailRepo->findOneByUnsubscribeUUID($token);
+        if (null === $mail) {
+            return false;
+        }
+
+        $yesterday = new \DateTime();
+        $yesterday->modify('-1 day');
+
+        if ($yesterday > $mail->getUnsubscribedRequested()) {
+            return false;
+        }
+
+        $this->em->remove($mail);
         $this->em->flush();
         return true;
     }

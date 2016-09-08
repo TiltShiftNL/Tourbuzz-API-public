@@ -58,6 +58,20 @@ class Mail
     private $confirmUUID;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="unsubscribed_requested", type="datetime", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $unsubscribedRequested;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="unsubscribeUUID", type="string", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $unsubscribeUUID;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="language", type="string", precision=0, scale=0, nullable=true, unique=false)
@@ -193,6 +207,54 @@ class Mail
     public function getConfirmUUID()
     {
         return $this->confirmUUID;
+    }
+
+    /**
+     * Set unsubscribedRequested
+     *
+     * @param \DateTime $unsubscribedRequested
+     *
+     * @return Mail
+     */
+    public function setUnsubscribedRequested($unsubscribedRequested)
+    {
+        $this->unsubscribedRequested = $unsubscribedRequested;
+
+        return $this;
+    }
+
+    /**
+     * Get unsubscribedRequested
+     *
+     * @return \DateTime
+     */
+    public function getUnsubscribedRequested()
+    {
+        return $this->unsubscribedRequested;
+    }
+
+    /**
+     * Set unsubscribeUUID
+     *
+     * @param string $unsubscribeUUID
+     *
+     * @return Mail
+     */
+    public function setUnsubscribeUUID($unsubscribeUUID)
+    {
+        $this->unsubscribeUUID = $unsubscribeUUID;
+
+        return $this;
+    }
+
+    /**
+     * Get unsubscribeUUID
+     *
+     * @return string
+     */
+    public function getUnsubscribeUUID()
+    {
+        return $this->unsubscribeUUID;
     }
 
     /**
