@@ -363,6 +363,10 @@ class AuthService {
         return true;
     }
 
+    /**
+     * @param string $token
+     * @return null|User
+     */
     public function checkVergetenToken($token) {
         /**
          * @var VergetenToken $token
@@ -378,12 +382,33 @@ class AuthService {
             return null;
         }
 
-        $user = $token->getUser();
-        $user->setVergetenToken(null);
+        return $token->getUser();
+    }
+
+    /**
+     * @param string $token
+     * @param string $password
+     * @return bool
+     * @throws InvalidCredentialsException
+     */
+    public function changePasswordByVergetenToken($token, $password) {
+        $user = $this->checkVergetenToken($token);
+        if (null === $user) {
+            throw new UnknownCredentialsException();
+        }
+
+        if (strlen($password) < 8) {
+            throw new InvalidCredentialsException();
+        }
+
+        $this->setPassword($user, $password);
+
+        $token = $user->getVergetenToken();
         $token->setUser(null);
+        $user->setVergetenToken(null);
         $this->em->remove($token);
         $this->em->flush();
 
-        return $user;
+        return true;
     }
 }
