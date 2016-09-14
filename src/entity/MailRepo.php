@@ -21,6 +21,7 @@ class MailRepo extends EntityRepository
             WHERE
                 m.lastCorrespondence <= :twoWeeks
                 OR m.lastCorrespondence IS NULL
+                AND m.confirmed IS NOT NULL
         ');
 
         $date = new \DateTime();
