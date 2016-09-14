@@ -38,3 +38,16 @@ $container['auth'] = function ($c) {
 $container['mail'] = function ($c) {
     return new \App\Service\MailService($c);
 };
+
+// Cache disabled, no need because it's only used for mailing, it can take the time it needs
+$container['mailView'] = function ($container) {
+    $view = new \Slim\Views\Twig('src/view/mail/twig', [
+        'cache' => false
+    ]);
+    $view->addExtension(new \Slim\Views\TwigExtension(
+        $container['router'],
+        $container['request']->getUri()
+    ));
+
+    return $view;
+};

@@ -1,0 +1,11 @@
+Geachte{% if null != naam %} {{ naam }}{% endif %},
+
+Hierbij de merkwaardigheden voor de komende twee weken.
+
+{% for bericht in berichten %}
+{{ bericht.startDate|date('d-m-Y') }} - {{ bericht.endDate|date('d-m-Y') }} {{ bericht.title }}
+{% endfor %}
+
+Groet,
+
+Tourbuzz.nl

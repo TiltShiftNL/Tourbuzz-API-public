@@ -2,8 +2,10 @@
 
 namespace App\View\Mail;
 
+use App\Custom\Response;
 use App\Entity\Bericht;
 use App\Entity\Mail;
+use Slim\Views\Twig;
 
 class NewsletterMail {
 
@@ -18,27 +20,34 @@ class NewsletterMail {
     protected $settings;
 
     /**
-     * @var Bericht[] $berichten
+     * @var Bericht[]
      */
     protected $berichten;
 
     /**
-     * @var array $sortedByDate
+     * @var array
      */
     protected $sortedByDate;
 
     /**
+     * @var Twig
+     */
+    protected $view;
+
+    /**
      * NewsletterMail constructor.
      * @param Mail $mail
+     * @param Twig $view
      * @param Bericht[] $berichten
      * @param array $sortedByDate
-     * @param $settings
+     * @param array $settings
      */
-    public function __construct(Mail $mail, $berichten, $sortedByDate, $settings) {
+    public function __construct(Mail $mail, $view, $berichten, $sortedByDate, $settings) {
         $this->mail         = $mail;
         $this->settings     = $settings;
         $this->berichten    = $berichten;
         $this->sortedByDate = $sortedByDate;
+        $this->view         = $view;
     }
 
     public function send() {
@@ -81,31 +90,12 @@ class NewsletterMail {
         $params['subject'] = 'Mailbrief tourbuzz.nl';
         $params['from']    = 'Tourbuzz.nl';
 
-        $naam = null !== $this->mail->getName() ? ' ' . $this->mail->getName() : '';
-
-        $berichten = '';
-        foreach ($this->berichten as $datum => $arr) {
-            $berichten .= "\n\n" . $datum . "\n\n";
-            foreach ($arr as $bericht) {
-                /**
-                 * @var Bericht $bericht
-                 */
-                $berichten .= $bericht->getStartDate()->format('d-m-Y') . ' - ' . $bericht->getEndDate()->format('d-m-Y') . ' ' . $bericht->getTitle() . "\n";
-            }
-        }
-
-        $params['body']    = <<<EOT
-Geachte$naam,
-
-Hierbij de merkwaardigheden voor de komende twee weken.
-
-$berichten
-
-Groet,
-
-Tourbuzz.nl
-
-EOT;
+        $response = new Response();
+        $params['body'] = $this->view->render($response, 'newsletter.nl.html.twig',
+            [
+                'naam'      => $this->mail->getName(),
+                'berichten' => $this->berichten
+            ]);
         return $params;
     }
 
@@ -117,31 +107,12 @@ EOT;
         $params['subject'] = 'Confirm tourbuzz.nl newsletter';
         $params['from']    = 'Tourbuzz.nl';
 
-        $naam = null !== $this->mail->getName() ? $this->mail->getName() : 'Sir / Madam';
-
-
-        $berichten = '';
-        foreach ($this->berichten as $datum => $arr) {
-            $berichten .= "\n\n" . $datum . "\n\n";
-            foreach ($arr as $bericht) {
-                /**
-                 * @var Bericht $bericht
-                 */
-                $berichten .= $bericht->getStartDate()->format('d-m-Y') . ' - ' . $bericht->getEndDate()->format('d-m-Y') . ' ' . $bericht->getTitleEn() . "\n";
-            }
-        }
-
-        $params['body']    = <<<EOT
-Dear $naam,
-
-These are the noteworthy events in the comming two weeks.
-$berichten
-
-You can't respond to this message.
-
-Tourbuzz.nl
-
-EOT;
+        $response = new Response();
+        $params['body'] = $this->view->render($response, 'newsletter.en.html.twig',
+            [
+                'naam'      => $this->mail->getName(),
+                'berichten' => $this->berichten
+            ]);
         return $params;
     }
 }

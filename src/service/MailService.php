@@ -208,7 +208,7 @@ class MailService {
         $settings = $this->ci->get('settings');
         $now = new \DateTime();
         foreach ($mails as $mail) {
-            $newsletter = new NewsletterMail($mail, $berichten, $sortedByDate, $settings);
+            $newsletter = new NewsletterMail($mail, $this->ci->get('mailView'), $berichten, $sortedByDate, $settings);
             $newsletter->send();
             $mail->setLastCorrespondence($now);
         }
