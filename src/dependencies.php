@@ -42,12 +42,15 @@ $container['mail'] = function ($c) {
 // Cache disabled, no need because it's only used for mailing, it can take the time it needs
 $container['mailView'] = function ($container) {
     $view = new \Slim\Views\Twig('src/view/mail/twig', [
-        'cache' => false
+        'cache' => false,
+        'debug' => true
     ]);
     $view->addExtension(new \Slim\Views\TwigExtension(
         $container['router'],
         $container['request']->getUri()
     ));
+
+    $view->addExtension(new Twig_Extension_Debug());
 
     return $view;
 };

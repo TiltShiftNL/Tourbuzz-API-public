@@ -125,7 +125,7 @@ class NewsletterMail {
                 'berichten'    => $this->berichten,
                 'sortedByDate' => $this->sortedByDate
             ]);
-        
+
         $response = new Response();
         $params['part'] = $this->view->render($response, 'newsletter.en.html.twig',
             [
