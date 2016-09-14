@@ -94,7 +94,8 @@ class NewsletterMail {
         $params['body'] = $this->view->render($response, 'newsletter.nl.html.twig',
             [
                 'naam'      => $this->mail->getName(),
-                'berichten' => $this->berichten
+                'berichten' => $this->berichten,
+                'sortedByDate' => $this->sortedByDate
             ]);
         return $params;
     }
@@ -110,8 +111,9 @@ class NewsletterMail {
         $response = new Response();
         $params['body'] = $this->view->render($response, 'newsletter.en.html.twig',
             [
-                'naam'      => $this->mail->getName(),
-                'berichten' => $this->berichten
+                'naam'         => $this->mail->getName(),
+                'berichten'    => $this->berichten,
+                'sortedByDate' => $this->sortedByDate
             ]);
         return $params;
     }
