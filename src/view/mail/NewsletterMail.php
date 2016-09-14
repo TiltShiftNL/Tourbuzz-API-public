@@ -76,7 +76,8 @@ class NewsletterMail {
         $message = \Swift_Message::newInstance($params['subject'])
             ->setFrom([$this->settings['smtpUsername'] => $params['from']])
             ->setTo([$this->mail->getMail()])
-            ->setBody($params['body'])
+            ->setBody($params['body'], 'text/plain')
+            ->addPart($params['part'], 'text/html');
         ;
 
         $mailer->send($message);
@@ -91,12 +92,21 @@ class NewsletterMail {
         $params['from']    = 'Tourbuzz.nl';
 
         $response = new Response();
-        $params['body'] = $this->view->render($response, 'newsletter.nl.html.twig',
+        $params['body'] = $this->view->render($response, 'newsletter.nl.twig',
             [
                 'naam'      => $this->mail->getName(),
                 'berichten' => $this->berichten,
                 'sortedByDate' => $this->sortedByDate
             ]);
+
+        $response = new Response();
+        $params['part'] = $this->view->render($response, 'newsletter.nl.html.twig',
+            [
+                'naam'      => $this->mail->getName(),
+                'berichten' => $this->berichten,
+                'sortedByDate' => $this->sortedByDate
+            ]);
+
         return $params;
     }
 
@@ -109,7 +119,15 @@ class NewsletterMail {
         $params['from']    = 'Tourbuzz.nl';
 
         $response = new Response();
-        $params['body'] = $this->view->render($response, 'newsletter.en.html.twig',
+        $params['body'] = $this->view->render($response, 'newsletter.en.twig',
+            [
+                'naam'         => $this->mail->getName(),
+                'berichten'    => $this->berichten,
+                'sortedByDate' => $this->sortedByDate
+            ]);
+        
+        $response = new Response();
+        $params['part'] = $this->view->render($response, 'newsletter.en.html.twig',
             [
                 'naam'         => $this->mail->getName(),
                 'berichten'    => $this->berichten,

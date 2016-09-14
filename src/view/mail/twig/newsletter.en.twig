@@ -1,0 +1,11 @@
+Dear {% if null != naam %}{{ naam }}{% else %}Sir/Madam{% endif %},
+
+These are the noteworthy events in the comming two weeks.
+
+{% for bericht in berichten %}
+    {{ bericht.startDate|date('d-m-Y') }} - {{ bericht.endDate|date('d-m-Y') }} {{ bericht.titleEn }}
+{% endfor %}
+
+You can't respond to this message.
+
+Tourbuzz.nl
