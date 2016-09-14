@@ -51,34 +51,29 @@ class NewsletterMail {
     }
 
     public function send() {
-        switch ($this->mail->getLanguage()) {
-            case 'en':
-                $params = $this->getEnParams();
-                break;
-            default:
-                $params = $this->getNlParams();
-                break;
 
-        }
-
-        $this->sendMail($params);
-    }
-
-    /**
-     * @param array $params
-     */
-    protected function sendMail($params) {
         $transport = \Swift_SmtpTransport::newInstance($this->settings['smtpServer'], $this->settings['smtpPort'], 'tls')
             ->setUsername($this->settings['smtpUsername'])
             ->setPassword($this->settings['smtpPassword']);
         $mailer = \Swift_Mailer::newInstance($transport);
 
-        $message = \Swift_Message::newInstance($params['subject'])
-            ->setFrom([$this->settings['smtpUsername'] => $params['from']])
-            ->setTo([$this->mail->getMail()])
-            ->setBody($params['body'], 'text/plain')
-            ->addPart($params['part'], 'text/html');
-        ;
+        $message = \Swift_Message::newInstance();
+
+        switch ($this->mail->getLanguage()) {
+            case 'en':
+                list($message, $params) = $this->getEnParams($message);
+                break;
+            default:
+                list($message, $params) = $this->getNlParams($message);
+                break;
+
+        }
+
+        $message->setSubject($params['subject'])
+                ->setFrom([$this->settings['smtpUsername'] => $params['from']])
+                ->setTo([$this->mail->getMail()])
+                ->setBody($params['body'], 'text/html')
+                ->addPart($params['part'], 'text/plain');
 
         $mailer->send($message);
     }
@@ -86,40 +81,41 @@ class NewsletterMail {
     /**
      * @return array
      */
-    protected function getNlParams() {
+    protected function getNlParams(\Swift_Message $message) {
         $params = [];
         $params['subject'] = 'Mailbrief tourbuzz.nl';
         $params['from']    = 'Tourbuzz.nl';
 
         $response = new Response();
-        $params['body'] = $this->view->render($response, 'newsletter.nl.twig',
+        $params['part'] = $this->view->render($response, 'newsletter.nl.twig',
             [
-                'naam'      => $this->mail->getName(),
-                'berichten' => $this->berichten,
+                'naam'         => $this->mail->getName(),
+                'berichten'    => $this->berichten,
                 'sortedByDate' => $this->sortedByDate
             ]);
 
         $response = new Response();
-        $params['part'] = $this->view->render($response, 'newsletter.nl.html.twig',
+        $params['body'] = $this->view->render($response, 'newsletter.nl.html.twig',
             [
-                'naam'      => $this->mail->getName(),
-                'berichten' => $this->berichten,
-                'sortedByDate' => $this->sortedByDate
+                'naam'         => $this->mail->getName(),
+                'berichten'    => $this->berichten,
+                'sortedByDate' => $this->sortedByDate,
+                'image'        => $message->embed(\Swift_Image::fromPath('src/view/mail/images/GASD_1.png')->setDisposition('inline'))
             ]);
 
-        return $params;
+        return[$message, $params];
     }
 
     /**
      * @return array
      */
-    protected function getEnParams() {
+    protected function getEnParams($message) {
         $params = [];
         $params['subject'] = 'Confirm tourbuzz.nl newsletter';
         $params['from']    = 'Tourbuzz.nl';
 
         $response = new Response();
-        $params['body'] = $this->view->render($response, 'newsletter.en.twig',
+        $params['part'] = $this->view->render($response, 'newsletter.en.twig',
             [
                 'naam'         => $this->mail->getName(),
                 'berichten'    => $this->berichten,
@@ -127,12 +123,13 @@ class NewsletterMail {
             ]);
 
         $response = new Response();
-        $params['part'] = $this->view->render($response, 'newsletter.en.html.twig',
+        $params['body'] = $this->view->render($response, 'newsletter.en.html.twig',
             [
                 'naam'         => $this->mail->getName(),
                 'berichten'    => $this->berichten,
-                'sortedByDate' => $this->sortedByDate
+                'sortedByDate' => $this->sortedByDate,
+                'image'        => $message->embed(\Swift_Image::fromPath('src/view/mail/images/GASD_1.png')->setDisposition('inline'))
             ]);
-        return $params;
+        return [$message, $params];
     }
 }
