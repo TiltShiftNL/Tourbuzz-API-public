@@ -78,6 +78,13 @@ class Mail
      */
     private $language;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="last_correspondence", type="datetime", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $lastCorrespondence;
+
 
     /**
      * Get id
@@ -279,5 +286,29 @@ class Mail
     public function getLanguage()
     {
         return $this->language;
+    }
+
+    /**
+     * Set lastCorrespondence
+     *
+     * @param \DateTime $lastCorrespondence
+     *
+     * @return Mail
+     */
+    public function setLastCorrespondence($lastCorrespondence)
+    {
+        $this->lastCorrespondence = $lastCorrespondence;
+
+        return $this;
+    }
+
+    /**
+     * Get lastCorrespondence
+     *
+     * @return \DateTime
+     */
+    public function getLastCorrespondence()
+    {
+        return $this->lastCorrespondence;
     }
 }

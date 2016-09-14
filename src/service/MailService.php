@@ -2,10 +2,13 @@
 
 namespace App\Service;
 
+use App\Entity\Bericht;
+use App\Entity\BerichtRepo;
 use App\Entity\Mail;
 use App\Entity\MailRepo;
 use App\Exception\MailExistsException;
 use App\Exception\NoMailException;
+use App\View\Mail\NewsletterMail;
 use App\View\Mail\RegisterMail;
 use App\View\Mail\UnsubscribeMail;
 use Doctrine\ORM\EntityManager;
@@ -160,5 +163,55 @@ class MailService {
 
     public function getAll() {
         return $this->mailRepo->findAll();
+    }
+
+    /**
+     * @return null
+     */
+    public function sendNewsletters() {
+        /**
+         * @var BerichtRepo $berichtRepo
+         */
+        $berichtRepo = $this->em->getRepository('App\Entity\Bericht');
+
+        /**
+         * @var Mail[] $mails
+         */
+        $mails     = $this->mailRepo->getOutdatedMails();
+
+        $now = new \DateTime();
+        $twoWeeksFromNow = new \DateTime();
+        $twoWeeksFromNow->modify('+2 weeks');
+
+        /**
+         * @var Bericht[] $berichten
+         */
+        $berichten = $berichtRepo->getByDateRange($now, $twoWeeksFromNow);
+
+        $sortedByDate = [];
+
+        $currentDate = clone $now;
+        while ($currentDate->format('Ymd') <= $twoWeeksFromNow->format('Ymd')) {
+            $arr = [];
+            foreach ($berichten as $bericht) {
+                if (
+                    $bericht->getStartDate()->format('Ymd') <= $currentDate->format('Ymd') &&
+                    $bericht->getEndDate()->format('Ymd') >= $currentDate->format('Ymd')
+                ) {
+                    $arr[] = $bericht;
+                }
+                $sortedByDate[$currentDate->format('d-m-Y')] = $arr;
+            }
+            $currentDate->modify('+1 day');
+        }
+
+        $settings = $this->ci->get('settings');
+        $now = new \DateTime();
+        foreach ($mails as $mail) {
+            $newsletter = new NewsletterMail($mail, $berichten, $sortedByDate, $settings);
+            $newsletter->send();
+            $mail->setLastCorrespondence($now);
+        }
+        $this->em->flush();
     }
 }
