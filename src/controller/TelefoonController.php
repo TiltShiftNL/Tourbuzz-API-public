@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Telefoon;
-use App\Service\Validate_NL;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -22,18 +21,13 @@ class TelefoonController extends Controller {
             return $response;
         }
 
-        if (!Validate_NL::phoneNumber($post['number'],Validate_NL::VALIDATE_NL_PHONENUMBER_TYPE_MOBILE)) {
-            $response = $response->withStatus(406)->withJson(['error' => 'No valid number']);
-            return $response;
-        }
-
         $em           = $this->ci->get('em');
         $telefoonRepo = $em->getRepository('App\Entity\Telefoon');
-        $telefoon     = $telefoonRepo->findOneByNummer($post['number']);
+        $telefoon     = $telefoonRepo->findOneByNumber($post['number']);
 
         if (null === $telefoon) {
             $telefoon = new Telefoon();
-            $telefoon->setNummer($post['number']);
+            $telefoon->setNumber($post['number']);
             $date = new \DateTime();
             $telefoon->setCreated($date);
             $em->persist($telefoon);
@@ -51,7 +45,7 @@ class TelefoonController extends Controller {
 
         $em           = $this->ci->get('em');
         $telefoonRepo = $em->getRepository('App\Entity\Telefoon');
-        $telefoon     = $telefoonRepo->findOneByNummer($post['number']);
+        $telefoon     = $telefoonRepo->findOneByNumber($post['number']);
 
         if (null !== $telefoon) {
             $em->remove($telefoon);

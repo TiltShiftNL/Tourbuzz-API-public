@@ -25,9 +25,9 @@ class Telefoon
     /**
      * @var string
      *
-     * @ORM\Column(name="mail", type="string", length=255, precision=0, scale=0, nullable=false, unique=true)
+     * @ORM\Column(name="number", type="string", length=255, precision=0, scale=0, nullable=false, unique=true)
      */
-    private $nummer;
+    private $number;
 
     /**
      * @var \DateTime
@@ -48,27 +48,27 @@ class Telefoon
     }
 
     /**
-     * Set nummer
+     * Set number
      *
-     * @param string $nummer
+     * @param string $number
      *
      * @return Telefoon
      */
-    public function setNummer($nummer)
+    public function setNumber($number)
     {
-        $this->nummer = $nummer;
+        $this->number = $number;
 
         return $this;
     }
 
     /**
-     * Get nummer
+     * Get number
      *
      * @return string
      */
-    public function getNummer()
+    public function getNumber()
     {
-        return $this->nummer;
+        return $this->number;
     }
 
     /**
