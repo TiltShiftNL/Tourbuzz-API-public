@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Telefoon;
+use App\Mapper\TelefoonMapper;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -52,6 +53,20 @@ class TelefoonController extends Controller {
             $em->flush();
         }
 
+        return $response;
+    }
+
+    public function index(Request $request, Response $response) {
+        $r = $this->requireAuthentication($request, $response);
+        if (null !== $r) {
+            return $r;
+        }
+
+        $em           = $this->ci->get('em');
+        $telefoonRepo = $em->getRepository('App\Entity\Telefoon');
+        $telefoon     = $telefoonRepo->findAll();
+
+        $response = $response->withJson(TelefoonMapper::mapCollection($telefoon));
         return $response;
     }
 }
