@@ -36,7 +36,7 @@ class UnsubscribeMail {
     }
 
     protected function sendMail($params) {
-        $transport = \Swift_SmtpTransport::newInstance($this->settings['smtpServer'], $this->settings['smtpPort'], 'tls')
+        $transport = \Swift_SmtpTransport::newInstance($this->settings['smtpServer'], $this->settings['smtpPort'], $this->settings['smtpEncryption'])
             ->setUsername($this->settings['smtpUsername'])
             ->setPassword($this->settings['smtpPassword']);
         $mailer = \Swift_Mailer::newInstance($transport);

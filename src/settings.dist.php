@@ -39,6 +39,7 @@ return [
         'smtpPort'              => 587,
         'smtpUsername'          => 'mail',
         'smtpPassword'          => 'password',
+        'smtpEncryption'        => 'tls',
         'wachtwoordVergetenUrl' => 'http://tour.b.nl/wachtwoordvergeten/',
         'mailConfirmUrl'        => 'http://tour.b.nl/mailbevestigen/',
         'mailUnsubscribeUrl'    => 'http://tour.b.nl/mailannuleren/',

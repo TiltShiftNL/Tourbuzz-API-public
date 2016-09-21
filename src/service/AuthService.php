@@ -347,7 +347,7 @@ class AuthService {
 
         $settings = $this->ci->get('settings');
 
-        $transport = \Swift_SmtpTransport::newInstance($settings['smtpServer'], $settings['smtpPort'], 'tls')
+        $transport = \Swift_SmtpTransport::newInstance($settings['smtpServer'], $settings['smtpPort'], $settings['smtpEncryption'])
             ->setUsername($settings['smtpUsername'])
             ->setPassword($settings['smtpPassword']);
         $mailer = \Swift_Mailer::newInstance($transport);

@@ -52,7 +52,7 @@ class NewsletterMail {
 
     public function send() {
 
-        $transport = \Swift_SmtpTransport::newInstance($this->settings['smtpServer'], $this->settings['smtpPort'], 'tls')
+        $transport = \Swift_SmtpTransport::newInstance($this->settings['smtpServer'], $this->settings['smtpPort'], $this->settings['smtpEncryption'])
             ->setUsername($this->settings['smtpUsername'])
             ->setPassword($this->settings['smtpPassword']);
         $mailer = \Swift_Mailer::newInstance($transport);
