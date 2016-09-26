@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Bericht
  *
  * @ORM\Table(name="berichten")
- * @ORM\Entity(repositoryClass="App\Entity\BerichtRepo");
+ * @ORM\Entity(repositoryClass="App\Entity\BerichtRepo")
  */
 class Bericht
 {
@@ -20,168 +20,196 @@ class Bericht
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="berichten_id_seq", allocationSize=1, initialValue=1)
      */
-    public $id;
+    private $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="old_id", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    public $oldId;
+    private $oldId;
 
     /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    public $title;
+    private $title;
 
     /**
      * @var string
      *
      * @ORM\Column(name="body", type="text", precision=0, scale=0, nullable=true, unique=false)
      */
-    public $body;
+    private $body;
 
     /**
      * @var string
      *
      * @ORM\Column(name="advice", type="text", precision=0, scale=0, nullable=true, unique=false)
      */
-    public $advice;
+    private $advice;
 
     /**
      * @var string
      *
      * @ORM\Column(name="title_en", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    public $title_en;
+    private $title_en;
 
     /**
      * @var string
      *
      * @ORM\Column(name="body_en", type="text", precision=0, scale=0, nullable=true, unique=false)
      */
-    public $body_en;
+    private $body_en;
 
     /**
      * @var string
      *
      * @ORM\Column(name="advice_en", type="text", precision=0, scale=0, nullable=true, unique=false)
      */
-    public $advice_en;
+    private $advice_en;
 
     /**
      * @var string
      *
      * @ORM\Column(name="title_fr", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    public $title_fr;
+    private $title_fr;
 
     /**
      * @var string
      *
      * @ORM\Column(name="body_fr", type="text", precision=0, scale=0, nullable=true, unique=false)
      */
-    public $body_fr;
+    private $body_fr;
 
     /**
      * @var string
      *
      * @ORM\Column(name="advice_fr", type="text", precision=0, scale=0, nullable=true, unique=false)
      */
-    public $advice_fr;
+    private $advice_fr;
 
     /**
      * @var string
      *
      * @ORM\Column(name="title_de", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    public $title_de;
+    private $title_de;
 
     /**
      * @var string
      *
      * @ORM\Column(name="body_de", type="text", precision=0, scale=0, nullable=true, unique=false)
      */
-    public $body_de;
+    private $body_de;
 
     /**
      * @var string
      *
      * @ORM\Column(name="advice_de", type="text", precision=0, scale=0, nullable=true, unique=false)
      */
-    public $advice_de;
+    private $advice_de;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="startdate", type="date", precision=0, scale=0, nullable=false, unique=false)
      */
-    public $startDate;
+    private $startDate;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="enddate", type="date", precision=0, scale=0, nullable=false, unique=false)
      */
-    public $endDate;
+    private $endDate;
 
     /**
      * @var string
      *
      * @ORM\Column(name="category", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    public $category;
+    private $category;
 
     /**
      * @var string
      *
      * @ORM\Column(name="link", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    public $link;
+    private $link;
 
     /**
      * @var string
      *
      * @ORM\Column(name="image_url", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    public $imageUrl;
+    private $imageUrl;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="important", type="boolean", precision=0, scale=0, nullable=false, unique=false)
      */
-    public $important;
+    private $important;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_live", type="boolean", precision=0, scale=0, nullable=false, unique=false)
      */
-    public $isLive;
+    private $isLive;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="include_map", type="boolean", precision=0, scale=0, nullable=false, unique=false)
      */
-    public $includeMap;
+    private $includeMap;
 
     /**
      * @var string
      *
      * @ORM\Column(name="location_lat", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    public $locationLat;
+    private $locationLat;
 
     /**
      * @var string
      *
      * @ORM\Column(name="location_lng", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
-    public $locationLng;
+    private $locationLng;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="sms_nl", type="text", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $sms_nl;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="sms_en", type="text", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $sms_en;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="sms_de", type="text", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $sms_de;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="sms_send", type="datetime", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $sms_send;
 
 
     /**
@@ -192,30 +220,6 @@ class Bericht
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return Bericht
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
     }
 
     /**
@@ -240,6 +244,30 @@ class Bericht
     public function getOldId()
     {
         return $this->oldId;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Bericht
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     /**
@@ -531,9 +559,9 @@ class Bericht
     }
 
     /**
-     * Set endDdate
+     * Set endDate
      *
-     * @param \DateTime $endDdate
+     * @param \DateTime $endDate
      *
      * @return Bericht
      */
@@ -545,7 +573,7 @@ class Bericht
     }
 
     /**
-     * Get endDdate
+     * Get endDate
      *
      * @return \DateTime
      */
@@ -746,7 +774,104 @@ class Bericht
         return $this->locationLng;
     }
 
-    public function getStatus() {
+    /**
+     * Set smsNl
+     *
+     * @param string $smsNl
+     *
+     * @return Bericht
+     */
+    public function setSmsNl($smsNl)
+    {
+        $this->sms_nl = $smsNl;
+
+        return $this;
+    }
+
+    /**
+     * Get smsNl
+     *
+     * @return string
+     */
+    public function getSmsNl()
+    {
+        return $this->sms_nl;
+    }
+
+    /**
+     * Set smsEn
+     *
+     * @param string $smsEn
+     *
+     * @return Bericht
+     */
+    public function setSmsEn($smsEn)
+    {
+        $this->sms_en = $smsEn;
+
+        return $this;
+    }
+
+    /**
+     * Get smsEn
+     *
+     * @return string
+     */
+    public function getSmsEn()
+    {
+        return $this->sms_en;
+    }
+
+    /**
+     * Set smsDe
+     *
+     * @param string $smsDe
+     *
+     * @return Bericht
+     */
+    public function setSmsDe($smsDe)
+    {
+        $this->sms_de = $smsDe;
+
+        return $this;
+    }
+
+    /**
+     * Get smsDe
+     *
+     * @return string
+     */
+    public function getSmsDe()
+    {
+        return $this->sms_de;
+    }
+
+    /**
+     * Set smsSend
+     *
+     * @param \DateTime $smsSend
+     *
+     * @return Bericht
+     */
+    public function setSmsSend($smsSend)
+    {
+        $this->sms_send = $smsSend;
+
+        return $this;
+    }
+
+    /**
+     * Get smsSend
+     *
+     * @return \DateTime
+     */
+    public function getSmsSend()
+    {
+        return $this->sms_send;
+    }
+
+    public function getStatus()
+    {
         $today = new \DateTime();
         if ($this->getEndDate() < $today) {
             return 'archived';
