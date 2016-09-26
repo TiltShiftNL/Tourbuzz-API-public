@@ -98,9 +98,11 @@ class BerichtenController extends Controller {
             $em->persist($bericht);
         }
 
-        $sms_en   = isset($post['sms_en']) && strlen($post['sms_en']) >= 1 ? $post['sms_en'] : null;
-        $sms_nl   = isset($post['sms_nl']) && strlen($post['sms_nl']) >= 1 ? $post['sms_nl'] : null;
-        $sms_de   = isset($post['sms_de']) && strlen($post['sms_de']) >= 1 ? $post['sms_de'] : null;
+
+        // http://tourbuzz.nl/s/abc 24
+        $sms_en   = isset($post['sms_en']) && strlen($post['sms_en']) >= 1 && strlen($post['sms_en']) <= 116 ? $post['sms_en'] : null;
+        $sms_nl   = isset($post['sms_nl']) && strlen($post['sms_nl']) >= 1 && strlen($post['sms_nl']) <= 116 ? $post['sms_nl'] : null;
+        $sms_de   = isset($post['sms_de']) && strlen($post['sms_de']) >= 1 && strlen($post['sms_de']) <= 116 ? $post['sms_de'] : null;
 
         $bericht->setSmsEn($sms_en);
         $bericht->setSmsNl($sms_nl);

@@ -1,0 +1,102 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/../vendor/autoload.php';
+
+session_start();
+
+// Instantiate the app
+$settings = require __DIR__ . '/../src/settings.php';
+$app = new \Slim\App($settings);
+
+// Set up dependencies
+require __DIR__ . '/../src/dependencies.php';
+
+// Register middleware
+require __DIR__ . '/../src/middleware.php';
+
+if (count($argv) !== 1) {
+    die('Usage php send_newsletters');
+}
+
+/**
+ * @var \Doctrine\ORM\EntityManager $em
+ */
+$em  = $app->getContainer()->get('em');
+
+/**
+ * @var \App\Entity\BerichtRepo $berichtRepo
+ */
+$berichtRepo = $em->getRepository('App\Entity\Bericht');
+
+/**
+ * @var \App\Entity\Telefoon $telefoonRepo
+ */
+$telefoonRepo = $em->getRepository('App\Entity\Telefoon');
+
+/**
+ * @var \App\Entity\Bericht[] $berichten
+ */
+$berichten = $berichtRepo->getSMSQueue();
+
+/**
+ * @var \App\Entity\Telefoon[] $telefoonUnsorted
+ */
+$telefoonUnsorted = $telefoonRepo->findAll();
+
+$telefoon = [];
+
+foreach ($telefoonUnsorted as $tel) {
+    if (!isset($telefoon[$tel->getLanguage()])) {
+        $telefoon[$tel->getLanguage()] = [];
+    }
+    $telefoon[$tel->getLanguage()][] = $tel;
+}
+
+foreach ($berichten as $bericht) {
+    $now = new \DateTime();
+    $bericht->setSmsSend($now);
+    $em->flush();
+
+    foreach ($telefoon as $lang => $numbers) {
+        sendSms($bericht, $lang, $numbers, $em);
+    }
+    $em->flush();
+}
+
+
+function sendSms(\App\Entity\Bericht $bericht, $lang, $numbers, $em) {
+    /**
+     * @var \App\Entity\Telefoon[] $numbers
+     * @var \Doctrine\ORM\EntityManager $em
+     */
+
+    $message = '';
+    switch ($lang) {
+        case 'nl':
+            $message = $bericht->getSmsNl();
+            break;
+        case 'en':
+            $message = $bericht->getSmsEn();
+            break;
+        case 'de':
+            $message = $bericht->getSmsDe();
+            break;
+    }
+
+    if ('' == $message) {
+        return;
+    }
+
+    foreach ($numbers as $number) {
+        $now = new \DateTime();
+        $sms = new \App\Entity\SMS();
+        $sms->setNumber($number->getNumber());
+        $sms->setText($message);
+        $sms->setLanguage($lang);
+        $sms->setCreated($now);
+        $em->persist($sms);
+
+        echo "Sending SMS to: " . $number->getNumber() . ' with: ' . $message . "\n";
+    }
+}

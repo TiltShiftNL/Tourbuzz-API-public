@@ -69,4 +69,21 @@ class BerichtRepo extends EntityRepository
 
         return $query->getResult();
     }
+
+    public function getSMSQueue() {
+        /**
+         * @var EntityManager $em
+         */
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery('
+            SELECT
+                b
+            FROM
+               App\Entity\Bericht b
+            WHERE b.sms_send IS NULL'
+        );
+
+        return $query->getResult();
+    }
 }
