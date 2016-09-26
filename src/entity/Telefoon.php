@@ -32,9 +32,9 @@ class Telefoon
     /**
      * @var string
      *
-     * @ORM\Column(name="country", type="string", length=3, precision=0, scale=0, nullable=false, unique=false)
+     * @ORM\Column(name="language", type="string", length=3, precision=0, scale=0, nullable=false, unique=false)
      */
-    private $country;
+    private $language;
 
     /**
      * @var \DateTime
@@ -79,27 +79,27 @@ class Telefoon
     }
 
     /**
-     * Set country
+     * Set language
      *
-     * @param string $country
+     * @param string $language
      *
      * @return Telefoon
      */
-    public function setCountry($country)
+    public function setLanguage($language)
     {
-        $this->country = $country;
+        $this->language = $language;
 
         return $this;
     }
 
     /**
-     * Get country
+     * Get language
      *
      * @return string
      */
-    public function getCountry()
+    public function getLanguage()
     {
-        return $this->country;
+        return $this->language;
     }
 
     /**
