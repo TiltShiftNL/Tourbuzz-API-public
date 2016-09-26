@@ -43,5 +43,8 @@ return [
         'wachtwoordVergetenUrl' => 'http://tour.b.nl/wachtwoordvergeten/',
         'mailConfirmUrl'        => 'http://tour.b.nl/mailbevestigen/',
         'mailUnsubscribeUrl'    => 'http://tour.b.nl/mailannuleren/',
+        'twilioFromNumber'      => 'placeholder',
+        'twilioSid'             => 'placeholder',
+        'twilioToken'           => 'placeholder'
     ]
 ];

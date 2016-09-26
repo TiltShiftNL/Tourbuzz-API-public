@@ -46,6 +46,14 @@ $telefoonUnsorted = $telefoonRepo->findAll();
 
 $telefoon = [];
 
+$settings = $app->getContainer()->get('settings');
+
+// Your Account Sid and Auth Token from twilio.com/user/account
+$client = new \Twilio\Rest\Client(
+    $settings['twilioSid'],
+    $settings['twilioToken']
+);
+
 foreach ($telefoonUnsorted as $tel) {
     if (!isset($telefoon[$tel->getLanguage()])) {
         $telefoon[$tel->getLanguage()] = [];
@@ -59,13 +67,13 @@ foreach ($berichten as $bericht) {
     $em->flush();
 
     foreach ($telefoon as $lang => $numbers) {
-        sendSms($bericht, $lang, $numbers, $em);
+        sendSms($bericht, $lang, $numbers, $em, $client, $settings);
     }
     $em->flush();
 }
 
 
-function sendSms(\App\Entity\Bericht $bericht, $lang, $numbers, $em) {
+function sendSms(\App\Entity\Bericht $bericht, $lang, $numbers, $em, $client, $settings) {
     /**
      * @var \App\Entity\Telefoon[] $numbers
      * @var \Doctrine\ORM\EntityManager $em
@@ -98,5 +106,12 @@ function sendSms(\App\Entity\Bericht $bericht, $lang, $numbers, $em) {
         $em->persist($sms);
 
         echo "Sending SMS to: " . $number->getNumber() . ' with: ' . $message . "\n";
+        $client->messages->create(
+            $number->getNumber(),
+            array(
+                'from' => $settings['twilioFromNumber'],
+                'body' => $message . ' http://tourbuzz.nl/s/' . base_convert($bericht->getId(), 10, 36)
+            )
+        );
     }
 }
