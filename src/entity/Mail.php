@@ -85,6 +85,13 @@ class Mail
      */
     private $lastCorrespondence;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="organisation", type="string", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $organisation;
+
 
     /**
      * Get id
@@ -310,5 +317,29 @@ class Mail
     public function getLastCorrespondence()
     {
         return $this->lastCorrespondence;
+    }
+
+    /**
+     * Set organisation
+     *
+     * @param string $organisation
+     *
+     * @return Mail
+     */
+    public function setOrganisation($organisation)
+    {
+        $this->organisation = $organisation;
+
+        return $this;
+    }
+
+    /**
+     * Get organisation
+     *
+     * @return string
+     */
+    public function getOrganisation()
+    {
+        return $this->organisation;
     }
 }

@@ -50,7 +50,7 @@ class MailService {
      * @return bool
      * @throws MailExistsException
      */
-    public function register($mail, $language, $name) {
+    public function register($mail, $language, $name, $organisation) {
         /**
          * @var Mail $object
          */
@@ -67,6 +67,7 @@ class MailService {
         $obj = null !== $object ? $object : new Mail();
         $obj->setMail($mail);
         $obj->setName($name);
+        $obj->setOrganisation($organisation);
         $obj->setLanguage($language);
         $obj->setConfirmUUID($uuid->toString());
         $obj->setCreated($now);

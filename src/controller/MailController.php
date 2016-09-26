@@ -31,9 +31,10 @@ class MailController extends Controller {
         }
 
         $name = isset($post['name']) ? $post['name'] : null;
-
+        $organisation = isset($post['organisation']) ? $post['organisation'] : null;
+        
         try {
-            $this->mailService->register($post['mail'], $post['language'], $name);
+            $this->mailService->register($post['mail'], $post['language'], $name, $organisation);
         } catch (MailExistsException $e) {
             $response = $response->withStatus(406)->withJson(['error' => 'Mail exists']);
             return $response;

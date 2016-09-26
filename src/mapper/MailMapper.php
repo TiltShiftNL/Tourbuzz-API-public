@@ -16,6 +16,7 @@ class MailMapper {
         $object->created            = $mail->getCreated();
         $object->confirmed          = $mail->getConfirmed();
         $object->unsubscribeRequest = $mail->getUnsubscribedRequested();
+        $object->organisation       = $mail->getOrganisation();
         return $object;
     }
 
