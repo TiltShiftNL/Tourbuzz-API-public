@@ -23,7 +23,7 @@ class TelefoonController extends Controller {
         }
 
         if (!isset($post['language']) || !in_array($post['language'],['nl','en'])) {
-            $response = $response->withStatus(405)->withJson(['error' => 'No or invalid language, expecting nl|en']);
+            $response = $response->withStatus(406)->withJson(['error' => 'No or invalid language, expecting nl|en']);
             return $response;
         }
 
