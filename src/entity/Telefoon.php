@@ -30,6 +30,13 @@ class Telefoon
     private $number;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="country", type="string", length=3, precision=0, scale=0, nullable=false, unique=false)
+     */
+    private $country;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created", type="datetime", precision=0, scale=0, nullable=true, unique=false)
@@ -69,6 +76,30 @@ class Telefoon
     public function getNumber()
     {
         return $this->number;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     *
+     * @return Telefoon
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
     }
 
     /**

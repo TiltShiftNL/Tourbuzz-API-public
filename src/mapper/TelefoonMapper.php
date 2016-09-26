@@ -13,6 +13,7 @@ class TelefoonMapper {
         $object->id      = $telefoon->getId();
         $object->mail    = $telefoon->getNumber();
         $object->created = $telefoon->getCreated();
+        $object->created = $telefoon->getCountry();
         return $object;
     }
 

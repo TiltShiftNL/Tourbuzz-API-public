@@ -22,6 +22,11 @@ class TelefoonController extends Controller {
             return $response;
         }
 
+        if (!isset($post['country']) || !in_array($post['country'],['nl','en'])) {
+            $response = $response->withStatus(405)->withJson(['error' => 'No or invalid country, expecting nl|en']);
+            return $response;
+        }
+
         $em           = $this->ci->get('em');
         $telefoonRepo = $em->getRepository('App\Entity\Telefoon');
         $telefoon     = $telefoonRepo->findOneByNumber($post['number']);
@@ -29,6 +34,7 @@ class TelefoonController extends Controller {
         if (null === $telefoon) {
             $telefoon = new Telefoon();
             $telefoon->setNumber($post['number']);
+            $telefoon->setCountry(strtolower($post['country']));
             $date = new \DateTime();
             $telefoon->setCreated($date);
             $em->persist($telefoon);
