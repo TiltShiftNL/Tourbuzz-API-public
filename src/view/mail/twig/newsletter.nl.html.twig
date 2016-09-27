@@ -1,14 +1,11 @@
-<h1>Geachte{% if null != naam %} {{ naam }}{% endif %},</h1>
+{% extends 'newsletter.base.html.twig' %}
 
-<img src="{{ image }}" alt="Amsterdam logo">
+{% block message %}
+<p>Geachte{% if null != naam %} {{ naam }}{% endif %},</p>
 
-Hierbij de merkwaardigheden voor de komende twee weken.
-
+<h3>Berichten</h3>
 {% for bericht in berichten %}
-{{ bericht.startDate|date('d-m-Y') }} - {{ bericht.endDate|date('d-m-Y') }} {{ bericht.title }}
+{{ bericht.startDate|date('d-m-Y') }} - {{ bericht.title }} <span style="color: #ccc;font-size:12px"> t/m {{ bericht.endDate|date('d-m-Y') }} </span><br>
 {% endfor %}
 
-
-Groet,
-
-Tourbuzz.nl
+{% endblock %}
