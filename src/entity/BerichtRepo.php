@@ -21,7 +21,7 @@ class BerichtRepo extends EntityRepository
                App\Entity\Bericht b
             WHERE
                 b.startDate <= :qdate
-                AND b.endDate > :qdate
+                AND b.endDate >= :qdate
             ORDER BY b.important DESC, b.endDate DESC'
         );
 

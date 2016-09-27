@@ -873,6 +873,7 @@ class Bericht
     public function getStatus()
     {
         $today = new \DateTime();
+        $today->setTime(0,0,0);
         if ($this->getEndDate() < $today) {
             return 'archived';
         } else if ($this->getStartDate() > $today) {
