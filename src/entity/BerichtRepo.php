@@ -8,7 +8,7 @@ use App\Entity\Bericht;
 
 class BerichtRepo extends EntityRepository
 {
-    public function getByDate($date) {
+    public function getByDate(\DateTime $date) {
         /**
          * @var EntityManager $em
          */
@@ -26,6 +26,29 @@ class BerichtRepo extends EntityRepository
         );
 
         $query->setParameter('qdate', $date->format('Y-m-d'));
+
+        return $query->getResult();
+    }
+
+    public function getPublishedInFuture() {
+        /**
+         * @var EntityManager $em
+         */
+        $em = $this->getEntityManager();
+
+        $now = new \DateTime();
+
+        $query = $em->createQuery('
+            SELECT
+                b
+            FROM
+               App\Entity\Bericht b
+            WHERE
+                b.startDate > :qdate
+                AND b.isLive = true'
+        );
+
+        $query->setParameter('qdate', $now->format('Y-m-d'));
 
         return $query->getResult();
     }
