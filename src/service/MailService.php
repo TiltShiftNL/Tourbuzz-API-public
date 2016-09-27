@@ -187,23 +187,20 @@ class MailService {
         /**
          * @var Bericht[] $berichten
          */
-        $berichten = $berichtRepo->getByDateRange($now, $twoWeeksFromNow);
+        $berichten = $berichtRepo->getByDate($now);
+
+        /**
+         * @var Bericht[] $berichtentoSort
+         */
+        $berichtentoSort = $berichtRepo->getPublishedInFuture();
 
         $sortedByDate = [];
 
-        $currentDate = clone $now;
-        while ($currentDate->format('Ymd') <= $twoWeeksFromNow->format('Ymd')) {
-            $arr = [];
-            foreach ($berichten as $bericht) {
-                if (
-                    $bericht->getStartDate()->format('Ymd') <= $currentDate->format('Ymd') &&
-                    $bericht->getEndDate()->format('Ymd') >= $currentDate->format('Ymd')
-                ) {
-                    $arr[] = $bericht;
-                }
-                $sortedByDate[$currentDate->format('d-m-Y')] = $arr;
+        foreach ($berichtentoSort as $bericht) {
+            if (!isset($sortedByDate[$bericht->getStartDate()->format('d-m-Y')])) {
+                $sortedByDate[$bericht->getStartDate()->format('d-m-Y')] = [];
             }
-            $currentDate->modify('+1 day');
+            $sortedByDate[$bericht->getStartDate()->format('d-m-Y')][] = $bericht;
         }
 
         $settings = $this->ci->get('settings');
