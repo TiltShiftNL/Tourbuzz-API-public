@@ -22,7 +22,7 @@ class BerichtenController extends Controller {
 
         $response = $response
             ->withStatus(200)
-            ->withJson($bericht);
+            ->withJson(BerichtMapper::mapSingle($bericht));
 
         return $response;
     }

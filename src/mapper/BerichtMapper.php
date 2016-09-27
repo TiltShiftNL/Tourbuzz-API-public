@@ -35,7 +35,11 @@ class BerichtMapper {
         $object->location_lat = $bericht->getLocationLat();
         $object->location_lng = $bericht->getLocationLng();
         $object->status       = $bericht->getStatus();
-        $object->location     = ['lat' => $bericht->getLocationLat(), 'lng' => $bericht->getLocationLng()];
+        $loc = [];
+        if (null != $bericht->getLocationLat() && null != $bericht->getLocationLng()) {
+            $loc = ['lat' => $bericht->getLocationLat(), 'lng' => $bericht->getLocationLng()];
+        }
+        $object->location = $loc;
         return $object;
     }
 
