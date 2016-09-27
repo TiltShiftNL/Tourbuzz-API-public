@@ -23,5 +23,5 @@ API for the tourbuzz applications.
 3. [Download composer](https://getcomposer.org/)
 4. run composer install
 5. run php vendor/bin/doctrine-migrations migrations:migrate
-6. create a user: php create_user {username} {password} {mail}
+6. create a user: php bin/create_user {username} {password} {mail}
 
