@@ -52,15 +52,15 @@ class RegisterMail {
 
     protected function getNlParams() {
         $params = [];
-        $params['subject'] = 'Mailbrief tourbuzz.nl bevestigen';
-        $params['from']    = 'Tourbuzz.nl';
+        $params['subject'] = 'Bevestigen Tour Buzz berichtenservice';
+        $params['from']    = 'Tour Buzz';
 
         $naam = null !== $this->mail->getName() ? ' ' . $this->mail->getName() : '';
         $link = $this->settings['mailConfirmUrl'] . $this->mail->getConfirmUUID();
         $params['body']    = <<<EOT
 Geachte$naam,
 
-Klik op de onderstaande link om uw aanmelding voor de tourbuzz nieuwsbrief te bevestigen.
+Klik op de onderstaande link om uw aanmelding voor de Tour Buzz berichtenservice te bevestigen.
 
 $link
 
@@ -68,7 +68,7 @@ Op deze mail kunt u niet reageren.
 
 Groet,
 
-Tourbuzz.nl
+Tour Buzz
 
 EOT;
         return $params;
@@ -76,8 +76,8 @@ EOT;
 
     protected function getEnParams() {
         $params = [];
-        $params['subject'] = 'Confirm tourbuzz.nl newsletter';
-        $params['from']    = 'Tourbuzz.nl';
+        $params['subject'] = 'Confirm Tour Buzz message service';
+        $params['from']    = 'Tour Buzz';
 
         $naam = null !== $this->mail->getName() ? $this->mail->getName() : 'Sir / Madam';
         $link = $this->settings['mailConfirmUrl'] . $this->mail->getConfirmUUID();
@@ -90,7 +90,7 @@ $link
 
 You can't respond to this message.
 
-Tourbuzz.nl
+Tour Buzz
 
 EOT;
         return $params;

@@ -9,13 +9,13 @@ class ForgotPasswordMail {
         return <<<EOT
 Geachte $username,
 
-Hierbij de link waarmee u uw wachtwoord voor tourbuzz kan resetten.
+Hierbij de link waarmee u uw wachtwoord voor Tour Buzz dashboard kan resetten.
 
 $link
 
 Op deze mail kunt u niet reageren.
 
-Tourbuzz
+Tour Buzz
 
 EOT;
 
