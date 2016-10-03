@@ -15,18 +15,30 @@ require __DIR__ . '/../src/dependencies.php';
 // Register middleware
 require __DIR__ . '/../src/middleware.php';
 
-if (count($argv) !== 2) {
-    die('Usage php migrate_to_db [messages.json]');
+if (count($argv) !== 3) {
+    die('Usage php migrate_to_db [messages.json] [imageDir]');
+}
+
+if (!is_dir($argv[2])) {
+    die('the directory specified does not exist: '. $argv[2]);
 }
 
 require __DIR__ . '/../src/entity/Bericht.php';
 
-$em = $app->getContainer()->get('em');
-migrateBerichten($argv[1], $em);
+$container  = $app->getContainer();
+/**
+ * @var \Doctrine\ORM\EntityManager $em
+ */
+$em         = $container->get('em');
+/**
+ * #@var \App\Service\ImageStoreService $imageStore
+ */
+$imageStore = $container->get('imageStore');
+migrateBerichten($argv[1], $argv[2], $em, $imageStore);
 
 
 
-function migrateBerichten($filePath, \Doctrine\ORM\EntityManager $em) {
+function migrateBerichten($filePath, $imageDir, \Doctrine\ORM\EntityManager $em, \App\Service\ImageStoreService $imageStore) {
     $messages = loadMessages($filePath);
     $messages = migrateMessages($messages);
     $repo = $em->getRepository('App\Entity\Bericht');
@@ -75,6 +87,13 @@ function migrateBerichten($filePath, \Doctrine\ORM\EntityManager $em) {
         if (isset($obj->location_lat)) $bericht->setLocationLat($obj->location_lat);
         if (isset($obj->location_lng)) $bericht->setLocationLng($obj->location_lng);
         if (isset($obj->include_map)) $bericht->setIncludeMap($obj->include_map);
+
+        $image = str_replace('http://api.fixxx.nl/afbeeldingen/','', $obj->image_url);
+        if (strlen($image)) {
+            $imageInfo = new \SplFileInfo($imageDir . '/' . $image);
+            $imageObj  = $imageStore->store($imageInfo);
+            $bericht->setImageId($imageObj->getId());
+        }
 
         $em->persist($bericht);
     }

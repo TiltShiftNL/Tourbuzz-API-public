@@ -39,6 +39,15 @@ $container['mail'] = function ($c) {
     return new \App\Service\MailService($c);
 };
 
+$container['imageStore'] = function ($c) {
+    $settings = $c->get('settings');
+    return new \App\Service\ImageStoreService(
+        $settings['imageStoreRootPath'],
+        $settings['imageStoreExternalPath'],
+        $c->get('em')
+    );
+};
+
 // Cache disabled, no need because it's only used for mailing, it can take the time it needs
 $container['mailView'] = function ($container) {
     $view = new \Slim\Views\Twig('src/view/mail/twig', [

@@ -211,6 +211,13 @@ class Bericht
      */
     private $sms_send;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="image_id", type="integer", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $imageId;
+
 
     /**
      * Get id
@@ -880,5 +887,29 @@ class Bericht
             return 'scheduled';
         }
         return 'active';
+    }
+
+    /**
+     * Set imageId
+     *
+     * @param integer $imageId
+     *
+     * @return Bericht
+     */
+    public function setImageId($imageId)
+    {
+        $this->imageId = $imageId;
+
+        return $this;
+    }
+
+    /**
+     * Get imageId
+     *
+     * @return integer
+     */
+    public function getImageId()
+    {
+        return $this->imageId;
     }
 }
