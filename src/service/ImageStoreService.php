@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Image;
+use App\Entity\ImageRepo;
 use Ramsey\Uuid\Uuid;
 
 class ImageStoreService {
@@ -22,11 +23,17 @@ class ImageStoreService {
      */
     protected $em;
 
+    /**
+     * @var ImageRepo
+     */
+    protected $imageRepo;
+
     public function __construct($rootPath, $externalPath, \Doctrine\ORM\EntityManager $em)
     {
         $this->rootPath     = $rootPath;
         $this->externalPath = $externalPath;
         $this->em           = $em;
+        $this->imageRepo    = $em->getRepository('App\Entity\Image');
     }
 
     public function store(\SplFileInfo $fileInfo) {
@@ -42,6 +49,18 @@ class ImageStoreService {
         $this->em->persist($image);
         $this->em->flush();
         return $image;
+    }
+
+    public function getImageUrl($imageId) {
+        if (null === $imageId) {
+            return null;
+        }
+
+        /**
+         * @var Image $image
+         */
+        $image = $this->imageRepo->findOneById($imageId);
+        return $this->getPath($image->getFilename()) . $image->getFilename();
     }
 
     protected function getImageInfo($filename) {
@@ -68,7 +87,7 @@ class ImageStoreService {
         return $extension;
     }
 
-    protected function getPath($filename, $internal = true, $createDir = false) {
+    protected function getPath($filename, $internal = false, $createDir = false) {
         $dir = ($internal ? $this->rootPath : $this->externalPath) . $filename[0] . '/' . $filename[1] . '/';
         if ($internal && $createDir && !is_dir($dir)) {
             mkdir($dir, 0770, true);

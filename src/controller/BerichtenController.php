@@ -22,7 +22,7 @@ class BerichtenController extends Controller {
 
         $response = $response
             ->withStatus(200)
-            ->withJson(BerichtMapper::mapSingle($bericht));
+            ->withJson(BerichtMapper::mapSingle($bericht, $this->ci->get('imageStore')));
 
         return $response;
     }
@@ -48,7 +48,7 @@ class BerichtenController extends Controller {
 
         $berichten = null === $date ? $repo->getSortedAll() : $repo->getByDate($date);
 
-        $mappedBerichten = BerichtMapper::mapCollection($berichten);
+        $mappedBerichten = BerichtMapper::mapCollection($berichten, $this->ci->get('imageStore'));
 
         //$response->headers->set('Content-Type', 'application/json');
 
@@ -134,7 +134,7 @@ class BerichtenController extends Controller {
 
         $em->flush();
 
-        $response = $response->withJson(BerichtMapper::mapSingle($bericht));
+        $response = $response->withJson(BerichtMapper::mapSingle($bericht, $this->ci->get('imageStore')));
         return $response;
     }
 

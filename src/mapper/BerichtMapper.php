@@ -3,10 +3,12 @@
 namespace App\Mapper;
 
 use App\Entity\Bericht;
+use App\Entity\Image;
+use App\Service\ImageStoreService;
 
 class BerichtMapper {
 
-    public static function mapSingle(Bericht $bericht)
+    public static function mapSingle(Bericht $bericht, ImageStoreService $imageStore)
     {
         $object = new \stdClass();
 
@@ -28,7 +30,7 @@ class BerichtMapper {
         $object->enddate      = $bericht->getEndDate()->format('Y-m-d');
         $object->category     = $bericht->getCategory();
         $object->link         = $bericht->getLink();
-        $object->image_url    = $bericht->getImageUrl();
+        $object->image_url    = $imageStore->getImageUrl($bericht->getImageId());
         $object->important    = $bericht->getImportant();
         $object->is_live      = $bericht->getIsLive();
         $object->include_map  = $bericht->getIncludeMap();
@@ -43,11 +45,11 @@ class BerichtMapper {
         return $object;
     }
 
-    public static function mapCollection($collection) {
+    public static function mapCollection($collection, ImageStoreService $imageStore) {
         $arr = [];
 
         foreach ($collection as $obj) {
-            $arr[$obj->getId()] = self::mapSingle($obj);
+            $arr[$obj->getId()] = self::mapSingle($obj, $imageStore);
         }
 
         return $arr;

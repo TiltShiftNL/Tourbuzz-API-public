@@ -47,6 +47,6 @@ return [
         'twilioSid'              => 'placeholder',
         'twilioToken'            => 'placeholder',
         'imageStoreRootPath'     => 'public/images/',
-        'imageStoreExternalPath' => 'http://tour.b.nl/images/'
+        'imageStoreExternalPath' => 'http://tourapi.b.nl/images/'
     ]
 ];
