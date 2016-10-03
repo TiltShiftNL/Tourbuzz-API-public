@@ -120,6 +120,7 @@ class BerichtenController extends Controller {
         $bericht->setTitleDe($post['title_de']);
         $bericht->setBodyDe($post['body_de']);
         $bericht->setAdviceDe($post['advice_de']);
+        $bericht->setImageId($post['image_id']);
         $startDate = new \DateTime($post['startdate']);
         $bericht->setStartDate($startDate);
         $endDate = new \DateTime($post['enddate']);
