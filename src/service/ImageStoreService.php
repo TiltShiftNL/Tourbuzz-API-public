@@ -106,7 +106,7 @@ class ImageStoreService {
     protected function getPath($filename, $internal = false, $createDir = false) {
         $dir = ($internal ? $this->rootPath : $this->externalPath) . $filename[0] . '/' . $filename[1] . '/';
         if ($internal && $createDir && !is_dir($dir)) {
-            mkdir($dir, 0770, true);
+            mkdir($dir, 0775, true);
         }
         return $dir;
     }
