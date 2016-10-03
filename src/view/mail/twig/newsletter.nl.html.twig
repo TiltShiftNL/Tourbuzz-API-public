@@ -8,4 +8,11 @@
 {{ bericht.startDate|date('d-m-Y') }} - {{ bericht.title }} <span style="color: #ccc;font-size:12px"> t/m {{ bericht.endDate|date('d-m-Y') }} </span><br>
 {% endfor %}
 
+{% for datum, bericht in sortedbydate %}
+<h2>{{ datum }}</h2>
+{% for record in bericht %}
+{{ record.startDate|date('d-m-Y') }} - {{ record.title }} <span style="color: #ccc;font-size:12px"> t/m {{ record.endDate|date('d-m-Y') }} </span><br>
+{% endfor %}
+{% endfor %}
+
 {% endblock %}

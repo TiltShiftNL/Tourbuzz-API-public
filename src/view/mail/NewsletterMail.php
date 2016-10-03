@@ -83,8 +83,8 @@ class NewsletterMail {
      */
     protected function getNlParams(\Swift_Message $message) {
         $params = [];
-        $params['subject'] = 'Mailbrief tourbuzz.nl';
-        $params['from']    = 'Tourbuzz.nl';
+        $params['subject'] = 'Tour Buzz Berichtenservice';
+        $params['from']    = 'Tour Buzz';
 
         $response = new Response();
         $params['part'] = $this->view->render($response, 'newsletter.nl.twig',
@@ -111,7 +111,7 @@ class NewsletterMail {
      */
     protected function getEnParams($message) {
         $params = [];
-        $params['subject'] = 'Confirm tourbuzz.nl newsletter';
+        $params['subject'] = 'Tour Buzz messageservice';
         $params['from']    = 'Tourbuzz.nl';
 
         $response = new Response();

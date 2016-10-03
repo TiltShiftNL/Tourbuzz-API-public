@@ -52,15 +52,15 @@ class UnsubscribeMail {
 
     protected function getNlParams() {
         $params = [];
-        $params['subject'] = 'Mailbrief tourbuzz.nl annuleren';
-        $params['from']    = 'Tourbuzz.nl';
+        $params['subject'] = 'Tour Buzz berichtservice annuleren';
+        $params['from']    = 'Tour Buzz';
 
         $naam = null !== $this->mail->getName() ? ' ' . $this->mail->getName() : '';
         $link = $this->settings['mailUnsubscribeUrl'] . $this->mail->getUnsubscribeUUID();
         $params['body']    = <<<EOT
 Geachte$naam,
 
-Klik op de onderstaande link om uw aanmelding voor de tourbuzz nieuwsbrief op te zeggen.
+Klik op de onderstaande link om uw aanmelding voor de Tour Buzz berichtenservice op te zeggen.
 
 $link
 
@@ -68,7 +68,7 @@ Op deze mail kunt u niet reageren.
 
 Groet,
 
-Tourbuzz.nl
+Tour Buzz
 
 EOT;
         return $params;
@@ -76,21 +76,21 @@ EOT;
 
     protected function getEnParams() {
         $params = [];
-        $params['subject'] = 'Cancel tourbuzz.nl newsletter';
-        $params['from']    = 'Tourbuzz.nl';
+        $params['subject'] = 'Cancel Tour Buzz message service';
+        $params['from']    = 'Tour Buzz';
 
         $naam = null !== $this->mail->getName() ? $this->mail->getName() : 'Sir / Madam';
         $link = $this->settings['mailUnsubscribeUrl'] . $this->mail->getUnsubscribeUUID();
         $params['body']    = <<<EOT
 Dear $naam,
 
-Click on the link below to cancel your subscription on the tourbuzz.nl newsletter.
+Click on the link below to cancel your subscription on the Tour Buzz message service.
 
 $link
 
 You can't respond to this message.
 
-Tourbuzz.nl
+Tour Buzz
 
 EOT;
         return $params;
