@@ -34,6 +34,7 @@ $em         = $container->get('em');
  * #@var \App\Service\ImageStoreService $imageStore
  */
 $imageStore = $container->get('imageStore');
+$imageStore->setRootPath('public/images/');
 migrateBerichten($argv[1], $argv[2], $em, $imageStore);
 
 

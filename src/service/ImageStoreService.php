@@ -36,6 +36,10 @@ class ImageStoreService {
         $this->imageRepo    = $em->getRepository('App\Entity\Image');
     }
 
+    public function setRootPath($rootPath) {
+        $this->rootPath = $rootPath;
+    }
+
     public function store($fileInfo, $uploaded=false) {
         $filePath = $uploaded ? $fileInfo->file : $fileInfo->__toString();
         $uuid = Uuid::uuid4();
