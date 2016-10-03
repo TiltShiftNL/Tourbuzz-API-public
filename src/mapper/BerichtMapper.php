@@ -32,6 +32,7 @@ class BerichtMapper {
         $object->link         = $bericht->getLink();
         if (null !== $bericht->getImageId()) {
             $object->image_url = $imageUrl . $bericht->getImageId();
+            $object->image_id  = $bericht->getImageId();
         }
         $object->important    = $bericht->getImportant();
         $object->is_live      = $bericht->getIsLive();
