@@ -36,10 +36,10 @@ class AfbeeldingController {
         if (isset($query["method"])) {
             switch ($query["method"]) {
                 case "fit":
-                    $image->fit((int) $_GET["width"], $_GET["height"]);
+                    $image->fit((int) $query["width"], $query["height"]);
                     break;
                 case "resize":
-                    $image->resize((int) $_GET["width"], (int) $_GET["height"]);
+                    $image->resize((int) $query["width"], (int) $query["height"]);
                     break;
             }
         }
