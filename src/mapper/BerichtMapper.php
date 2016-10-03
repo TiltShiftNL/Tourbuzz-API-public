@@ -8,7 +8,7 @@ use App\Service\ImageStoreService;
 
 class BerichtMapper {
 
-    public static function mapSingle(Bericht $bericht, ImageStoreService $imageStore)
+    public static function mapSingle(Bericht $bericht, $imageUrl)
     {
         $object = new \stdClass();
 
@@ -30,7 +30,7 @@ class BerichtMapper {
         $object->enddate      = $bericht->getEndDate()->format('Y-m-d');
         $object->category     = $bericht->getCategory();
         $object->link         = $bericht->getLink();
-        $object->image_url    = $imageStore->getImageUrl($bericht->getImageId());
+        $object->image_url    = $imageUrl . $bericht->getImageId();
         $object->important    = $bericht->getImportant();
         $object->is_live      = $bericht->getIsLive();
         $object->include_map  = $bericht->getIncludeMap();
@@ -45,11 +45,11 @@ class BerichtMapper {
         return $object;
     }
 
-    public static function mapCollection($collection, ImageStoreService $imageStore) {
+    public static function mapCollection($collection, $imageUrl) {
         $arr = [];
 
         foreach ($collection as $obj) {
-            $arr[$obj->getId()] = self::mapSingle($obj, $imageStore);
+            $arr[$obj->getId()] = self::mapSingle($obj, $imageUrl);
         }
 
         return $arr;

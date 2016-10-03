@@ -63,6 +63,22 @@ class ImageStoreService {
         return $this->getPath($image->getFilename()) . $image->getFilename();
     }
 
+    public function getFilePath($imageId) {
+        if (null === $imageId) {
+            return null;
+        }
+
+        /**
+         * @var Image $image
+         */
+        $image = $this->imageRepo->findOneById($imageId);
+        if (null == $image) {
+            return null;
+        }
+
+        return new \SplFileInfo($this->getPath($image->getFilename(), true, false) . $image->getFilename());
+    }
+
     protected function getImageInfo($filename) {
         $path = $this->getPath($filename, true, true);
         $imageInfo = new \SplFileInfo($path . $filename);
