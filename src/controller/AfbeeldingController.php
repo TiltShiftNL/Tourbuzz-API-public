@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Service\ImageStoreService;
 use Doctrine\ORM\EntityManager;
 use Intervention\Image\ImageManager;
+use Ramsey\Uuid\Uuid;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\UploadedFile;
 
 class AfbeeldingController {
     protected $ci;
@@ -44,5 +47,39 @@ class AfbeeldingController {
             }
         }
         exit($image->response('jpg'));
+    }
+
+    public function post(Request $request, Response $response) {
+        $files = $request->getUploadedFiles();
+        if (!isset($files['file'])) {
+            $response = $response
+                ->withStatus('403')
+                ->withHeader('Access-Control-Allow-Origin', '*')
+                ->withHeader('Access-Control-Allow-Headers', 'file, Content-Type')
+                ->withJson(['error' => 'No file included']);
+            return $response;
+        }
+
+        /**
+         * @var ImageStoreService $imageStore
+         */
+        $imageStore = $this->ci->get('imageStore');
+
+        $image = $imageStore->store($files['file'], true);
+
+        $response = $response
+            ->withStatus(200)
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Headers', 'file, Content-Type')
+            ->withJson(['id' => $image->getId()]);
+        return $response;
+    }
+
+    public function options(Request $request, Response $response) {
+        $response = $response
+            ->withStatus(200)
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Headers', 'file, Content-Type');
+        return $response;
     }
 }

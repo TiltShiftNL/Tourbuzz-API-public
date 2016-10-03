@@ -15,6 +15,9 @@ $app->get('/parkeerplaatsen', 'App\Controller\ParkeerController:index');
 $app->get('/parkeerplaatsen/{id}', 'App\Controller\ParkeerController:index');
 
 $app->get('/afbeeldingen/{id}/', 'App\Controller\AfbeeldingController:transform');
+$app->get('/afbeeldingen/{id}', 'App\Controller\AfbeeldingController:transform');
+$app->options('/afbeeldingen', 'App\Controller\AfbeeldingController:options');
+$app->post('/afbeeldingen', 'App\Controller\AfbeeldingController:post');
 
 $app->get('/poi', 'App\Controller\PoiController:index');
 

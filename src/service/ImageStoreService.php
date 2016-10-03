@@ -36,16 +36,21 @@ class ImageStoreService {
         $this->imageRepo    = $em->getRepository('App\Entity\Image');
     }
 
-    public function store(\SplFileInfo $fileInfo) {
+    public function store($fileInfo, $uploaded=false) {
+        $filePath = $uploaded ? $fileInfo->file : $fileInfo->__toString();
         $uuid = Uuid::uuid4();
         $image = new Image();
-        $filename = $uuid->toString() . '.' . $this->getExtension($fileInfo);
+        $filename = $uuid->toString() . '.' . $this->getExtension($filePath);
         $image->setFilename($filename);
         $imageInfo = $this->getImageInfo($filename);
         if (file_exists($imageInfo)) {
-            return $this->store($fileInfo);
+            return $this->store($fileInfo, $uploaded);
         }
-        copy($fileInfo, $imageInfo);
+        if ($uploaded) {
+            $fileInfo->moveTo($imageInfo->__toString());
+        } else {
+            copy($fileInfo, $imageInfo);
+        }
         $this->em->persist($image);
         $this->em->flush();
         return $image;
@@ -85,9 +90,9 @@ class ImageStoreService {
         return $imageInfo;
     }
 
-    protected function getExtension(\SplFileInfo $fileInfo) {
+    protected function getExtension($filePath) {
         $extension = '';
-        switch (exif_imagetype($fileInfo)) {
+        switch (exif_imagetype($filePath)) {
             case IMAGETYPE_GIF:
                 $extension = 'gif';
                 break;
