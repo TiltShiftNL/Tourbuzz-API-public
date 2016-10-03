@@ -30,7 +30,9 @@ class BerichtMapper {
         $object->enddate      = $bericht->getEndDate()->format('Y-m-d');
         $object->category     = $bericht->getCategory();
         $object->link         = $bericht->getLink();
-        $object->image_url    = $imageUrl . $bericht->getImageId();
+        if (null !== $bericht->getImageId()) {
+            $object->image_url = $imageUrl . $bericht->getImageId();
+        }
         $object->important    = $bericht->getImportant();
         $object->is_live      = $bericht->getIsLive();
         $object->include_map  = $bericht->getIncludeMap();
