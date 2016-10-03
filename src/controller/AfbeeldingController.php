@@ -29,7 +29,7 @@ class AfbeeldingController {
 
         $query = $request->getQueryParams();
 
-        $realImage = new \SplFileInfo(getcwd() . '/../' . $fileInfo);
+        $realImage = new \SplFileInfo(getcwd() . $fileInfo);
 
         $manager = new ImageManager(["driver" => "imagick"]);
         $image = $manager->make($realImage->getRealPath());
