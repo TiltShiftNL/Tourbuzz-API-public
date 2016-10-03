@@ -15,6 +15,9 @@ class AfbeeldingController {
     }
 
     public function transform(Request $request, Response $response, $args) {
+        /**
+         * @var \SplFileInfo $fileInfo
+         */
         $fileInfo = $this->ci->get('imageStore')->getFilePath($args['id']);
 
         if (null === $fileInfo) {
@@ -22,9 +25,11 @@ class AfbeeldingController {
         }
 
         $query = $request->getQueryParams();
+        
+        $realImage = new \SplFileInfo(getcwd() . '/../' . $fileInfo);
 
         $manager = new ImageManager(["driver" => "imagick"]);
-        $image = $manager->make($fileInfo);
+        $image = $manager->make($realImage->getRealPath());
         if (isset($query["greyscale"])) {
             $image->greyscale();
         }
