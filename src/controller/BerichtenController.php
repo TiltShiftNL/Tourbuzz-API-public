@@ -135,12 +135,8 @@ class BerichtenController extends Controller {
         $bericht->setImportant(isset($post['important']));
         $bericht->setIsLive(isset($post['is_live']));
 
-
-        $lat = isset($post['location_lat']) && isset($post['include_location']) ? $post['location_lat'] : null;
-        $lng = isset($post['location_lng']) && isset($post['include_location']) ? $post['location_lng'] : null;
-
-        $bericht->setLocationLat($lat);
-        $bericht->setLocationLng($lng);
+        $bericht->setLocationLat(isset($post['location_lat']) ? $post['location_lat'] : null);
+        $bericht->setLocationLng(isset($post['location_lng']) ? $post['location_lng'] : null);
 
         $em->flush();
 
