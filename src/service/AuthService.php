@@ -295,6 +295,14 @@ class AuthService {
             $this->em->remove($token);
         }
 
+        $vergetenToken = $user->getVergetenToken();
+        if (null !== $vergetenToken) {
+            $user->setVergetenToken(null);
+            $vergetenToken->setUser(null);
+            $this->em->flush();
+            $this->em->remove($vergetenToken);
+        }
+
         $this->em->remove($user);
 
         $this->em->flush();
