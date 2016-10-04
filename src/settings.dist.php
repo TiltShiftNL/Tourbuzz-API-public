@@ -49,6 +49,6 @@ return [
         'imageStoreRootPath'     => 'images/',
         'imageStoreExternalPath' => 'http://tourapi.b.nl/images/',
         'imageResizeUrl'         => 'http://tourapi.b.nl/afbeeldingen/',
-        'tmpDir'                 => 'tmp/'
+        'translateApiKey'        => 'placeholder'
     ]
 ];
