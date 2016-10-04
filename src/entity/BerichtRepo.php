@@ -22,7 +22,7 @@ class BerichtRepo extends EntityRepository
             WHERE
                 b.startDate <= :qdate
                 AND b.endDate >= :qdate
-            ORDER BY b.important DESC, b.endDate DESC'
+            ORDER BY b.important DESC, b.startDate ASC'
         );
 
         $query->setParameter('qdate', $date->format('Y-m-d'));
@@ -67,7 +67,7 @@ class BerichtRepo extends EntityRepository
             WHERE
                     b.endDate >= :startDate
                 AND b.startDate <= :endDate
-            ORDER BY b.startDate DESC, b.endDate DESC'
+            ORDER BY b.startDate DESC, b.startDate ASC'
         );
 
         $query->setParameter('startDate', $startDate->format('Y-m-d'));
@@ -87,7 +87,7 @@ class BerichtRepo extends EntityRepository
                 b
             FROM
                App\Entity\Bericht b
-            ORDER BY b.important DESC, b.endDate DESC'
+            ORDER BY b.important DESC, b.startDate ASC'
         );
 
         return $query->getResult();
