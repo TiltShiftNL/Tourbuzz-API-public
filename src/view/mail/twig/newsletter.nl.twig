@@ -4,6 +4,7 @@ Vandaag
 -------
 {% for record in berichten %}
 {{ record.startDate|date('d-m-Y') }} t/m {{ record.endDate|date('d-m-Y') }} - {{ record.title }} https://www.tourbuzz.nl/bericht/{{ record.id }}
+
 {% endfor %}
 
 {% for datum, bericht in sortedByDate %}
@@ -11,5 +12,6 @@ Vandaag
 -----------
 {% for record in bericht %}
 {{ record.title }} https://www.tourbuzz.nl/bericht/{{ record.id }}
+
 {% endfor %}
 {% endfor %}

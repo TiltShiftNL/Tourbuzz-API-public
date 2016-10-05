@@ -1,0 +1,23 @@
+{% extends 'newsletter.base.html.twig' %}
+
+{% block message %}
+<p>Dear{% if null != naam %} {{ naam }}{% endif %},</p>
+
+<h3>Today</h3>
+{% for record in berichten %}
+<a href="https://www.tourbuzz.nl/bericht/{{ record.id }}" style="color: #333">{{ record.title }}</a> <span style="color: #aaa;font-size:12px"> utai {{ record.endDate|date('d-m-Y') }} </span><br>
+{% endfor %}
+
+{% for datum, bericht in sortedByDate %}
+<h3 style="margin-bottom: 0">{{ datum }}</h3>
+{% for record in bericht %}
+<a href="https://www.tourbuzz.nl/bericht/{{ record.id }}" style="color: #333">{{ record.title }}</a> <span style="color: #aaa;font-size:12px"> utai {{ record.endDate|date('d-m-Y') }} </span><br>
+{% endfor %}
+{% endfor %}
+
+{% endblock %}
+
+{% block footer %}
+<p>Want to unsubscribe? Click <a href="https://www.tourbuzz.nl/berichtenservice-afmelden">here</a></p>
+<img style="width: 150px" src="{{ image }}" alt="Amsterdam logo">
+{% endblock %}
