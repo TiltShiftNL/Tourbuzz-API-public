@@ -20,6 +20,9 @@ class BerichtMapper {
         $object->title_en     = $bericht->getTitleEn();
         $object->body_en      = $bericht->getBodyEn();
         $object->advice_en    = $bericht->getAdviceEn();
+        $object->title_es     = $bericht->getTitleEs();
+        $object->body_es      = $bericht->getBodyEs();
+        $object->advice_es    = $bericht->getAdviceEs();
         $object->title_fr     = $bericht->getTitleFr();
         $object->body_fr      = $bericht->getBodyFr();
         $object->advice_fr    = $bericht->getAdviceFr();

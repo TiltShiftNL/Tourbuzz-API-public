@@ -74,9 +74,23 @@ class Bericht
     /**
      * @var string
      *
+     * @ORM\Column(name="advice_es", type="text", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $advice_es;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="title_fr", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
     private $title_fr;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title_es", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $title_es;
 
     /**
      * @var string
@@ -105,6 +119,13 @@ class Bericht
      * @ORM\Column(name="body_de", type="text", precision=0, scale=0, nullable=true, unique=false)
      */
     private $body_de;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="body_es", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $body_es;
 
     /**
      * @var string
@@ -398,6 +419,30 @@ class Bericht
     }
 
     /**
+     * Set adviceEs
+     *
+     * @param string $adviceEs
+     *
+     * @return Bericht
+     */
+    public function setAdviceEs($adviceEs)
+    {
+        $this->advice_es = $adviceEs;
+
+        return $this;
+    }
+
+    /**
+     * Get adviceEs
+     *
+     * @return string
+     */
+    public function getAdviceEs()
+    {
+        return $this->advice_es;
+    }
+
+    /**
      * Set titleFr
      *
      * @param string $titleFr
@@ -419,6 +464,30 @@ class Bericht
     public function getTitleFr()
     {
         return $this->title_fr;
+    }
+
+    /**
+     * Set titleEs
+     *
+     * @param string $titleEs
+     *
+     * @return Bericht
+     */
+    public function setTitleEs($titleEs)
+    {
+        $this->title_es = $titleEs;
+
+        return $this;
+    }
+
+    /**
+     * Get titleEs
+     *
+     * @return string
+     */
+    public function getTitleEs()
+    {
+        return $this->title_es;
     }
 
     /**
@@ -515,6 +584,30 @@ class Bericht
     public function getBodyDe()
     {
         return $this->body_de;
+    }
+
+    /**
+     * Set bodyEs
+     *
+     * @param string $bodyEs
+     *
+     * @return Bericht
+     */
+    public function setBodyEs($bodyEs)
+    {
+        $this->body_es = $bodyEs;
+
+        return $this;
+    }
+
+    /**
+     * Get bodyEs
+     *
+     * @return string
+     */
+    public function getBodyEs()
+    {
+        return $this->body_es;
     }
 
     /**
@@ -877,18 +970,6 @@ class Bericht
         return $this->sms_send;
     }
 
-    public function getStatus()
-    {
-        $today = new \DateTime();
-        $today->setTime(0,0,0);
-        if ($this->getEndDate() < $today) {
-            return 'archived';
-        } else if ($this->getStartDate() > $today) {
-            return 'scheduled';
-        }
-        return 'active';
-    }
-
     /**
      * Set imageId
      *
@@ -911,5 +992,18 @@ class Bericht
     public function getImageId()
     {
         return $this->imageId;
+    }
+
+
+    public function getStatus()
+    {
+        $today = new \DateTime();
+        $today->setTime(0,0,0);
+        if ($this->getEndDate() < $today) {
+            return 'archived';
+        } else if ($this->getStartDate() > $today) {
+            return 'scheduled';
+        }
+        return 'active';
     }
 }

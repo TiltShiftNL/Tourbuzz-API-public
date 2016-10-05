@@ -117,6 +117,9 @@ class BerichtenController extends Controller {
         $bericht->setTitleEn($post['title_en']);
         $bericht->setBodyEn($post['body_en']);
         $bericht->setAdviceEn($post['advice_en']);
+        $bericht->setTitleEs($post['title_es']);
+        $bericht->setBodyEs($post['body_es']);
+        $bericht->setAdviceEs($post['advice_es']);
         $bericht->setTitleDe($post['title_de']);
         $bericht->setBodyDe($post['body_de']);
         $bericht->setAdviceDe($post['advice_de']);
