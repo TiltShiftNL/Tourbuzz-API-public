@@ -1,11 +1,15 @@
-Dear {% if null != naam %}{{ naam }}{% else %}Sir/Madam{% endif %},
+Dear{% if null != naam %} {{ naam }}{% endif %},
 
-These are the noteworthy events in the coming two weeks.
-
-{% for bericht in berichten %}
-    {{ bericht.startDate|date('d-m-Y') }} - {{ bericht.endDate|date('d-m-Y') }} {{ bericht.titleEn }}
+Today
+-------
+{% for record in berichten %}
+{{ record.startDate|date('d-m-Y') }} utai {{ record.endDate|date('d-m-Y') }} - {{ record.title }} https://www.tourbuzz.nl/bericht/{{ record.id }}
 {% endfor %}
 
-You can't respond to this message.
-
-Tour Buzz
+{% for datum, bericht in sortedByDate %}
+{{ datum }}
+-----------
+{% for record in bericht %}
+{{ record.title }} https://www.tourbuzz.nl/bericht/{{ record.id }}
+{% endfor %}
+{% endfor %}

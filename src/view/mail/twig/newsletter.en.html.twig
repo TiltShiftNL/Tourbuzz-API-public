@@ -1,13 +1,23 @@
-<h1>Dear {% if null != naam %}{{ naam }}{% else %}Sir/Madam{% endif %},</h1>
+{% extends 'newsletter.base.html.twig' %}
 
-<img src="{{ image }}" alt="Amsterdam logo">
+{% block message %}
+<p>Dear{% if null != naam %} {{ naam }}{% endif %},</p>
 
-These are the noteworthy events in the comming two weeks.
-
-{% for bericht in berichten %}
-{{ bericht.startDate|date('d-m-Y') }} - {{ bericht.endDate|date('d-m-Y') }} {{ bericht.titleEn }}
+<h3>Today</h3>
+{% for record in berichten %}
+<a href="https://www.tourbuzz.nl/bericht/{{ record.id }}" style="color: #333">{{ record.title }}</a> <span style="color: #aaa;font-size:12px"> utai {{ record.endDate|date('d-m-Y') }} </span><br>
 {% endfor %}
 
-You can't respond to this message.
+{% for datum, bericht in sortedByDate %}
+<h3 style="margin-bottom: 0">{{ datum }}</h3>
+{% for record in bericht %}
+<a href="https://www.tourbuzz.nl/bericht/{{ record.id }}" style="color: #333">{{ record.title }}</a> <span style="color: #aaa;font-size:12px"> utai {{ record.endDate|date('d-m-Y') }} </span><br>
+{% endfor %}
+{% endfor %}
 
-Tourbuzz.nl
+{% endblock %}
+
+{% block footer %}
+<p>Want to unsubscribe? Click <a href="https://www.tourbuzz.nl/berichtenservice-afmelden">here</a></p>
+<img style="width: 150px" src="{{ image }}" alt="Amsterdam logo">
+{% endblock %}

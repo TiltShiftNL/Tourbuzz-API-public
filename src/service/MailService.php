@@ -205,6 +205,9 @@ class MailService {
 
         $settings = $this->ci->get('settings');
         $now = new \DateTime();
+
+        //die(var_dump($sortedByDate));
+
         foreach ($mails as $mail) {
             $newsletter = new NewsletterMail($mail, $this->ci->get('mailView'), $berichten, $sortedByDate, $settings);
             $newsletter->send();

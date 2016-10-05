@@ -3,15 +3,15 @@
 {% block message %}
 <p>Geachte{% if null != naam %} {{ naam }}{% endif %},</p>
 
-<h3>Berichten</h3>
-{% for bericht in berichten %}
-{{ bericht.startDate|date('d-m-Y') }} - {{ bericht.title }} <span style="color: #ccc;font-size:12px"> t/m {{ bericht.endDate|date('d-m-Y') }} </span><br>
+<h3>Vandaag</h3>
+{% for record in berichten %}
+<a href="https://www.tourbuzz.nl/bericht/{{ record.id }}" style="color: #333">{{ record.title }}</a> <span style="color: #aaa;font-size:12px"> t/m {{ record.endDate|date('d-m-Y') }} </span><br>
 {% endfor %}
 
-{% for datum, bericht in sortedbydate %}
-<h2>{{ datum }}</h2>
+{% for datum, bericht in sortedByDate %}
+<h3 style="margin-bottom: 0">{{ datum }}</h3>
 {% for record in bericht %}
-{{ record.startDate|date('d-m-Y') }} - {{ record.title }} <span style="color: #ccc;font-size:12px"> t/m {{ record.endDate|date('d-m-Y') }} </span><br>
+<a href="https://www.tourbuzz.nl/bericht/{{ record.id }}" style="color: #333">{{ record.title }}</a> <span style="color: #aaa;font-size:12px"> t/m {{ record.endDate|date('d-m-Y') }} </span><br>
 {% endfor %}
 {% endfor %}
 

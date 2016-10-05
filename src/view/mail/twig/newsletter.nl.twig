@@ -1,11 +1,15 @@
 Geachte{% if null != naam %} {{ naam }}{% endif %},
 
-Hierbij de merkwaardigheden voor de komende twee weken.
-
-{% for bericht in berichten %}
-    {{ bericht.startDate|date('d-m-Y') }} - {{ bericht.endDate|date('d-m-Y') }} {{ bericht.title }}
+Vandaag
+-------
+{% for record in berichten %}
+{{ record.startDate|date('d-m-Y') }} t/m {{ record.endDate|date('d-m-Y') }} - {{ record.title }} https://www.tourbuzz.nl/bericht/{{ record.id }}
 {% endfor %}
 
-Groet,
-
-Tourbuzz.nl
+{% for datum, bericht in sortedByDate %}
+{{ datum }}
+-----------
+{% for record in bericht %}
+{{ record.title }} https://www.tourbuzz.nl/bericht/{{ record.id }}
+{% endfor %}
+{% endfor %}
