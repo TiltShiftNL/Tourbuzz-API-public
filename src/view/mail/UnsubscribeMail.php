@@ -26,6 +26,12 @@ class UnsubscribeMail {
             case 'en':
                 $params = $this->getEnParams();
                 break;
+            case 'de':
+                $params = $this->getDeParams();
+                break;
+            case 'es':
+                $params = $this->getEsParams();
+                break;
             default:
                 $params = $this->getNlParams();
                 break;
@@ -75,6 +81,50 @@ EOT;
     }
 
     protected function getEnParams() {
+        $params = [];
+        $params['subject'] = 'Cancel Tour Buzz message service';
+        $params['from']    = 'Tour Buzz';
+
+        $naam = null !== $this->mail->getName() ? $this->mail->getName() : 'Sir / Madam';
+        $link = $this->settings['mailUnsubscribeUrl'] . $this->mail->getUnsubscribeUUID();
+        $params['body']    = <<<EOT
+Dear $naam,
+
+Click on the link below to cancel your subscription on the Tour Buzz message service.
+
+$link
+
+You can't respond to this message.
+
+Tour Buzz
+
+EOT;
+        return $params;
+    }
+
+    protected function getDeParams() {
+        $params = [];
+        $params['subject'] = 'Cancel Tour Buzz message service';
+        $params['from']    = 'Tour Buzz';
+
+        $naam = null !== $this->mail->getName() ? $this->mail->getName() : 'Sir / Madam';
+        $link = $this->settings['mailUnsubscribeUrl'] . $this->mail->getUnsubscribeUUID();
+        $params['body']    = <<<EOT
+Dear $naam,
+
+Click on the link below to cancel your subscription on the Tour Buzz message service.
+
+$link
+
+You can't respond to this message.
+
+Tour Buzz
+
+EOT;
+        return $params;
+    }
+
+    protected function getEsParams() {
         $params = [];
         $params['subject'] = 'Cancel Tour Buzz message service';
         $params['from']    = 'Tour Buzz';

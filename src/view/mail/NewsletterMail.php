@@ -63,6 +63,12 @@ class NewsletterMail {
             case 'en':
                 list($message, $params) = $this->getEnParams($message);
                 break;
+            case 'de':
+                list($message, $params) = $this->getDeParams($message);
+                break;
+            case 'es':
+                list($message, $params) = $this->getEsParams($message);
+                break;
             default:
                 list($message, $params) = $this->getNlParams($message);
                 break;
@@ -124,6 +130,60 @@ class NewsletterMail {
 
         $response = new Response();
         $params['body'] = $this->view->render($response, 'newsletter.en.html.twig',
+            [
+                'naam'         => $this->mail->getName(),
+                'berichten'    => $this->berichten,
+                'sortedByDate' => $this->sortedByDate,
+                'image'        => $message->embed(\Swift_Image::fromPath('src/view/mail/images/GASD_1.png')->setDisposition('inline'))
+            ]);
+        return [$message, $params];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getDeParams($message) {
+        $params = [];
+        $params['subject'] = 'Tour Buzz messageservice';
+        $params['from']    = 'Tourbuzz.nl';
+
+        $response = new Response();
+        $params['part'] = $this->view->render($response, 'newsletter.de.twig',
+            [
+                'naam'         => $this->mail->getName(),
+                'berichten'    => $this->berichten,
+                'sortedByDate' => $this->sortedByDate
+            ]);
+
+        $response = new Response();
+        $params['body'] = $this->view->render($response, 'newsletter.de.html.twig',
+            [
+                'naam'         => $this->mail->getName(),
+                'berichten'    => $this->berichten,
+                'sortedByDate' => $this->sortedByDate,
+                'image'        => $message->embed(\Swift_Image::fromPath('src/view/mail/images/GASD_1.png')->setDisposition('inline'))
+            ]);
+        return [$message, $params];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getEsParams($message) {
+        $params = [];
+        $params['subject'] = 'Tour Buzz messageservice';
+        $params['from']    = 'Tourbuzz.nl';
+
+        $response = new Response();
+        $params['part'] = $this->view->render($response, 'newsletter.es.twig',
+            [
+                'naam'         => $this->mail->getName(),
+                'berichten'    => $this->berichten,
+                'sortedByDate' => $this->sortedByDate
+            ]);
+
+        $response = new Response();
+        $params['body'] = $this->view->render($response, 'newsletter.es.html.twig',
             [
                 'naam'         => $this->mail->getName(),
                 'berichten'    => $this->berichten,
