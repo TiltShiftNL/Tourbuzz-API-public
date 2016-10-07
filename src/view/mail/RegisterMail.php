@@ -90,11 +90,13 @@ EOT;
         $params['body']    = <<<EOT
 Dear $naam,
 
-Click on the link below to confirm your subscription on the tourbuzz.nl newsletter.
+Click on the link below to confirm your Tour Buzz message service subscription.
 
 $link
 
-You can't respond to this message.
+You can't reply to this message.
+
+Best regards,
 
 Tour Buzz
 
@@ -104,19 +106,21 @@ EOT;
 
     protected function getDeParams() {
         $params = [];
-        $params['subject'] = 'Confirm Tour Buzz message service';
+        $params['subject'] = 'Bestätigen Sie Ihre Tour Buzz nachrichten';
         $params['from']    = 'Tour Buzz';
 
         $naam = null !== $this->mail->getName() ? $this->mail->getName() : 'Sir / Madam';
         $link = $this->settings['mailConfirmUrl'] . $this->mail->getConfirmUUID();
         $params['body']    = <<<EOT
-Dear $naam,
+Beste $naam,
 
-Click on the link below to confirm your subscription on the tourbuzz.nl newsletter.
+Klicken Sie auf den Link unten, um Anmeldung für die Tour Buzz nachrichten zu bestätigen.
 
 $link
 
-You can't respond to this message.
+Dieser E-Mail können Sie nicht antworten.
+
+Mit freundlichen Grüßen,
 
 Tour Buzz
 
