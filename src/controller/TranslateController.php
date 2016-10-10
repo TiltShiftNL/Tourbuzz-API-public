@@ -14,7 +14,7 @@ class TranslateController extends Controller {
             return $r;
         }
 
-        if (!in_array(strtolower($args['lang']),['en','es','de','dr'])) {
+        if (!in_array(strtolower($args['lang']),['en','es','de','fr'])) {
             $response = $response
                 ->withStatus(406)
                 ->withJson(['error' => 'Unsupported language']);
