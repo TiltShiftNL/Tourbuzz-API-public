@@ -35,11 +35,6 @@ return [
         'haltesUrl'              => 'http://open.datapunt.amsterdam.nl/ivv/touringcar/in_uitstaphaltes.json',
         'messagesUrl'            => 'http://tourapi.b.nl/berichten/' . date("Y/m/d"),
         'parkeerUrl'             => 'http://open.datapunt.amsterdam.nl/ivv/touringcar/parkeerplaatsen.json',
-        'smtpServer'             => 'smtp.gmail.com',
-        'smtpPort'               => 587,
-        'smtpUsername'           => 'mail',
-        'smtpPassword'           => 'password',
-        'smtpEncryption'         => 'tls',
         'wachtwoordVergetenUrl'  => 'http://tour.b.nl/wachtwoordvergeten/',
         'mailConfirmUrl'         => 'http://tour.b.nl/mailbevestigen/',
         'mailUnsubscribeUrl'     => 'http://tour.b.nl/mailannuleren/',
@@ -49,6 +44,8 @@ return [
         'imageStoreRootPath'     => 'images/',
         'imageStoreExternalPath' => 'http://tourapi.b.nl/images/',
         'imageResizeUrl'         => 'http://tourapi.b.nl/afbeeldingen/',
-        'translateApiKey'        => 'placeholder'
+        'translateApiKey'        => 'placeholder',
+        'fromMail'               => 'noreply@tourbuzz.nl',
+        'sendgridApiKey'         => 'placeholder'
     ]
 ];

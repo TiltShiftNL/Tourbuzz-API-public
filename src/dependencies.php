@@ -50,7 +50,8 @@ $container['imageStore'] = function ($c) {
 
 // Cache disabled, no need because it's only used for mailing, it can take the time it needs
 $container['mailView'] = function ($container) {
-    $view = new \Slim\Views\Twig('src/view/mail/twig', [
+    $path = 'cli' === php_sapi_name() ? 'src/view/mail/twig' : '../src/view/mail/twig';
+    $view = new \Slim\Views\Twig($path, [
         'cache' => false,
         'debug' => true
     ]);

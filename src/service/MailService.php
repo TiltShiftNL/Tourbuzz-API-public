@@ -77,7 +77,7 @@ class MailService {
 
         $settings = $this->ci->get('settings');
 
-        $registerMail = new RegisterMail($obj, $settings);
+        $registerMail = new RegisterMail($obj, $settings, $this->ci->get('mailView'));
 
         $registerMail->send();
         return true;
@@ -131,7 +131,7 @@ class MailService {
 
         $settings = $this->ci->get('settings');
 
-        $unsubscribeMail = new UnsubscribeMail($obj, $settings);
+        $unsubscribeMail = new UnsubscribeMail($obj, $settings, $this->ci->get('mailView'));
 
         $unsubscribeMail->send();
         return true;

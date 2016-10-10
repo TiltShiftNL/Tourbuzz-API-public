@@ -2,7 +2,9 @@
 
 namespace App\View\Mail;
 
+use App\Custom\Response;
 use App\Entity\Mail;
+use Slim\Views\Twig;
 
 class UnsubscribeMail {
 
@@ -16,9 +18,21 @@ class UnsubscribeMail {
      */
     protected $settings;
 
-    public function __construct(Mail $mail, $settings) {
+    /**
+     * @var Twig
+     */
+    protected $view;
+
+    /**
+     * UnsubscribeMail constructor.
+     * @param Mail $mail
+     * @param $settings
+     * @param $view
+     */
+    public function __construct(Mail $mail, $settings, $view) {
         $this->mail     = $mail;
         $this->settings = $settings;
+        $this->view     = $view;
     }
 
     public function send() {
@@ -42,18 +56,19 @@ class UnsubscribeMail {
     }
 
     protected function sendMail($params) {
-        $transport = \Swift_SmtpTransport::newInstance($this->settings['smtpServer'], $this->settings['smtpPort'], $this->settings['smtpEncryption'])
-            ->setUsername($this->settings['smtpUsername'])
-            ->setPassword($this->settings['smtpPassword']);
-        $mailer = \Swift_Mailer::newInstance($transport);
+        $from = new \SendGrid\Email('Tour Buzz', $this->settings['fromMail']);
+        $to = new \SendGrid\Email($this->mail->getName(), $this->mail->getMail());
 
-        $message = \Swift_Message::newInstance($params['subject'])
-            ->setFrom([$this->settings['smtpUsername'] => $params['from']])
-            ->setTo([$this->mail->getMail()])
-            ->setBody($params['body'])
-        ;
+        $content = new \SendGrid\Content("text/plain", $params['body']);
 
-        $mailer->send($message);
+        $mail = new \SendGrid\Mail(
+            $from,
+            $params['subject'],
+            $to,
+            $content);
+
+        $sg = new \SendGrid($this->settings['sendgridApiKey']);
+        $response = $sg->client->mail()->send()->post($mail);
     }
 
     protected function getNlParams() {
@@ -63,20 +78,12 @@ class UnsubscribeMail {
 
         $naam = null !== $this->mail->getName() ? ' ' . $this->mail->getName() : '';
         $link = $this->settings['mailUnsubscribeUrl'] . $this->mail->getUnsubscribeUUID();
-        $params['body']    = <<<EOT
-Geachte $naam,
-
-Klik op de onderstaande link om uw aanmelding voor de Tour Buzz berichtenservice op te zeggen.
-
-$link
-
-Op deze mail kunt u niet reageren.
-
-Groet,
-
-Tour Buzz
-
-EOT;
+        $response = new Response();
+        $params['body'] = $this->view->render($response, 'unsubscribe.nl.twig',
+            [
+                'naam' => $naam,
+                'link' => $link
+            ])->getBody()->__toString();
         return $params;
     }
 
@@ -87,20 +94,12 @@ EOT;
 
         $naam = null !== $this->mail->getName() ? $this->mail->getName() : 'Sir / Madam';
         $link = $this->settings['mailUnsubscribeUrl'] . $this->mail->getUnsubscribeUUID();
-        $params['body']    = <<<EOT
-Dear $naam,
-
-Click on the link below to cancel your subscription on the Tour Buzz message service.
-
-$link
-
-You can't reply to this message.
-
-Best regards,
-
-Tour Buzz
-
-EOT;
+        $response = new Response();
+        $params['body'] = $this->view->render($response, 'unsubscribe.en.twig',
+            [
+                'naam' => $naam,
+                'link' => $link
+            ])->getBody()->__toString();
         return $params;
     }
 
@@ -111,20 +110,12 @@ EOT;
 
         $naam = null !== $this->mail->getName() ? $this->mail->getName() : 'Sir / Madam';
         $link = $this->settings['mailUnsubscribeUrl'] . $this->mail->getUnsubscribeUUID();
-        $params['body']    = <<<EOT
-Beste $naam,
-
-Klicken Sie auf den Link unten, um Anmeldung für die Tour Buzz nachrichten zu beenden.
-
-$link
-
-Dieser E-Mail können Sie nicht antworten.
-
-Mit freundlichen Grüßen,
-
-Tour Buzz
-
-EOT;
+        $response = new Response();
+        $params['body'] = $this->view->render($response, 'unsubscribe.de.twig',
+            [
+                'naam' => $naam,
+                'link' => $link
+            ])->getBody()->__toString();
         return $params;
     }
 
@@ -135,18 +126,12 @@ EOT;
 
         $naam = null !== $this->mail->getName() ? $this->mail->getName() : 'Sir / Madam';
         $link = $this->settings['mailUnsubscribeUrl'] . $this->mail->getUnsubscribeUUID();
-        $params['body']    = <<<EOT
-Dear $naam,
-
-Click on the link below to cancel your subscription on the Tour Buzz message service.
-
-$link
-
-You can't respond to this message.
-
-Tour Buzz
-
-EOT;
+        $response = new Response();
+        $params['body'] = $this->view->render($response, 'unsubscribe.es.twig',
+            [
+                'naam' => $naam,
+                'link' => $link
+            ])->getBody()->__toString();
         return $params;
     }
 }

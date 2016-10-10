@@ -355,19 +355,14 @@ class AuthService {
 
         $settings = $this->ci->get('settings');
 
-        $transport = \Swift_SmtpTransport::newInstance($settings['smtpServer'], $settings['smtpPort'], $settings['smtpEncryption'])
-            ->setUsername($settings['smtpUsername'])
-            ->setPassword($settings['smtpPassword']);
-        $mailer = \Swift_Mailer::newInstance($transport);
+        $mail = new ForgotPasswordMail(
+            $settings,
+            $user,
+            $settings['wachtwoordVergetenUrl'],
+            $vergetenToken->getToken(),
+            $this->ci->get('mailView'));
 
-        // Create a message
-        $message = \Swift_Message::newInstance('Wachtwoord vergeten')
-            ->setFrom([$settings['smtpUsername'] => 'Tourbuzz wachtwoord vergeten'])
-            ->setTo([$user->getMail() => $user->getUsername()])
-            ->setBody(ForgotPasswordMail::parse($settings['wachtwoordVergetenUrl'], $vergetenToken->getToken(), $user->getUsername()))
-        ;
-
-        $mailer->send($message);
+        $mail->send();
         return true;
     }
 

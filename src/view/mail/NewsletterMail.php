@@ -5,6 +5,7 @@ namespace App\View\Mail;
 use App\Custom\Response;
 use App\Entity\Bericht;
 use App\Entity\Mail;
+use SendGrid\Personalization;
 use Slim\Views\Twig;
 
 class NewsletterMail {
@@ -51,43 +52,58 @@ class NewsletterMail {
     }
 
     public function send() {
-
-        $transport = \Swift_SmtpTransport::newInstance($this->settings['smtpServer'], $this->settings['smtpPort'], $this->settings['smtpEncryption'])
-            ->setUsername($this->settings['smtpUsername'])
-            ->setPassword($this->settings['smtpPassword']);
-        $mailer = \Swift_Mailer::newInstance($transport);
-
-        $message = \Swift_Message::newInstance();
-
         switch ($this->mail->getLanguage()) {
             case 'en':
-                list($message, $params) = $this->getEnParams($message);
+                $params = $this->getEnParams();
                 break;
             case 'de':
-                list($message, $params) = $this->getDeParams($message);
+                $params = $this->getDeParams();
                 break;
             case 'es':
-                list($message, $params) = $this->getEsParams($message);
+                $params = $this->getEsParams();
                 break;
             default:
-                list($message, $params) = $this->getNlParams($message);
+                $params = $this->getNlParams();
                 break;
 
         }
 
-        $message->setSubject($params['subject'])
-                ->setFrom([$this->settings['smtpUsername'] => $params['from']])
-                ->setTo([$this->mail->getMail()])
-                ->setBody($params['body'], 'text/html')
-                ->addPart($params['part'], 'text/plain');
+        $from = new \SendGrid\Email($params['from'], $this->settings['fromMail']);
 
-        $mailer->send($message);
+        $to = new \SendGrid\Email($this->mail->getName(), $this->mail->getMail());
+
+
+        $mail = new \SendGrid\Mail();
+        $mail->setFrom($from);
+        $mail->setSubject($params['subject']);
+        $personalization = new Personalization();
+        $personalization->addTo($to);
+        $mail->addPersonalization($personalization);
+
+        $plainContent = new \SendGrid\Content("text/plain", $params['part']);
+        $htmlContent = new \SendGrid\Content("text/html", $params['body']);
+        $mail->addContent($plainContent);
+        $mail->addContent($htmlContent);
+
+        $attachment = new \Sendgrid\Attachment();
+        $attachment->setContent(base64_encode(file_get_contents('src/view/mail/images/GASD_1.png')));
+        $attachment->setType('png');
+        $attachment->setFilename('GASD_1.png');
+        $attachment->setDisposition('inline');
+        $attachment->setContentID('logo-cid');
+
+
+        $mail->addAttachment($attachment);
+
+        $sg = new \SendGrid($this->settings['sendgridApiKey']);
+
+        $response = $sg->client->mail()->send()->post($mail);
     }
 
     /**
      * @return array
      */
-    protected function getNlParams(\Swift_Message $message) {
+    protected function getNlParams() {
         $params = [];
         $params['subject'] = 'Tour Buzz Berichtenservice';
         $params['from']    = 'Tour Buzz';
@@ -98,24 +114,23 @@ class NewsletterMail {
                 'naam'         => $this->mail->getName(),
                 'berichten'    => $this->berichten,
                 'sortedByDate' => $this->sortedByDate
-            ]);
+            ])->getBody()->__toString();
 
         $response = new Response();
         $params['body'] = $this->view->render($response, 'newsletter.nl.html.twig',
             [
                 'naam'         => $this->mail->getName(),
                 'berichten'    => $this->berichten,
-                'sortedByDate' => $this->sortedByDate,
-                'image'        => $message->embed(\Swift_Image::fromPath('src/view/mail/images/GASD_1.png')->setDisposition('inline'))
-            ]);
+                'sortedByDate' => $this->sortedByDate
+            ])->getBody()->__toString();
 
-        return[$message, $params];
+        return $params;
     }
 
     /**
      * @return array
      */
-    protected function getEnParams($message) {
+    protected function getEnParams() {
         $params = [];
         $params['subject'] = 'Tour Buzz messageservice';
         $params['from']    = 'Tourbuzz.nl';
@@ -126,23 +141,22 @@ class NewsletterMail {
                 'naam'         => $this->mail->getName(),
                 'berichten'    => $this->berichten,
                 'sortedByDate' => $this->sortedByDate
-            ]);
+            ])->getBody()->__toString();
 
         $response = new Response();
         $params['body'] = $this->view->render($response, 'newsletter.en.html.twig',
             [
                 'naam'         => $this->mail->getName(),
                 'berichten'    => $this->berichten,
-                'sortedByDate' => $this->sortedByDate,
-                'image'        => $message->embed(\Swift_Image::fromPath('src/view/mail/images/GASD_1.png')->setDisposition('inline'))
-            ]);
-        return [$message, $params];
+                'sortedByDate' => $this->sortedByDate
+            ])->getBody()->__toString();
+        return $params;
     }
 
     /**
      * @return array
      */
-    protected function getDeParams($message) {
+    protected function getDeParams() {
         $params = [];
         $params['subject'] = 'Tour Buzz messageservice';
         $params['from']    = 'Tourbuzz.nl';
@@ -153,23 +167,22 @@ class NewsletterMail {
                 'naam'         => $this->mail->getName(),
                 'berichten'    => $this->berichten,
                 'sortedByDate' => $this->sortedByDate
-            ]);
+            ])->getBody()->__toString();
 
         $response = new Response();
         $params['body'] = $this->view->render($response, 'newsletter.de.html.twig',
             [
                 'naam'         => $this->mail->getName(),
                 'berichten'    => $this->berichten,
-                'sortedByDate' => $this->sortedByDate,
-                'image'        => $message->embed(\Swift_Image::fromPath('src/view/mail/images/GASD_1.png')->setDisposition('inline'))
-            ]);
-        return [$message, $params];
+                'sortedByDate' => $this->sortedByDate
+            ])->getBody()->__toString();
+        return $params;
     }
 
     /**
      * @return array
      */
-    protected function getEsParams($message) {
+    protected function getEsParams() {
         $params = [];
         $params['subject'] = 'Tour Buzz messageservice';
         $params['from']    = 'Tourbuzz.nl';
@@ -180,16 +193,15 @@ class NewsletterMail {
                 'naam'         => $this->mail->getName(),
                 'berichten'    => $this->berichten,
                 'sortedByDate' => $this->sortedByDate
-            ]);
+            ])->getBody()->__toString();
 
         $response = new Response();
         $params['body'] = $this->view->render($response, 'newsletter.es.html.twig',
             [
                 'naam'         => $this->mail->getName(),
                 'berichten'    => $this->berichten,
-                'sortedByDate' => $this->sortedByDate,
-                'image'        => $message->embed(\Swift_Image::fromPath('src/view/mail/images/GASD_1.png')->setDisposition('inline'))
-            ]);
-        return [$message, $params];
+                'sortedByDate' => $this->sortedByDate
+            ])->getBody()->__toString();
+        return $params;
     }
 }
