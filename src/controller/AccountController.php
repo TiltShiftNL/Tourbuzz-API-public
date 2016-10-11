@@ -23,8 +23,10 @@ class AccountController extends Controller {
             return $response;
         }
 
+        $create_notifications = !isset($post['create_notifications']) && true === $post['create_notifications'] ? true : false;
+
         try {
-            $this->authService->create($post['username'], $post['password'], $post['mail']);
+            $this->authService->create($post['username'], $post['password'], $post['mail'], $create_notifications);
         } catch (UsernameExistsException $e) {
             $response = $response->withJson(['error' => 'username exists'])->withStatus(409);
             return $response;
@@ -81,10 +83,11 @@ class AccountController extends Controller {
             return $response;
         }
 
+        $create_notifications = !isset($post['create_notifications']) && true === $post['create_notifications'] ? true : false;
         $password = isset($post['password']) ? $post['password'] : null;
 
         try {
-            $this->authService->update($post['username'], $password, $post['mail']);
+            $this->authService->update($post['username'], $password, $post['mail'], $create_notifications);
         } catch (UnknownCredentialsException $e) {
             $response = $response->withJson(['error' => 'Unknown user'])->withStatus(409);
             return $response;

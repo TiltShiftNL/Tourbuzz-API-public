@@ -51,6 +51,13 @@ class User
     private $salt;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="create_notifications", type="boolean", precision=0, scale=0, nullable=false, unique=false)
+     */
+    private $createNotifications;
+
+    /**
      * @var \App\Entity\Token
      *
      * @ORM\OneToOne(targetEntity="App\Entity\Token", inversedBy="user")
@@ -175,6 +182,30 @@ class User
     public function getSalt()
     {
         return $this->salt;
+    }
+
+    /**
+     * Set createNotifications
+     *
+     * @param boolean $createNotifications
+     *
+     * @return User
+     */
+    public function setCreateNotifications($createNotifications)
+    {
+        $this->createNotifications = $createNotifications;
+
+        return $this;
+    }
+
+    /**
+     * Get createNotifications
+     *
+     * @return boolean
+     */
+    public function getCreateNotifications()
+    {
+        return $this->createNotifications;
     }
 
     /**

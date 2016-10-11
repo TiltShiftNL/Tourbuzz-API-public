@@ -129,7 +129,7 @@ class AuthService {
      * @throws InvalidCredentialsException
      *
      */
-    public function create($username, $password, $mail = null) {
+    public function create($username, $password, $mail = null, $createNotifications = false) {
 
         if (strlen($username) < 2 || strlen($password) < 8) {
             throw new InvalidCredentialsException();
@@ -144,6 +144,7 @@ class AuthService {
         $user->setUsername($username);
         $this->setPassword($user, $password);
         $user->setMail($mail);
+        $user->setCreateNotifications($createNotifications);
 
         $this->em->persist($user);
         $this->em->flush();
@@ -158,7 +159,7 @@ class AuthService {
      * @throws InvalidCredentialsException
      *
      */
-    public function update($username, $password, $mail)
+    public function update($username, $password, $mail, $createNotifications)
     {
         if (strlen($username) < 2 || strlen($password) < 8) {
             throw new InvalidCredentialsException();
@@ -177,6 +178,7 @@ class AuthService {
         }
 
         $user->setMail($mail);
+        $user->setCreateNotifications($createNotifications);
 
         $this->em->flush();
         return $user;
