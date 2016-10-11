@@ -10,9 +10,10 @@ class UserMapper {
     {
         $object = new \stdClass();
 
-        $object->id       = $user->getId();
-        $object->username = $user->getUsername();
-        $object->mail     = $user->getMail();
+        $object->id                   = $user->getId();
+        $object->username             = $user->getUsername();
+        $object->mail                 = $user->getMail();
+        $object->create_notifications = $user->getCreateNotifications();
         return $object;
     }
 
