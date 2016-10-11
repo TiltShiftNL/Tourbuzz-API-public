@@ -48,12 +48,6 @@ $telefoon = [];
 
 $settings = $app->getContainer()->get('settings');
 
-// Your Account Sid and Auth Token from twilio.com/user/account
-$client = new \Twilio\Rest\Client(
-    $settings['twilioSid'],
-    $settings['twilioToken']
-);
-
 $client = new \MessageBird\Client($settings['messagebirdApiKey']);
 
 foreach ($telefoonUnsorted as $tel) {
