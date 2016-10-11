@@ -1,0 +1,13 @@
+web:
+  image: nginx:latest
+  ports:
+    - "80:80"
+  volumes:
+    - ./:/var/www/html/api
+    - ./Docker/nginx_api.conf:/etc/nginx/conf.d/site.conf
+  links:
+    - php
+php:
+  image: php:7-fpm
+  volumes:
+    - ./:/var/www/html/api
