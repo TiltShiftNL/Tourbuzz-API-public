@@ -162,8 +162,10 @@ class BerichtenController extends Controller {
             $view       = $this->ci->get('mailView');
 
             foreach ($users as $user) {
-                $mail = new CreateBerichtMail($settings, $user, $bericht, $createUser, $view);
-                $mail->send();
+                if ($user->getId() !== $createUser->getId()) {
+                    $mail = new CreateBerichtMail($settings, $user, $bericht, $createUser, $view);
+                    $mail->send();
+                }
             }
         }
 
