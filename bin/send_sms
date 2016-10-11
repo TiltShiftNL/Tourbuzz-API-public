@@ -54,6 +54,8 @@ $client = new \Twilio\Rest\Client(
     $settings['twilioToken']
 );
 
+$client = new \MessageBird\Client($settings['messagebirdApiKey']);
+
 foreach ($telefoonUnsorted as $tel) {
     if (!isset($telefoon[$tel->getLanguage()])) {
         $telefoon[$tel->getLanguage()] = [];
@@ -67,13 +69,13 @@ foreach ($berichten as $bericht) {
     $em->flush();
 
     foreach ($telefoon as $lang => $numbers) {
-        sendSms($bericht, $lang, $numbers, $em, $client, $settings);
+        sendSms($bericht, $lang, $numbers, $em, $client);
     }
     $em->flush();
 }
 
 
-function sendSms(\App\Entity\Bericht $bericht, $lang, $numbers, $em, $client, $settings) {
+function sendSms(\App\Entity\Bericht $bericht, $lang, $numbers, $em, $client) {
     /**
      * @var \App\Entity\Telefoon[] $numbers
      * @var \Doctrine\ORM\EntityManager $em
@@ -106,12 +108,11 @@ function sendSms(\App\Entity\Bericht $bericht, $lang, $numbers, $em, $client, $s
         $em->persist($sms);
 
         echo "Sending SMS to: " . $number->getNumber() . ' with: ' . $message . "\n";
-        $client->messages->create(
-            $number->getNumber(),
-            array(
-                'from' => $settings['twilioFromNumber'],
-                'body' => $message . ' http://tourbuzz.nl/s/' . base_convert($bericht->getId(), 10, 36)
-            )
-        );
+        $m = new \MessageBird\Objects\Message();
+        $m->originator = 'Tourbuzz';
+        $m->recipients = array($number->getNumber());
+        $m->body = $message . ' http://tourbuzz.nl/s/' . base_convert($bericht->getId(), 10, 36);
+
+        $client->messages->create($m);
     }
 }

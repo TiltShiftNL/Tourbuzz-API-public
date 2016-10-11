@@ -46,6 +46,7 @@ return [
         'imageResizeUrl'         => 'http://tourapi.b.nl/afbeeldingen/',
         'translateApiKey'        => 'placeholder',
         'fromMail'               => 'noreply@tourbuzz.nl',
-        'sendgridApiKey'         => 'placeholder'
+        'sendgridApiKey'         => 'placeholder',
+        'messagebirdApiKey'      => 'placeholder'
     ]
 ];

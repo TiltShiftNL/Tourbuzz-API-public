@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "124be41ea597a900997b8402038b9051",
-    "content-hash": "d9e389cf0351cb4ef47bf894ed866139",
+    "hash": "63a1feb624562ea998c1688c01208a0f",
+    "content-hash": "80b1524c5dfd9e8c39cc937b3daf0fa0",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -938,6 +938,47 @@
                 "watermark"
             ],
             "time": "2016-09-01 17:04:03"
+        },
+        {
+            "name": "messagebird/php-rest-api",
+            "version": "v1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/messagebird/php-rest-api.git",
+                "reference": "9559fcd367cc02e281736df68a933be49fefd090"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/messagebird/php-rest-api/zipball/9559fcd367cc02e281736df68a933be49fefd090",
+                "reference": "9559fcd367cc02e281736df68a933be49fefd090",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MessageBird\\": "src/MessageBird/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "MessageBird",
+                    "email": "info@messagebird.com"
+                }
+            ],
+            "description": "MessageBird REST API client for PHP",
+            "homepage": "https://github.com/messagebird/php-rest-api",
+            "time": "2016-09-29 08:40:53"
         },
         {
             "name": "monolog/monolog",
