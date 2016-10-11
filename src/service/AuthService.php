@@ -248,6 +248,7 @@ class AuthService {
         if (null === $token) {
             throw new NotAuthenticatedException();
         }
+        return $token;
     }
 
     /**

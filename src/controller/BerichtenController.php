@@ -6,6 +6,7 @@ use App\Entity\Bericht;
 use App\Entity\BerichtRepo;
 use App\Exception\NotAuthenticatedException;
 use App\Mapper\BerichtMapper;
+use App\View\Mail\CreateBerichtMail;
 use Doctrine\ORM\EntityManager;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -91,15 +92,20 @@ class BerichtenController extends Controller {
          */
         $repo = $em->getRepository('App\Entity\Bericht');
 
+
+        $sendMail = false;
+
         if (isset($post['id']) && !empty($post['id'])) {
             $bericht = $repo->findOneById($post['id']);
             if (null === $bericht) {
                 $bericht = new Bericht();
                 $em->persist($bericht);
+                $sendMail = true;
             }
         } else {
             $bericht = new Bericht();
             $em->persist($bericht);
+            $sendMail = true;
         }
 
 
@@ -144,6 +150,22 @@ class BerichtenController extends Controller {
         $em->flush();
 
         $settings = $this->ci->get('settings');
+
+        if ($sendMail) {
+            /**
+             * @var BerichtRepo $repo
+             */
+            $repo  = $em->getRepository('App\Entity\User');
+            $users = $repo->findByCreateNotifications(true);
+
+            $createUser = $this->getUser($request);
+            $view       = $this->ci->get('mailView');
+
+            foreach ($users as $user) {
+                $mail = new CreateBerichtMail($settings, $user, $bericht, $createUser, $view);
+                $mail->send();
+            }
+        }
 
         $response = $response->withJson(BerichtMapper::mapSingle($bericht, $settings['imageResizeUrl']));
         return $response;

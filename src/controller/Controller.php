@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Token;
 use App\Exception\NotAuthenticatedException;
 use App\Service\AuthService;
 use Slim\Http\Request;
@@ -41,5 +42,16 @@ class Controller {
             $response = $response->withStatus(401);
             return $response;
         }
+    }
+
+    protected function getUser(Request $request) {
+        $get = $request->getQueryParams();
+        /**
+         * @var Token $token
+         */
+
+        $token = $this->authService->requireAuthentication($get['token']);
+
+        return $token->getUser();
     }
 }
