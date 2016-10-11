@@ -31,30 +31,7 @@ class TranslateController extends Controller {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $uri . urlencode($args['string']));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        //$json = curl_exec($ch);
-//        $json = '{
-// "error": {
-//  "errors": [
-//   {
-//    "domain": "usageLimits",
-//    "reason": "keyInvalid",
-//    "message": "Bad Request"
-//   }
-//  ],
-//  "code": 400,
-//  "message": "Bad Request"
-// }
-//}';
-
-        $json = '{
-  "data": {
-    "translations": [
-      {
-        "translatedText": "Bonjour le monde"
-      }
-    ]
-  }
-}';
+        $json = curl_exec($ch);
         curl_close($ch);
 
         $obj = json_decode($json);
