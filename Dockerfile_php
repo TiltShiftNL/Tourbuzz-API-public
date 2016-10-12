@@ -1,0 +1,16 @@
+FROM php:7-fpm
+ADD ./Docker/id_rsa /root/.ssh/id_rsa
+ADD ./Docker/id_rsa.pub /root/.ssh/id_rsa.pub
+RUN chmod 600 /root/.ssh/id_rsa
+
+RUN apt-get update \
+ && apt-get clean \
+ && apt-get install -y curl git vim wget cron zlib1g-dev \
+ && docker-php-ext-install zip
+RUN if [ ! -f composer.phar ]; then wget https://getcomposer.org/composer.phar; fi
+RUN php composer.phar selfupdate
+RUN if [ ! -f /var/www/html/api ]; then mkdir -p /var/www/html/api/ ; fi
+RUN ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
+RUN if [ ! -f /var/www/html/api/composer.json ]; then git clone git@github.com:TiltShiftNL/Tourbuzz-API.git /var/www/html/api/ ; fi
+ADD ./Docker/settings.php /var/www/html/api/src/settings.php
+RUN php composer.phar install -d /var/www/html/api/
