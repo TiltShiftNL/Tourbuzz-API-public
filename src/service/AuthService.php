@@ -101,13 +101,10 @@ class AuthService {
             throw new UnknownCredentialsException();
         }
 
-        $token = $user->getToken();
-        if (null === $token) {
-            $token = new Token();
-            $token->setUser($user);
-            $user->setToken($token);
-            $this->em->persist($token);
-        }
+        $token = new Token();
+        $token->setUser($user);
+        $user->addToken($token);
+        $this->em->persist($token);
 
         $uuid = Uuid::uuid4();
         $token->setToken($uuid->toString());
@@ -257,7 +254,7 @@ class AuthService {
      */
     public function deleteToken(Token $token) {
         $user = $token->getUser();
-        $user->setToken(null);
+        $user->removeToken($token);
         $token->setUser(null);
         $this->em->remove($token);
         $this->em->flush();
@@ -290,9 +287,9 @@ class AuthService {
             throw new UnknownCredentialsException();
         }
 
-        $token = $user->getToken();
-        if (null !== $token) {
-            $user->setToken(null);
+        $tokens = $user->getTokens();
+        foreach ($tokens as $token) {
+            $user->removeToken($token);
             $token->setUser(null);
             $this->em->flush();
             $this->em->remove($token);
@@ -416,5 +413,21 @@ class AuthService {
         $this->em->flush();
 
         return true;
+    }
+
+    public function cleanupTokens() {
+        $expiredBefore = new \DateTime();
+        $expiredBefore->modify('-' .$this->maxAge . ' seconds');
+        $expiredTokens = $this->tokenRepo->getExpiredTokens($expiredBefore);
+        foreach ($expiredTokens as $token) {
+            /**
+             * @var Token $token
+             */
+            $user = $token->getUser();
+            $user->removeToken($token);
+            $token->setUser(null);
+            $this->em->remove($token);
+            $this->em->flush();
+        }
     }
 }

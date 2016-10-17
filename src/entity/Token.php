@@ -39,9 +39,9 @@ class Token
     /**
      * @var \App\Entity\User
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="token")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tokens")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", unique=true, nullable=true)
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      * })
      */
     private $user;

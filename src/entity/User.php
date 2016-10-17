@@ -58,14 +58,11 @@ class User
     private $createNotifications;
 
     /**
-     * @var \App\Entity\Token
+     * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\Token", inversedBy="user")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="token_id", referencedColumnName="id", unique=true, nullable=true)
-     * })
+     * @ORM\OneToMany(targetEntity="App\Entity\Token", mappedBy="user")
      */
-    private $token;
+    private $tokens;
 
     /**
      * @var \App\Entity\VergetenToken
@@ -77,6 +74,13 @@ class User
      */
     private $vergetenToken;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tokens = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -209,27 +213,37 @@ class User
     }
 
     /**
-     * Set token
+     * Add token
      *
      * @param \App\Entity\Token $token
      *
      * @return User
      */
-    public function setToken(\App\Entity\Token $token = null)
+    public function addToken(\App\Entity\Token $token)
     {
-        $this->token = $token;
+        $this->tokens[] = $token;
 
         return $this;
     }
 
     /**
-     * Get token
+     * Remove token
      *
-     * @return \App\Entity\Token
+     * @param \App\Entity\Token $token
      */
-    public function getToken()
+    public function removeToken(\App\Entity\Token $token)
     {
-        return $this->token;
+        $this->tokens->removeElement($token);
+    }
+
+    /**
+     * Get tokens
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTokens()
+    {
+        return $this->tokens;
     }
 
     /**
