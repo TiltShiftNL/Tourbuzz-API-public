@@ -209,6 +209,8 @@ class MailService {
         //die(var_dump($sortedByDate));
 
         foreach ($mails as $mail) {
+            $date = new \DateTime();
+            echo $date->format('H:i:s d-m-Y') . " - Mailing: " . $mail->getMail() . "\n";
             $newsletter = new NewsletterMail($mail, $this->ci->get('mailView'), $berichten, $sortedByDate, $settings);
             $newsletter->send();
             $mail->setLastCorrespondence($now);
