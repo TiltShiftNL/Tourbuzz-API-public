@@ -23,7 +23,7 @@ class AccountController extends Controller {
             return $response;
         }
 
-        $create_notifications = !isset($post['create_notifications']) && true === $post['create_notifications'] ? true : false;
+        $create_notifications = isset($post['create_notifications']) && 'create_notifications' === $post['create_notifications'] ? true : false;
 
         try {
             $this->authService->create($post['username'], $post['password'], $post['mail'], $create_notifications);
@@ -83,7 +83,7 @@ class AccountController extends Controller {
             return $response;
         }
 
-        $create_notifications = !isset($post['create_notifications']) && true === $post['create_notifications'] ? true : false;
+        $create_notifications = isset($post['create_notifications']) && 'create_notifications' === $post['create_notifications'] ? true : false;
         $password = isset($post['password']) ? $post['password'] : null;
 
         try {
