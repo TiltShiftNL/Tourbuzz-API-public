@@ -30,11 +30,13 @@ class MailController extends Controller {
             return $response;
         }
 
+        $mail = strtolower($post['mail']);
+
         $name = isset($post['name']) ? $post['name'] : null;
         $organisation = isset($post['organisation']) ? $post['organisation'] : null;
 
         try {
-            $this->mailService->register($post['mail'], $post['language'], $name, $organisation);
+            $this->mailService->register($mail, $post['language'], $name, $organisation);
         } catch (MailExistsException $e) {
             $response = $response->withStatus(406)->withJson(['error' => 'Mail exists']);
             return $response;
@@ -56,8 +58,11 @@ class MailController extends Controller {
             return $response;
         }
 
+
+        $mail = strtolower($post['mail']);
+
         try {
-            $this->mailService->unsubscribe($post['mail']);
+            $this->mailService->unsubscribe($mail);
         } catch (NoMailException $e) {
             $response = $response->withStatus(406)->withJson(['error' => 'No mail']);
             return $response;
