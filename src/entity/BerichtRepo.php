@@ -8,11 +8,13 @@ use App\Entity\Bericht;
 
 class BerichtRepo extends EntityRepository
 {
-    public function getByDate(\DateTime $date) {
+    public function getByDate(\DateTime $date, $isLive=null) {
         /**
          * @var EntityManager $em
          */
         $em = $this->getEntityManager();
+
+        $liveQuery = null === $isLive ? '' : 'AND b.isLive = :isLive';
 
         $query = $em->createQuery('
             SELECT
@@ -22,10 +24,14 @@ class BerichtRepo extends EntityRepository
             WHERE
                 b.startDate <= :qdate
                 AND b.endDate >= :qdate
+                ' . $liveQuery . '
             ORDER BY b.important DESC, b.startDate ASC'
         );
 
         $query->setParameter('qdate', $date->format('Y-m-d'));
+        if (null !== $isLive) {
+            $query->setParameter('isLive', $isLive);
+        }
 
         return $query->getResult();
     }

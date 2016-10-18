@@ -187,8 +187,7 @@ class MailService {
         /**
          * @var Bericht[] $berichten
          */
-        $berichten = $berichtRepo->getByDate($now);
-
+        $berichten = $berichtRepo->getByDate($now, true);
         /**
          * @var Bericht[] $berichtentoSort
          */
