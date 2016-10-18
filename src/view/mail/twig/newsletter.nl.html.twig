@@ -1,17 +1,17 @@
 {% extends 'newsletter.base.html.twig' %}
 
 {% block message %}
-<p>Geachte{% if null != naam %} {{ naam }}{% endif %},</p>
+<p style="color: #333; font-family: sans-serif; font-size: 16px; text-decoration: none">Geachte{% if null != naam %} {{ naam }}{% endif %},</p>
 
-<h3>Vandaag</h3>
+<h3 style="font-size: 16px; color: #333; margin-bottom: 5px">Vandaag</h3>
 {% for record in berichten %}
-<a href="https://www.tourbuzz.nl/bericht/{{ record.id }}" style="color: #333">{{ record.title }}</a> <span style="color: #aaa;font-size:12px"> t/m {{ record.endDate|date('d-m-Y') }} </span><br>
+<a href="https://www.tourbuzz.nl/bericht/{{ record.id }}" style="color: #333; font-family: sans-serif; font-size: 16px; text-decoration: none">{{ record.title }}</a> <span style="color: #999;font-size:12px"> t/m {{ record.endDate|date('d-m-Y') }} </span><br>
 {% endfor %}
 
 {% for datum, bericht in sortedByDate %}
-<h3 style="margin-bottom: 0">{{ datum }}</h3>
+<h3 style="font-size: 16px; color: #333; margin-bottom: 5px">{{ datum }}</h3>
 {% for record in bericht %}
-<a href="https://www.tourbuzz.nl/bericht/{{ record.id }}" style="color: #333">{{ record.title }}</a> <span style="color: #aaa;font-size:12px"> t/m {{ record.endDate|date('d-m-Y') }} </span><br>
+<a href="https://www.tourbuzz.nl/bericht/{{ record.id }}" style="color: #333; font-family: sans-serif; font-size: 16px; text-decoration: none">{{ record.title }}</a> <span style="color: #999;font-size:12px"> t/m {{ record.endDate|date('d-m-Y') }} </span><br>
 {% endfor %}
 {% endfor %}
 
