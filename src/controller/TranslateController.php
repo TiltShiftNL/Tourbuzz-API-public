@@ -14,7 +14,8 @@ class TranslateController extends Controller {
             return $r;
         }
 
-        if (!in_array(strtolower($args['lang']),['en','es','de','fr'])) {
+        $post = $request->getParsedBody();
+        if (!in_array(strtolower($post['lang']),['en','es','de','fr'])) {
             $response = $response
                 ->withStatus(406)
                 ->withJson(['error' => 'Unsupported language']);
@@ -25,11 +26,11 @@ class TranslateController extends Controller {
         $uri = "https://www.googleapis.com/language/translate/v2?key=" .
             $settings['translateApiKey'] .
             "&source=nl&target=" .
-            strtolower($args['lang']) .
+            strtolower($post['lang']) .
             "&q=";
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $uri . urlencode($args['string']));
+        curl_setopt($ch, CURLOPT_URL, $uri . urlencode($post['string']));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $json = curl_exec($ch);
         curl_close($ch);

@@ -47,4 +47,4 @@ $app->post('/telefoon', 'App\Controller\TelefoonController:register');
 $app->delete('/telefoon', 'App\Controller\TelefoonController:unsubscribe');
 $app->get('/telefoon', 'App\Controller\TelefoonController:index');
 
-$app->get('/translate/{lang}/{string}', 'App\Controller\TranslateController:translate');
+$app->get('/translate', 'App\Controller\TranslateController:translate');
