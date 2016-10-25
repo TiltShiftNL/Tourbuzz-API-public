@@ -18,9 +18,16 @@ class GlimwormDevice
      * @ORM\Column(name="id", type="integer", precision=0, scale=0, nullable=false, unique=true)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="users_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="glimworm_device_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="glimworm_id", type="integer", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $glimwormId;
 
     /**
      * @var integer
@@ -107,9 +114,9 @@ class GlimwormDevice
     private $lora_devid;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="displayname", type="integer", precision=0, scale=0, nullable=true, unique=false)
+     * @ORM\Column(name="displayname", type="string", precision=0, scale=0, nullable=true, unique=false)
      */
     private $displayname;
 
@@ -136,6 +143,30 @@ class GlimwormDevice
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set glimwormId
+     *
+     * @param integer $glimwormId
+     *
+     * @return GlimwormDevice
+     */
+    public function setGlimwormId($glimwormId)
+    {
+        $this->glimwormId = $glimwormId;
+
+        return $this;
+    }
+
+    /**
+     * Get glimwormId
+     *
+     * @return integer
+     */
+    public function getGlimwormId()
+    {
+        return $this->glimwormId;
     }
 
     /**
@@ -429,7 +460,7 @@ class GlimwormDevice
     /**
      * Set displayname
      *
-     * @param integer $displayname
+     * @param string $displayname
      *
      * @return GlimwormDevice
      */
@@ -443,7 +474,7 @@ class GlimwormDevice
     /**
      * Get displayname
      *
-     * @return integer
+     * @return string
      */
     public function getDisplayname()
     {
@@ -453,13 +484,13 @@ class GlimwormDevice
     /**
      * Add datum
      *
-     * @param \App\Entity\GlimwormData $datum
+     * @param \App\Entity\GlimwormData $data
      *
      * @return GlimwormDevice
      */
-    public function addDatum(\App\Entity\GlimwormData $datum)
+    public function addData(\App\Entity\GlimwormData $data)
     {
-        $this->data[] = $datum;
+        $this->data[] = $data;
 
         return $this;
     }
@@ -467,11 +498,11 @@ class GlimwormDevice
     /**
      * Remove datum
      *
-     * @param \App\Entity\GlimwormData $datum
+     * @param \App\Entity\GlimwormData $data
      */
-    public function removeDatum(\App\Entity\GlimwormData $datum)
+    public function removeData(\App\Entity\GlimwormData $data)
     {
-        $this->data->removeElement($datum);
+        $this->data->removeElement($data);
     }
 
     /**

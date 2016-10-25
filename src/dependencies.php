@@ -48,6 +48,12 @@ $container['imageStore'] = function ($c) {
     );
 };
 
+$container['glimworm'] = function ($c) {
+    return new \App\Service\GlimwormService(
+        $c->get('em')
+    );
+};
+
 // Cache disabled, no need because it's only used for mailing, it can take the time it needs
 $container['mailView'] = function ($container) {
     $path = 'cli' === php_sapi_name() ? 'src/view/mail/twig' : '../src/view/mail/twig';

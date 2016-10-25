@@ -18,7 +18,7 @@ class GlimwormData
      * @ORM\Column(name="id", type="integer", precision=0, scale=0, nullable=false, unique=true)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="users_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="glimworm_data_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
