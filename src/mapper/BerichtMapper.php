@@ -3,8 +3,6 @@
 namespace App\Mapper;
 
 use App\Entity\Bericht;
-use App\Entity\Image;
-use App\Service\ImageStoreService;
 
 class BerichtMapper {
 

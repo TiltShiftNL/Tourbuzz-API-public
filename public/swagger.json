@@ -1,0 +1,151 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Tourbuzz API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/berichten": {
+            "get": {
+                "summary": "Geeft een lijst terug met berichten",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Geeft een lijst terug met berichten"
+                    }
+                }
+            }
+        },
+        "/berichten/{jaar}/{maand}/{dag}": {
+            "get": {
+                "summary": "Geeft een lijst terug met berichten voor een dag",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "jaar",
+                        "in": "path",
+                        "description": "Jaar",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "maand",
+                        "in": "path",
+                        "description": "Maand",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "dag",
+                        "in": "path",
+                        "description": "Dag",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Geeft een lijst terug met berichten voor een dag"
+                    }
+                }
+            }
+        },
+        "/berichten/{id}": {
+            "get": {
+                "summary": "Geeft een bericht terug",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Geeft een bericht terug"
+                    }
+                }
+            }
+        },
+        "/haltes": {
+            "get": {
+                "summary": "Geeft de haltes terug",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Geeft een lijst met haltes terug"
+                    }
+                }
+            }
+        },
+        "/haltes/{id}": {
+            "get": {
+                "summary": "Geeft een halte terug",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Geeft een halte terug"
+                    }
+                }
+            }
+        },
+        "/parkeerplaatsen": {
+            "get": {
+                "summary": "Geeft de parkeerplaatsen terug",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Geeft een lijst met parkeerplaatsen terug"
+                    }
+                }
+            }
+        },
+        "/parkeerplaatsen/{id}": {
+            "get": {
+                "summary": "Geeft een parkeerplaats terug",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Geeft een parkeerplaats terug"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {}
+}

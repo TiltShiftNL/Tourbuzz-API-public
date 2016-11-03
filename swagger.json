@@ -1,0 +1,180 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Tourbuzz API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Implemented API calls"
+                    }
+                }
+            }
+        },
+        "/berichten": {
+            "get": {
+                "summary": "Geeft een lijst terug met berichten",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Geeft een lijst terug met berichten"
+                    }
+                }
+            }
+        },
+        "/berichten/{jaar}/{maand}/{dag}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "jaar",
+                        "in": "path",
+                        "description": "Jaar",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "maand",
+                        "in": "path",
+                        "description": "Maand",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "dag",
+                        "in": "path",
+                        "description": "Dag",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Geeft een lijst terug met berichten voor een dag"
+                    }
+                }
+            }
+        },
+        "/berichten/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Geeft een bericht terug"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Bericht": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "old_id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "body": {
+                    "type": "string"
+                },
+                "advice": {
+                    "type": "string"
+                },
+                "title_en": {
+                    "type": "string"
+                },
+                "body_en": {
+                    "type": "string"
+                },
+                "advice_en": {
+                    "type": "string"
+                },
+                "title_es": {
+                    "type": "string"
+                },
+                "body_es": {
+                    "type": "string"
+                },
+                "advice_es": {
+                    "type": "string"
+                },
+                "title_fr": {
+                    "type": "string"
+                },
+                "body_fr": {
+                    "type": "string"
+                },
+                "advice_fr": {
+                    "type": "string"
+                },
+                "title_de": {
+                    "type": "string"
+                },
+                "body_de": {
+                    "type": "string"
+                },
+                "advice_de": {
+                    "type": "string"
+                },
+                "startdate": {
+                    "type": "string"
+                },
+                "enddate": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "link": {
+                    "type": "string"
+                },
+                "image_id": {
+                    "type": "integer"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "important": {
+                    "type": "boolean"
+                },
+                "is_live": {
+                    "type": "boolean"
+                },
+                "include_map": {
+                    "type": "boolean"
+                },
+                "location_lat": {
+                    "type": "string"
+                },
+                "location_lng": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
