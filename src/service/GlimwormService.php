@@ -13,6 +13,23 @@ class GlimwormService {
     const DEVICES_URL = 'http://dev.ibeaconlivinglab.com:1888/parkingcams';
     const DATA_URL    = 'http://dev.ibeaconlivinglab.com:1888/getparkingdata/';
 
+    const FIELD_TIME       = 'time';
+    const FIELD_APPID      = 'appid';
+    const FIELD_BATTERY    = 'battery';
+    const FIELD_CITY       = 'city';
+    const FIELD_DEVICETYPE = 'devicetype';
+    const FIELD_DOWNSENSOR = 'downsensor';
+    const FIELD_ID         = 'id';
+    const FIELD_MSGTYPE    = 'msgtype';
+     const FIELD_PSTATUS    = 'pstatus';
+    const FIELD_RSSI       = 'rssi';
+     const FIELD_SCHEMA     = 'schema';
+    const FIELD_STATUS     = 'status';
+    const FIELD_TOPSENSOR  = 'topsensor';
+    const FIELD_TS         = 'ts';
+    const FIELD_TSTATUS    = 'tstatus';
+    const FIELD_VEHICLE    = 'vehicle';
+
     /**
      * @var EntityManager
      */
@@ -77,11 +94,13 @@ class GlimwormService {
              */
             $json = json_decode(file_get_contents(self::DATA_URL . $device->getGlimwormId()), true);
 
+            $columns = array_flip($json['results'][0]['series'][0]['columns']);
+
             $records = array_reverse($json['results'][0]['series'][0]['values']);
 
             foreach ($records as $row) {
 
-                $time = new \DateTime(substr(str_replace('T', ' ', $row[0]), 0, 26));
+                $time = new \DateTime(substr(str_replace('T', ' ', $row[$columns[self::FIELD_TIME]]), 0, 26));
 
                 $data = $this->dataRepo->findOneBy(['device'=>$device,'time'=>$time]);
                 if (null === $data) {
@@ -91,17 +110,19 @@ class GlimwormService {
                     $device->addData($data);
                     $this->em->persist($data);
                 }
-                $data->setBattery($row[2]);
-                $data->setCity($row[3]);
-                $data->setDevicetype($row[4]);
-                $data->setDownsensor($row[5]);
-                $data->setGlimwormId($row[6]);
-                $data->setMsgtype($row[7]);
-                $data->setRssi($row[8]);
-                $data->setStatus($row[9]);
-                $data->setTopsensor($row[10]);
-                $data->setTs($row[11]);
-                $data->setVehicle($row[12]);
+                $data->setBattery($row[$columns[self::FIELD_BATTERY]]);
+                $data->setCity($row[$columns[self::FIELD_CITY]]);
+                $data->setDevicetype($row[$columns[self::FIELD_DEVICETYPE]]);
+                $data->setDownsensor($row[$columns[self::FIELD_DOWNSENSOR]]);
+                $data->setGlimwormId($row[$columns[self::FIELD_ID]]);
+                $data->setMsgtype($row[$columns[self::FIELD_MSGTYPE]]);
+                $data->setRssi($row[$columns[self::FIELD_RSSI]]);
+                $data->setStatus($row[$columns[self::FIELD_STATUS]]);
+                $data->setTopsensor($row[$columns[self::FIELD_TOPSENSOR]]);
+                $data->setTs($row[$columns[self::FIELD_TS]]);
+                $data->setVehicle($row[$columns[self::FIELD_VEHICLE]]);
+                $data->setPstatus($row[$columns[self::FIELD_PSTATUS]]);
+                $data->setSchema($row[$columns[self::FIELD_SCHEMA]]);
             }
         }
         $this->em->flush();

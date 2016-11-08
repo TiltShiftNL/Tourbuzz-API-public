@@ -107,6 +107,20 @@ class GlimwormData
     private $vehicle;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="schema", type="string", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $schema;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="pstatus", type="integer", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $pstatus;
+
+    /**
      * @var \App\Entity\GlimwormDevice
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\GlimwormDevice", inversedBy="data")
@@ -413,6 +427,54 @@ class GlimwormData
     public function getVehicle()
     {
         return $this->vehicle;
+    }
+
+    /**
+     * Set schema
+     *
+     * @param string $schema
+     *
+     * @return GlimwormData
+     */
+    public function setSchema($schema)
+    {
+        $this->schema = $schema;
+
+        return $this;
+    }
+
+    /**
+     * Get schema
+     *
+     * @return string
+     */
+    public function getSchema()
+    {
+        return $this->schema;
+    }
+
+    /**
+     * Set pstatus
+     *
+     * @param integer $pstatus
+     *
+     * @return GlimwormData
+     */
+    public function setPstatus($pstatus)
+    {
+        $this->pstatus = $pstatus;
+
+        return $this;
+    }
+
+    /**
+     * Get pstatus
+     *
+     * @return integer
+     */
+    public function getPstatus()
+    {
+        return $this->pstatus;
     }
 
     /**
