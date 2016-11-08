@@ -7,11 +7,14 @@ Vandaag
 
 {% endfor %}
 
-{% for datum, bericht in sortedByDate %}
-{{ datum }}
+{% set firstMessage = true %}{% for bericht in sortedByDate %}{% for record in bericht %}
+{% if firstMessage %}
+{{ record.datum|date("d-m-Y") }}
 -----------
-{% for record in bericht %}
+{% set firstMessage = false %}
+{% endif %}
 {{ record.title }} https://www.tourbuzz.nl/bericht/{{ record.id }}
-
 {% endfor %}
+
+{% set firstMessage = true %}
 {% endfor %}

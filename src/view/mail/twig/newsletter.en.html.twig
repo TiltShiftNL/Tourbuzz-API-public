@@ -8,15 +8,21 @@
 <a href="https://www.tourbuzz.nl/bericht/{{ record.id }}" style="color: #333">{{ record.title }}</a> <span style="color: #aaa;font-size:12px"> utai {{ record.endDate|date('d-m-Y') }} </span><br>
 {% endfor %}
 
-{% for datum, bericht in sortedByDate %}
-<h3 style="margin-bottom: 0">{{ datum }}</h3>
-{% for record in bericht %}
-<a href="https://www.tourbuzz.nl/bericht/{{ record.id }}" style="color: #333">{{ record.title }}</a> <span style="color: #aaa;font-size:12px"> utai {{ record.endDate|date('d-m-Y') }} </span><br>
-{% endfor %}
-{% endfor %}
+    {% set firstMessage = true %}
+    {% for bericht in sortedByDate %}
+        {% for record in bericht %}
+            {% if firstMessage %}
+                <h3 style="margin-bottom: 0">{{ record.startDate|date('d-m-Y') }}</h3>
+                {% set firstMessage = false %}
+            {% endif %}
+            <a href="https://www.tourbuzz.nl/bericht/{{ record.id }}" style="color: #333">{{ record.title }}</a> <span style="color: #aaa;font-size:12px"> utai {{ record.endDate|date('d-m-Y') }} </span><br>
+        {% endfor %}
+        {% set firstMessage = true %}
+    {% endfor %}
 
 {% endblock %}
 
 {% block footer %}
 <p>Want to unsubscribe? Click <a href="https://www.tourbuzz.nl/berichtenservice-afmelden">here</a></p>
+<img style="width: 150px" src="{{ image }}" alt="Amsterdam logo">
 {% endblock %}

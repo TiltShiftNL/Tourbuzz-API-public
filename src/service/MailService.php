@@ -196,11 +196,13 @@ class MailService {
         $sortedByDate = [];
 
         foreach ($berichtentoSort as $bericht) {
-            if (!isset($sortedByDate[$bericht->getStartDate()->format('d-m-Y')])) {
-                $sortedByDate[$bericht->getStartDate()->format('d-m-Y')] = [];
+            if (!isset($sortedByDate[$bericht->getStartDate()->format('Ymd')])) {
+                $sortedByDate[$bericht->getStartDate()->format('Ymd')] = [];
             }
-            $sortedByDate[$bericht->getStartDate()->format('d-m-Y')][] = $bericht;
+            $sortedByDate[$bericht->getStartDate()->format('Ymd')][] = $bericht;
         }
+
+        ksort($sortedByDate);
 
         $settings = $this->ci->get('settings');
         $now = new \DateTime();
