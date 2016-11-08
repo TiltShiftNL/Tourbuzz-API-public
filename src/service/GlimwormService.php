@@ -21,9 +21,9 @@ class GlimwormService {
     const FIELD_DOWNSENSOR = 'downsensor';
     const FIELD_ID         = 'id';
     const FIELD_MSGTYPE    = 'msgtype';
-     const FIELD_PSTATUS    = 'pstatus';
+    const FIELD_PSTATUS    = 'pstatus';
     const FIELD_RSSI       = 'rssi';
-     const FIELD_SCHEMA     = 'schema';
+    const FIELD_SCHEMA     = 'schema';
     const FIELD_STATUS     = 'status';
     const FIELD_TOPSENSOR  = 'topsensor';
     const FIELD_TS         = 'ts';
