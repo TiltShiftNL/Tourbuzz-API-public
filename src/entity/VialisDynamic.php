@@ -85,6 +85,20 @@ class VialisDynamic
      */
     private $lastPull;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\ParkeerplaatsDynamicXref", mappedBy="vialisDynamic")
+     */
+    private $parkeerplaatsen;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->parkeerplaatsen = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -310,5 +324,39 @@ class VialisDynamic
     public function getLastPull()
     {
         return $this->lastPull;
+    }
+
+    /**
+     * Add parkeerplaatsen
+     *
+     * @param \App\Entity\ParkeerplaatsDynamicXref $parkeerplaatsen
+     *
+     * @return VialisDynamic
+     */
+    public function addParkeerplaatsen(\App\Entity\ParkeerplaatsDynamicXref $parkeerplaatsen)
+    {
+        $this->parkeerplaatsen[] = $parkeerplaatsen;
+
+        return $this;
+    }
+
+    /**
+     * Remove parkeerplaatsen
+     *
+     * @param \App\Entity\ParkeerplaatsDynamicXref $parkeerplaatsen
+     */
+    public function removeParkeerplaatsen(\App\Entity\ParkeerplaatsDynamicXref $parkeerplaatsen)
+    {
+        $this->parkeerplaatsen->removeElement($parkeerplaatsen);
+    }
+
+    /**
+     * Get parkeerplaatsen
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getParkeerplaatsen()
+    {
+        return $this->parkeerplaatsen;
     }
 }

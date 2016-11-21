@@ -174,3 +174,4 @@ $app->get('/telefoon', 'App\Controller\TelefoonController:index');
 $app->post('/translate', 'App\Controller\TranslateController:translate');
 
 $app->get('/vialis', 'App\Controller\VialisController:index');
+$app->post('/vialis', 'App\Controller\VialisController:map');

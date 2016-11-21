@@ -6,10 +6,12 @@ use App\Entity\Bericht;
 use App\Entity\BerichtRepo;
 use App\Entity\Mail;
 use App\Entity\MailRepo;
+use App\Entity\ParkeerplaatsDynamicXref;
 use App\Entity\VialisDynamic;
 use App\Entity\VialisDynamicRepo;
 use App\Exception\MailExistsException;
 use App\Exception\NoMailException;
+use App\Mapper\VialisDynamicMapper;
 use App\View\Mail\NewsletterMail;
 use App\View\Mail\RegisterMail;
 use App\View\Mail\UnsubscribeMail;
@@ -118,5 +120,35 @@ class VialisService {
         $dynamic->setCapacity($status['parkingCapacity']);
         $dynamic->setVacant($status['vacantSpaces']);
         $dynamic->setLastPull(new \DateTime());
+    }
+
+    public function map($parkeerplaats, $dynamicId) {
+        $dynamic = $this->dynamicRepo->findOneById($dynamicId);
+        if (null === $dynamic) {
+            return false;
+        }
+
+        $repo = $this->em->getRepository('App\Entity\ParkeerplaatsDynamicXref');
+        $xref = $repo->findOneByParkeerplaats($parkeerplaats);
+        if (null === $xref) {
+            $xref = new ParkeerplaatsDynamicXref();
+            $this->em->persist($xref);
+            $xref->setParkeerplaats($parkeerplaats);
+        }
+        $xref->setVialisDynamic($dynamic);
+        $this->em->flush();
+        return true;
+    }
+
+    public function getForParkeerplaats($parkeerplaats) {
+        $repo = $this->em->getRepository('App\Entity\ParkeerplaatsDynamicXref');
+        /**
+         * @var ParkeerplaatsDynamicXref $xref
+         */
+        $xref = $repo->findOneByParkeerplaats($parkeerplaats);
+        if (null === $xref) {
+            return null;
+        }
+        return VialisDynamicMapper::mapSingle($xref->getVialisDynamic());
     }
 }

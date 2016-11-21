@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\VialisService;
 use Slim\Http\Request;
 
 class ParkeerController {
@@ -54,6 +55,11 @@ class ParkeerController {
             "_pogingen" => 0,
         ];
 
+        /**
+         * @var VialisService $vialis
+         */
+        $vialis = $this->ci->get('vialis');
+
         foreach ($jsonData->parkeerplaatsen as $data) {
             $data = $data->parkeerplaats;
             $titleParts = explode(":", $data->title);
@@ -73,6 +79,7 @@ class ParkeerController {
                 "mapsImageUrl" => $mapsImageUrl,
                 "mapsUrl" => $mapsUrl,
                 "beschikbaar" => empty($disabled[$nummer]),
+                "vialis" => $vialis->getForParkeerplaats($nummer),
                 "_origineel" => $data
             ];
             if (isset($args['id']) && !empty($args['id'])) {
