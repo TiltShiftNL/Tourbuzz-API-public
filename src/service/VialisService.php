@@ -153,6 +153,11 @@ class VialisService {
         if (null === $xref) {
             return null;
         }
+
+        if (null === $xref->getVialisDynamic()) {
+            return null;
+        }
+
         return VialisDynamicMapper::mapSingle($xref->getVialisDynamic());
     }
 }
