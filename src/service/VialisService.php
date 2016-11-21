@@ -123,9 +123,13 @@ class VialisService {
     }
 
     public function map($parkeerplaats, $dynamicId) {
-        $dynamic = $this->dynamicRepo->findOneById($dynamicId);
-        if (null === $dynamic) {
-            return false;
+        if ('null' === $dynamicId) {
+            $dynamic = null;
+        } else {
+            $dynamic = $this->dynamicRepo->findOneById($dynamicId);
+            if (null === $dynamic) {
+                return false;
+            }
         }
 
         $repo = $this->em->getRepository('App\Entity\ParkeerplaatsDynamicXref');
