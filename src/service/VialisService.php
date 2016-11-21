@@ -123,7 +123,7 @@ class VialisService {
     }
 
     public function map($parkeerplaats, $dynamicId) {
-        if ('null' === $dynamicId) {
+        if ('null' === strtolower($dynamicId)) {
             $dynamic = null;
         } else {
             $dynamic = $this->dynamicRepo->findOneById($dynamicId);
