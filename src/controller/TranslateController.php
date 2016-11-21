@@ -42,7 +42,7 @@ class TranslateController extends Controller {
             return $response;
         }
 
-        $response = $response->withJson(['string' => $obj->data->translations[0]->translatedText]);
+        $response = $response->withJson(['string' => str_replace('&#39;', "'",html_entity_decode($obj->data->translations[0]->translatedText))]);
         return $response;
     }
 }
