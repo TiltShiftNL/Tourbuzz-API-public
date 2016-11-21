@@ -39,6 +39,10 @@ $container['mail'] = function ($c) {
     return new \App\Service\MailService($c);
 };
 
+$container['vialis'] = function ($c) {
+    return new \App\Service\VialisService($c);
+};
+
 $container['imageStore'] = function ($c) {
     $settings = $c->get('settings');
     return new \App\Service\ImageStoreService(

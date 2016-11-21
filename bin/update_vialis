@@ -1,0 +1,27 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/../vendor/autoload.php';
+
+session_start();
+
+// Instantiate the app
+$settings = require __DIR__ . '/../src/settings.php';
+$app = new \Slim\App($settings);
+
+// Set up dependencies
+require __DIR__ . '/../src/dependencies.php';
+
+// Register middleware
+require __DIR__ . '/../src/middleware.php';
+
+if (count($argv) !== 1) {
+    die('Usage php send_newsletters');
+}
+
+/**
+ * @var \App\Service\VialisService $service
+ */
+$service = $app->getContainer()->get('vialis');
+
+$service->update();
