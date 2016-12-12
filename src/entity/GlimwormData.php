@@ -121,6 +121,13 @@ class GlimwormData
     private $pstatus;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="tstatus", type="integer", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $tstatus;
+
+    /**
      * @var \App\Entity\GlimwormDevice
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\GlimwormDevice", inversedBy="data")
@@ -478,6 +485,30 @@ class GlimwormData
     }
 
     /**
+     * Set tstatus
+     *
+     * @param integer $tstatus
+     *
+     * @return GlimwormData
+     */
+    public function setTstatus($tstatus)
+    {
+        $this->tstatus = $tstatus;
+
+        return $this;
+    }
+
+    /**
+     * Get tstatus
+     *
+     * @return integer
+     */
+    public function getTstatus()
+    {
+        return $this->tstatus;
+    }
+
+    /**
      * Set device
      *
      * @param \App\Entity\GlimwormDevice $device
@@ -501,3 +532,4 @@ class GlimwormData
         return $this->device;
     }
 }
+

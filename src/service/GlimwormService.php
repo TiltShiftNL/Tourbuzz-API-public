@@ -123,6 +123,7 @@ class GlimwormService {
                 $data->setVehicle($row[$columns[self::FIELD_VEHICLE]]);
                 $data->setPstatus($row[$columns[self::FIELD_PSTATUS]]);
                 $data->setSchema($row[$columns[self::FIELD_SCHEMA]]);
+                $data->setTstatus($row[$columns[self::FIELD_TSTATUS]]);
             }
         }
         $this->em->flush();
