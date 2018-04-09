@@ -13,8 +13,6 @@ services:
         build: .
         ports:
             - "80:80"
-        depends_on:
-            - database
         links:
             - database:database
         environment:

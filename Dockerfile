@@ -12,7 +12,7 @@ COPY . /srv/web/tourbuzz-api
 WORKDIR /srv/web
 COPY Docker/slim.settings.php /srv/web/tourbuzz-api/src/settings.php
 
-COPY /Docker/parameters.yml /srv/web/tourbuzz-api/app/config/parameters.yml
+COPY Docker/parameters.yml /srv/web/tourbuzz-api/app/config/parameters.yml
 #RUN wget https://getcomposer.org/composer.phar
 
 # nginx and php setup
