@@ -10,10 +10,8 @@ RUN apt-get update && apt-get install -y git vim wget cron rsync php7.0-fpm php7
 # project setup
 COPY . /srv/web/tourbuzz-api
 WORKDIR /srv/web
-COPY Docker/slim.settings.php /srv/web/tourbuzz-api/src/settings.php
 
-COPY Docker/parameters.yml /srv/web/tourbuzz-api/app/config/parameters.yml
-#RUN wget https://getcomposer.org/composer.phar
+#COPY Docker/parameters.yml /srv/web/tourbuzz-api/app/config/parameters.yml
 
 # nginx and php setup
 COPY Docker/tourbuzz-api.vhost /etc/nginx/conf.d/tourbuzz-api.vhost.conf
