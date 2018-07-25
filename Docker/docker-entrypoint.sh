@@ -13,6 +13,7 @@ DB_PASSWORD=${TOURBUZZ__DATABASE_PASSWORD:-insecure}
 MESSAGEBIRD_API_KEY=${TOURBUZZ__MESSAGEBIRD_API_KEY:-placeholder}
 TRANSLATE_API_KEY=${TOURBUZZ__TRANSLATE_API_KEY:-placeholder}
 SENDGRID_API_KEY=${TOURBUZZ__SENDGRID_API_KEY:-placeholder}
+ACC=${TOURBUZZ__ENVIRONMENT:-}
 
 cat > /srv/web/tourbuzz-api/src/settings.php <<EOF
 <?php
@@ -50,14 +51,14 @@ return [
             ]
         ],
         'haltesUrl'              => 'https://open.data.amsterdam.nl/ivv/touringcar/in_uitstaphaltes.json',
-        'messagesUrl'            => 'https://api.tourbuzz.nl/berichten/' . date("Y/m/d"),
+        'messagesUrl'            => 'https://${ACC}api.tourbuzz.nl/berichten/' . date("Y/m/d"),
         'parkeerUrl'             => 'https://open.data.amsterdam.nl/ivv/touringcar/parkeerplaatsen.json',
-        'wachtwoordVergetenUrl'  => 'https://www.tourbuzz.nl/wachtwoordvergeten/',
-        'mailConfirmUrl'         => 'https://www.tourbuzz.nl/mailbevestigen/',
-        'mailUnsubscribeUrl'     => 'https://www.tourbuzz.nl/mailannuleren/',
+        'wachtwoordVergetenUrl'  => 'https://${ACC}tourbuzz.nl/wachtwoordvergeten/',
+        'mailConfirmUrl'         => 'https://${ACC}tourbuzz.nl/mailbevestigen/',
+        'mailUnsubscribeUrl'     => 'https://${ACC}tourbuzz.nl/mailannuleren/',
         'imageStoreRootPath'     => 'images/',
-        'imageStoreExternalPath' => 'https://api.tourbuzz.nl/images/',
-        'imageResizeUrl'         => 'https://api.tourbuzz.nl/afbeeldingen/',
+        'imageStoreExternalPath' => 'https://${ACC}api.tourbuzz.nl/images/',
+        'imageResizeUrl'         => 'https://${ACC}api.tourbuzz.nl/afbeeldingen/',
         'translateApiKey'        => '${TRANSLATE_API_KEY}',
         'fromMail'               => 'noreply@tourbuzz.nl',
         'sendgridApiKey'         => '${SENDGRID_API_KEY}',

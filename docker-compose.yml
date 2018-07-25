@@ -16,6 +16,7 @@ services:
     links:
       - database:database
     environment:
+      TOURBUZZ__ENVIRONMENT: "acc."
       TOURBUZZ__DATABASE_HOST: "database"
       TOURBUZZ__DATABASE_PORT: "5432"
       TOURBUZZ__DATABASE_NAME: "tourbuzz"
