@@ -3,7 +3,7 @@ Dear{% if null != naam %} {{ naam }}{% endif %},
 Today
 -------
 {% for record in berichten %}
-{{ record.startDate|date('d-m-Y') }} utai {{ record.endDate|date('d-m-Y') }} - {{ record.title }} https://www.tourbuzz.nl/bericht/{{ record.id }}
+{{ record.startDate|date('d-m-Y') }} - {{ record.title }} https://www.tourbuzz.nl/bericht/{{ record.id }}
 
 {% endfor %}
 
