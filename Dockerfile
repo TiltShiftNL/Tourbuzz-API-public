@@ -29,6 +29,8 @@ RUN wget https://getcomposer.org/composer.phar \
   && sed -i '/\;security\.limit_extensions \= \.php \.php3 \.php4 \.php5 \.php7/c\security\.limit_extensions \= \.php' /etc/php/7.0/fpm/pool.d/www.conf \
   && sed -e 's/;clear_env = no/clear_env = no/' -i /etc/php/7.0/fpm/pool.d/www.conf
 
+RUN chown www-data:www-data /srv/web/tourbuzz-api/cache/proxies
+
 # run
 COPY Docker/docker-entrypoint.sh /docker-entrypoint.sh
 # Fixes: permission denied error while launching container
