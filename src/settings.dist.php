@@ -32,9 +32,9 @@ return [
                 'password' => 'vagrant',
             ]
         ],
-        'haltesUrl'              => 'http://open.datapunt.amsterdam.nl/ivv/touringcar/in_uitstaphaltes.json',
+        'haltesUrl'              => 'http://open.data.amsterdam.nl/ivv/touringcar/in_uitstaphaltes.json',
         'messagesUrl'            => 'http://tourapi.b.nl/berichten/' . date("Y/m/d"),
-        'parkeerUrl'             => 'http://open.datapunt.amsterdam.nl/ivv/touringcar/parkeerplaatsen.json',
+        'parkeerUrl'             => 'http://open.data.amsterdam.nl/ivv/touringcar/parkeerplaatsen.json',
         'wachtwoordVergetenUrl'  => 'http://tour.b.nl/wachtwoordvergeten/',
         'mailConfirmUrl'         => 'http://tour.b.nl/mailbevestigen/',
         'mailUnsubscribeUrl'     => 'http://tour.b.nl/mailannuleren/',

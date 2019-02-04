@@ -29,7 +29,7 @@ class IndexController {
                     "uri" => "http://api.tourbuzz.nl/haltes/"
                 ],
                 "parkeerplaatsen" => [
-                    "origineel" => "http://open.datapunt.amsterdam.nl/ivv/touringcar/parkeerplaatsen.json",
+                    "origineel" => "http://open.data.amsterdam.nl/ivv/touringcar/parkeerplaatsen.json",
                     "uri" => "http://api.tourbuzz.nl/parkeerplaatsen/"
                 ],
                 "poi" => [
