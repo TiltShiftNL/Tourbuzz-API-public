@@ -25,7 +25,7 @@ class IndexController {
                     "voorbeeld" => "http://api.tourbuzz.nl/berichten/2016/03/02",
                 ],
                 "haltes" => [
-                    "origineel" => "http://www.amsterdamopendata.nl/files/ivv/touringcar/in_uitstaphaltes.json",
+                    "origineel" => "http://open.data.amsterdam.nl/ivv/touringcar/in_uitstaphaltes.json",
                     "uri" => "http://api.tourbuzz.nl/haltes/"
                 ],
                 "parkeerplaatsen" => [
