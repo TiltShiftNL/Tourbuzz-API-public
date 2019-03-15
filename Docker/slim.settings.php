@@ -32,9 +32,9 @@ return [
                 'password' => '5b67G40YzkbgcUi4tHKP46IKWD5xEr5I',
             ]
         ],
-        'haltesUrl'              => 'http://amsterdam-maps.bma-collective.com/embed/touringcar/deploy_data/in_uitstaphaltes.json',
+        'haltesUrl'              => 'https://open.data.amsterdam.nl/ivv/touringcar/in_uitstaphaltes.json',
         'messagesUrl'            => 'http://tourapi.b.nl/berichten/' . date("Y/m/d"),
-        'parkeerUrl'             => 'http://amsterdam-maps.bma-collective.com/embed/touringcar/deploy_data/parkeerplaatsen.json',
+        'parkeerUrl'             => 'https://open.data.amsterdam.nl/ivv/touringcar/parkeerplaatsen.json',
         'wachtwoordVergetenUrl'  => 'http://tour.b.nl/wachtwoordvergeten/',
         'mailConfirmUrl'         => 'http://tour.b.nl/mailbevestigen/',
         'mailUnsubscribeUrl'     => 'http://tour.b.nl/mailannuleren/',

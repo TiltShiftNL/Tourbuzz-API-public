@@ -4,7 +4,7 @@ MAINTAINER datapunt@amsterdam.nl
 EXPOSE 80
 
 # install php packages
-RUN apt-get update && apt-get install -y git vim wget cron rsync php7.0-fpm php7.0-intl php7.0-pgsql php7.0-curl php7.0-cli php7.0-gd php7.0-intl php7.0-mbstring php7.0-mcrypt php7.0-opcache php7.0-sqlite3 php7.0-xml php7.0-xsl php7.0-zip php7.0-igbinary php7.0-json php7.0-memcached php7.0-msgpack php7.0-xmlrpc php7.0-imagick \
+RUN apt-get update && apt-get install -y git curl vim wget cron rsync php7.0-fpm php7.0-intl php7.0-pgsql php7.0-curl php7.0-cli php7.0-gd php7.0-intl php7.0-mbstring php7.0-mcrypt php7.0-opcache php7.0-sqlite3 php7.0-xml php7.0-xsl php7.0-zip php7.0-igbinary php7.0-json php7.0-memcached php7.0-msgpack php7.0-xmlrpc php7.0-imagick \
   && apt-get -y upgrade && apt-get -y dist-upgrade && apt-get autoremove && apt-get check && apt-get clean
 
 # project setup
@@ -28,6 +28,8 @@ RUN wget https://getcomposer.org/composer.phar \
   && sed -i '/\;date\.timezone \=/c\date.timezone = Europe\/Amsterdam' /etc/php/7.0/fpm/php.ini \
   && sed -i '/\;security\.limit_extensions \= \.php \.php3 \.php4 \.php5 \.php7/c\security\.limit_extensions \= \.php' /etc/php/7.0/fpm/pool.d/www.conf \
   && sed -e 's/;clear_env = no/clear_env = no/' -i /etc/php/7.0/fpm/pool.d/www.conf
+
+RUN chown www-data:www-data /srv/web/tourbuzz-api/cache/proxies
 
 # run
 COPY Docker/docker-entrypoint.sh /docker-entrypoint.sh
