@@ -25,3 +25,10 @@ API for the tourbuzz applications.
 5. run php vendor/bin/doctrine-migrations migrations:migrate
 6. create a user: php bin/create_user {username} {password} {mail}
 
+## Development
+
+Update swagger file
+
+    vendor/bin/swagger src --output public\swagger.json
+    
+

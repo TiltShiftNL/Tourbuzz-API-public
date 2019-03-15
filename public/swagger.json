@@ -145,6 +145,201 @@
                     }
                 }
             }
+        },
+        "/auth": {
+            "get": {
+                "summary": "Geeft info over token",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "400": {
+                        "description": "Token ontbreekt"
+                    },
+                    "404": {
+                        "description": "Token onbekend"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Login",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "formData",
+                        "description": "Gebruikersnaam",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "Wachtwoord",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "401": {
+                        "description": "Gebruikersnaam/wachtwoord ongeldig"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Logout",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    }
+                }
+            }
+        },
+        "/accounts": {
+            "post": {
+                "summary": "Aanmaken account",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "formData",
+                        "description": "Gebruikersnaam",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "Wachtwoord",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "mail",
+                        "in": "formData",
+                        "description": "E-mailadres",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "create_notifications",
+                        "in": "formData",
+                        "description": "Notificaties, mogelijke waardes: create_notifications",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "401": {
+                        "description": "Token ontbreekt"
+                    },
+                    "406": {
+                        "description": "Aanvraag niet volledig"
+                    },
+                    "407": {
+                        "description": "Wachtwoord ongeldig"
+                    },
+                    "409": {
+                        "description": "Gebruikersnaam al in gebruik"
+                    }
+                }
+            }
+        },
+        "/vialis": {
+            "get": {
+                "summary": "Geeft Vialis info terug",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Koppel id aan parkeerplaats",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "parkeerplaats",
+                        "in": "formData",
+                        "description": "Parkeerplaats code",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "formData",
+                        "description": "Vialis Dynamic id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "401": {
+                        "description": "id of parkeerplaats niet opgegeven"
+                    },
+                    "406": {
+                        "description": "Vialis id onbekend"
+                    }
+                }
+            }
         }
     },
     "definitions": {}

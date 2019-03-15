@@ -5,15 +5,6 @@
         "version": "1.0"
     },
     "paths": {
-        "/": {
-            "get": {
-                "responses": {
-                    "200": {
-                        "description": "Implemented API calls"
-                    }
-                }
-            }
-        },
         "/berichten": {
             "get": {
                 "summary": "Geeft een lijst terug met berichten",
@@ -29,6 +20,7 @@
         },
         "/berichten/{jaar}/{maand}/{dag}": {
             "get": {
+                "summary": "Geeft een lijst terug met berichten voor een dag",
                 "produces": [
                     "application/json"
                 ],
@@ -64,6 +56,7 @@
         },
         "/berichten/{id}": {
             "get": {
+                "summary": "Geeft een bericht terug",
                 "produces": [
                     "application/json"
                 ],
@@ -82,99 +75,90 @@
                     }
                 }
             }
-        }
-    },
-    "definitions": {
-        "Bericht": {
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "old_id": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "body": {
-                    "type": "string"
-                },
-                "advice": {
-                    "type": "string"
-                },
-                "title_en": {
-                    "type": "string"
-                },
-                "body_en": {
-                    "type": "string"
-                },
-                "advice_en": {
-                    "type": "string"
-                },
-                "title_es": {
-                    "type": "string"
-                },
-                "body_es": {
-                    "type": "string"
-                },
-                "advice_es": {
-                    "type": "string"
-                },
-                "title_fr": {
-                    "type": "string"
-                },
-                "body_fr": {
-                    "type": "string"
-                },
-                "advice_fr": {
-                    "type": "string"
-                },
-                "title_de": {
-                    "type": "string"
-                },
-                "body_de": {
-                    "type": "string"
-                },
-                "advice_de": {
-                    "type": "string"
-                },
-                "startdate": {
-                    "type": "string"
-                },
-                "enddate": {
-                    "type": "string"
-                },
-                "category": {
-                    "type": "string"
-                },
-                "link": {
-                    "type": "string"
-                },
-                "image_id": {
-                    "type": "integer"
-                },
-                "image_url": {
-                    "type": "string"
-                },
-                "important": {
-                    "type": "boolean"
-                },
-                "is_live": {
-                    "type": "boolean"
-                },
-                "include_map": {
-                    "type": "boolean"
-                },
-                "location_lat": {
-                    "type": "string"
-                },
-                "location_lng": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "string"
+        },
+        "/haltes": {
+            "get": {
+                "summary": "Geeft de haltes terug",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Geeft een lijst met haltes terug"
+                    }
+                }
+            }
+        },
+        "/haltes/{id}": {
+            "get": {
+                "summary": "Geeft een halte terug",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Geeft een halte terug"
+                    }
+                }
+            }
+        },
+        "/parkeerplaatsen": {
+            "get": {
+                "summary": "Geeft de parkeerplaatsen terug",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Geeft een lijst met parkeerplaatsen terug"
+                    }
+                }
+            }
+        },
+        "/parkeerplaatsen/{id}": {
+            "get": {
+                "summary": "Geeft een parkeerplaats terug",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Geeft een parkeerplaats terug"
+                    }
+                }
+            }
+        },
+        "/vialis/": {
+            "get": {
+                "summary": "Geeft Vialis info terug",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "-"
+                    }
                 }
             }
         }
-    }
+    },
+    "definitions": {}
 }
