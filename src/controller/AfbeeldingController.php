@@ -53,7 +53,7 @@ class AfbeeldingController {
         $files = $request->getUploadedFiles();
         if (!isset($files['file'])) {
             $response = $response
-                ->withStatus('403')
+                ->withStatus(403)
                 ->withHeader('Access-Control-Allow-Origin', '*')
                 ->withHeader('Access-Control-Allow-Headers', 'file, Content-Type')
                 ->withJson(['error' => 'No file included']);
