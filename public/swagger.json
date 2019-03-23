@@ -16,6 +16,221 @@
                         "description": "Geeft een lijst terug met berichten"
                     }
                 }
+            },
+            "post": {
+                "summary": "Bericht aanmaken of bijwerken",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "formData",
+                        "description": "Bericht ID",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "sms_end",
+                        "in": "formData",
+                        "description": "Sms tekst Engels",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "sms_de",
+                        "in": "formData",
+                        "description": "Sms tekst Duits",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "sms_nl",
+                        "in": "formData",
+                        "description": "Sms tekst Nederlands",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "title",
+                        "in": "formData",
+                        "description": "Titel",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "formData",
+                        "description": "Bericht",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "advice",
+                        "in": "formData",
+                        "description": "Advies",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "title_en",
+                        "in": "formData",
+                        "description": "Titel (Engels)",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body_en",
+                        "in": "formData",
+                        "description": "Bericht (Engels)",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "advice_en",
+                        "in": "formData",
+                        "description": "Advies (Engels)",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "title_de",
+                        "in": "formData",
+                        "description": "Titel (Duits)",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body_de",
+                        "in": "formData",
+                        "description": "Bericht (Duits)",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "advice_de",
+                        "in": "formData",
+                        "description": "Advies (Duits)",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "title_es",
+                        "in": "formData",
+                        "description": "Titel (Spaans)",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body_es",
+                        "in": "formData",
+                        "description": "Bericht (Spaans)",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "advice_es",
+                        "in": "formData",
+                        "description": "Advies (Spaans)",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "image_id",
+                        "in": "formData",
+                        "description": "Afbeelding ID",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "startdate",
+                        "in": "formData",
+                        "description": "Startdatum (yyyy-mm-dd hh:ii:ss)",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "startdate",
+                        "in": "formData",
+                        "description": "Einddatum (yyyy-mm-dd hh:ii:ss)",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "link",
+                        "in": "formData",
+                        "description": "Link",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_map",
+                        "in": "formData",
+                        "description": "Kaart opnemen (1=ja, 0=nee)",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "category",
+                        "in": "formData",
+                        "description": "Categorie",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "image_url",
+                        "in": "formData",
+                        "description": "Afbeelings URL",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "important",
+                        "in": "formData",
+                        "description": "Belangrijk",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "is_live",
+                        "in": "formData",
+                        "description": "Is live",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "location_lat",
+                        "in": "formData",
+                        "description": "Geo punt lat",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "location_lng",
+                        "in": "formData",
+                        "description": "Geo punt lng",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "401": {
+                        "description": "Token ontbreekt"
+                    },
+                    "404": {
+                        "description": "Token onbekend"
+                    }
+                }
             }
         },
         "/berichten/{jaar}/{maand}/{dag}": {
@@ -72,6 +287,26 @@
                 "responses": {
                     "200": {
                         "description": "Geeft een bericht terug"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Geeft een bericht terug",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id[]",
+                        "in": "query",
+                        "description": "Lijst van bericht ID's",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Verwijderd een bericht"
                     }
                 }
             }
@@ -146,6 +381,153 @@
                 }
             }
         },
+        "/afbeeldingen/{id}": {
+            "get": {
+                "summary": "Geeft een thumbnail",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "greyscale",
+                        "in": "query",
+                        "description": "Voeg greyscale=1 toe om de afbeeling in grijswaarde om te zetten",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "method",
+                        "in": "query",
+                        "description": "Opties: fit (binnen kader) | resize (tot kader) | (indien niet opgegeven geen resize)",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "width",
+                        "in": "query",
+                        "description": "Verplicht indien method=fit|resize",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "height",
+                        "in": "query",
+                        "description": "Verplicht indien method=fit|resize",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "404": {
+                        "description": "Afbeelding onbekend"
+                    }
+                }
+            }
+        },
+        "/afbeeldingen": {
+            "post": {
+                "summary": "Upload afbeelding",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "file",
+                        "in": "formData",
+                        "description": "Bestand",
+                        "required": true,
+                        "type": "file"
+                    },
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "400": {
+                        "description": "File ontbreekt"
+                    },
+                    "401": {
+                        "description": "Token ontbreekt"
+                    },
+                    "404": {
+                        "description": "Token onbekend"
+                    }
+                }
+            }
+        },
+        "/poi": {
+            "get": {
+                "summary": "Geeft CSV met halte en parkeerplaatsen info",
+                "produces": [
+                    "application/x-download"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    }
+                }
+            }
+        },
+        "/distance": {
+            "get": {
+                "summary": "Geeft CSV met halte en parkeerplaatsen info",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "lat1",
+                        "in": "query",
+                        "description": "Punt 1, lat",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "lng1",
+                        "in": "query",
+                        "description": "Punt 1, lng",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "lat2",
+                        "in": "query",
+                        "description": "Punt 2, lat",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "lng2",
+                        "in": "query",
+                        "description": "Punt 2, lng",
+                        "required": false,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    }
+                }
+            }
+        },
         "/auth": {
             "get": {
                 "summary": "Geeft info over token",
@@ -165,7 +547,7 @@
                     "200": {
                         "description": "Succes"
                     },
-                    "400": {
+                    "401": {
                         "description": "Token ontbreekt"
                     },
                     "404": {
@@ -225,6 +607,92 @@
             }
         },
         "/accounts": {
+            "get": {
+                "summary": "Geeft lijst met accounts",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "401": {
+                        "description": "Token ontbreekt"
+                    },
+                    "404": {
+                        "description": "Token onbekend"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Bijwerken account (email, wachtwoord of notificaties)",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "formData",
+                        "description": "Gebruikersnaam",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "Wachtwoord",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "mail",
+                        "in": "formData",
+                        "description": "E-mailadres",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "create_notifications",
+                        "in": "formData",
+                        "description": "Notificaties, mogelijke waardes: create_notifications",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "401": {
+                        "description": "Token ontbreekt"
+                    },
+                    "406": {
+                        "description": "Aanvraag niet volledig"
+                    },
+                    "407": {
+                        "description": "Wachtwoord ongeldig"
+                    },
+                    "409": {
+                        "description": "Gebruikersnaam onbekend"
+                    }
+                }
+            },
             "post": {
                 "summary": "Aanmaken account",
                 "produces": [
@@ -275,6 +743,401 @@
                     },
                     "409": {
                         "description": "Gebruikersnaam al in gebruik"
+                    }
+                }
+            }
+        },
+        "/accounts/{username}": {
+            "get": {
+                "summary": "Geeft gebruikers informatie",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "Gebruikersnaam",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "401": {
+                        "description": "Token ontbreekt"
+                    },
+                    "404": {
+                        "description": "Token onbekend of gebruiker onbekend"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Account verwijderen",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "Gebruikersnaam",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "401": {
+                        "description": "Token ontbreekt"
+                    },
+                    "409": {
+                        "description": "Gebruikersnaam onbekend"
+                    }
+                }
+            }
+        },
+        "/vergeten": {
+            "put": {
+                "summary": "Wachtwoord vergeten mail sturen",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "Wachtwoord vergeten token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "Nieuw wachtwoord",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "403": {
+                        "description": "Wachtwoord vergeten token klopt niet"
+                    },
+                    "405": {
+                        "description": "Wachtwoord voldoet niet aan minimale lengte"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Wachtwoord vergeten mail sturen",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "formData",
+                        "description": "Gebruikersnaam",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    }
+                }
+            }
+        },
+        "/vergeten/{token}": {
+            "get": {
+                "summary": "Wachtwoord vergeten mail sturen",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "Wachtwoord vergeten token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "404": {
+                        "description": "Wachtwoord vergeten token onbekend"
+                    }
+                }
+            }
+        },
+        "/mail": {
+            "get": {
+                "summary": "Geeft lijst met adressen",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "401": {
+                        "description": "Token ontbreekt"
+                    },
+                    "404": {
+                        "description": "Token onbekend"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Aanmelden nieuwsbrief",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "mail",
+                        "in": "formData",
+                        "description": "E-mailadres",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "language",
+                        "in": "formData",
+                        "description": "Taal",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "description": "Naam",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "organization",
+                        "in": "formData",
+                        "description": "Organisatie",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "405": {
+                        "description": "E-mailadres of taal niet opgegeven"
+                    },
+                    "406": {
+                        "description": "E-mailadres bestaat al"
+                    }
+                }
+            }
+        },
+        "/mail/{token}": {
+            "get": {
+                "summary": "Controleren aanmeld token",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "Aanmeld token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "404": {
+                        "description": "Aanmeld token onbekend"
+                    }
+                }
+            }
+        },
+        "/mail/unsubscribe": {
+            "post": {
+                "summary": "Afmelden nieuwsbrief",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "mail",
+                        "in": "formData",
+                        "description": "E-mailadres",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "405": {
+                        "description": "E-mailadres niet opgegeven"
+                    },
+                    "406": {
+                        "description": "E-mailadres bestaat niet"
+                    }
+                }
+            }
+        },
+        "/mail/unsubscribe/{token}": {
+            "get": {
+                "summary": "Controleren afmeld token",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "Afmeld token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "404": {
+                        "description": "Afmeld token onbekend"
+                    }
+                }
+            }
+        },
+        "/telefoon": {
+            "get": {
+                "summary": "Geeft lijst met telefoonnummers",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "401": {
+                        "description": "Token ontbreekt"
+                    },
+                    "404": {
+                        "description": "Token onbekend"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Aanmelden SMS updates",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "number",
+                        "in": "formData",
+                        "description": "Telefoonnummer",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "language",
+                        "in": "formData",
+                        "description": "Taal",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "405": {
+                        "description": "Telefoonnummer of taal niet opgegeven"
+                    },
+                    "406": {
+                        "description": "Telefoonnummer bestaat al"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Afmelden SMS updates",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "number",
+                        "in": "formData",
+                        "description": "Telefoonnummer",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "language",
+                        "in": "formData",
+                        "description": "Taal",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "405": {
+                        "description": "Telefoonnummer of taal niet opgegeven"
+                    },
+                    "406": {
+                        "description": "Telefoonnummer bestaat al"
                     }
                 }
             }
