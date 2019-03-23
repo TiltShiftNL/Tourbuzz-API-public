@@ -10,11 +10,12 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\UploadedFile;
 
-class AfbeeldingController {
+class AfbeeldingController extends Controller {
     protected $ci;
     //Constructor
     public function __construct(\Interop\Container\ContainerInterface $ci) {
         $this->ci = $ci;
+        parent::__construct($ci);
     }
 
     public function transform(Request $request, Response $response, $args) {
@@ -50,10 +51,15 @@ class AfbeeldingController {
     }
 
     public function post(Request $request, Response $response) {
+        $r = $this->requireAuthentication($request, $response);
+        if (null !== $r) {
+            return $r;
+        }
+
         $files = $request->getUploadedFiles();
         if (!isset($files['file'])) {
             $response = $response
-                ->withStatus(403)
+                ->withStatus(400)
                 ->withHeader('Access-Control-Allow-Origin', '*')
                 ->withHeader('Access-Control-Allow-Headers', 'file, Content-Type')
                 ->withJson(['error' => 'No file included']);
