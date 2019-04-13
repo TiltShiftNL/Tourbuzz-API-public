@@ -80,5 +80,9 @@ EOF
 # Again, just to be sure
 #chown -R www-data:www-data /srv/web/tourbuzz-api/var && chmod -R 0770 /srv/web/tourbuzz-api/var
 
+touch /srv/web/tourbuzz-api/logs/app.log
+chown -R www-data:www-data /srv/web/tourbuzz-api/logs
+tail -f /srv/web/tourbuzz-api/logs/app.log &
+
 service php7.0-fpm start
 nginx -g "daemon off;"
