@@ -525,3 +525,38 @@ $app->get('/vialis', 'App\Controller\VialisController:index');
  * )
  */
 $app->post('/vialis', 'App\Controller\VialisController:map');
+
+/**
+ * @SWG\Get(
+ *     path="/routes/{type}",
+ *     produces={"application/json"},
+ *     summary="Maak een lijst van alle beschikbare routes voor het opgegeven type",
+ *     @SWG\Parameter(description="Type route: recommended|mandatory|roadwork", in="path", name="type", required=true, type="string"),
+ *     @SWG\Response(response=200, description="Succes"),
+ *     @SWG\Response(response=404, description="Type onbekend")
+ * )
+ */
+$app->get('/routes/{type}', 'App\Controller\RouteController:index');
+/**
+ * @SWG\Get(
+ *     path="/routes/{type}/geojson",
+ *     produces={"application/json"},
+ *     summary="Maak een lijst van alle beschikbare routes in een GeoJSON feature collection",
+ *     @SWG\Parameter(description="Type route: recommended|mandatory|roadwork", in="path", name="type", required=true, type="string"),
+ *     @SWG\Response(response=200, description="Succes"),
+ *     @SWG\Response(response=404, description="Type onbekend")
+ * )
+ */
+$app->get('/routes/{type}/geojson', 'App\Controller\RouteController:indexGeoJson');
+/**
+ * @SWG\Get(
+ *     path="/routes/{type}/{key}",
+ *     produces={"application/json"},
+ *     summary="Geeft de route als GeoJSON",
+ *     @SWG\Parameter(description="Type route: recommended|mandatory|roadwork", in="path", name="type", required=true, type="string"),
+ *     @SWG\Parameter(description="Key van de route zoals verkregen met /routes/{type}", in="path", name="type", required=true, type="string"),
+ *     @SWG\Response(response=200, description="Succes"),
+ *     @SWG\Response(response=404, description="Type of key onbekend")
+ * )
+ */
+$app->get('/routes/{type}/{key}', 'App\Controller\RouteController:detail');

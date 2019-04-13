@@ -1203,6 +1203,88 @@
                     }
                 }
             }
+        },
+        "/routes/{type}": {
+            "get": {
+                "summary": "Maak een lijst van alle beschikbare routes voor het opgegeven type",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "description": "Type route: recommended|mandatory|roadwork",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "404": {
+                        "description": "Type onbekend"
+                    }
+                }
+            }
+        },
+        "/routes/{type}/geojson": {
+            "get": {
+                "summary": "Maak een lijst van alle beschikbare routes in een GeoJSON feature collection",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "description": "Type route: recommended|mandatory|roadwork",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "404": {
+                        "description": "Type onbekend"
+                    }
+                }
+            }
+        },
+        "/routes/{type}/{key}": {
+            "get": {
+                "summary": "Geeft de route als GeoJSON",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "description": "Type route: recommended|mandatory|roadwork",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "description": "Key van de route zoals verkregen met /routes/{type}",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes"
+                    },
+                    "404": {
+                        "description": "Type of key onbekend"
+                    }
+                }
+            }
         }
     },
     "definitions": {}
