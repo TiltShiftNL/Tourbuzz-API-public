@@ -62,7 +62,12 @@ return [
         'translateApiKey'        => '${TRANSLATE_API_KEY}',
         'fromMail'               => 'noreply@tourbuzz.nl',
         'sendgridApiKey'         => '${SENDGRID_API_KEY}',
-        'messagebirdApiKey'      => '${MESSAGEBIRD_API_KEY}'
+        'messagebirdApiKey'      => '${MESSAGEBIRD_API_KEY}',
+        'datasource' => [
+            'recommended_routes' => 'https://open.data.amsterdam.nl/ivv/touringcar/aanbevolen_route.json',
+            'mandatory_routes' => 'https://open.data.amsterdam.nl/ivv/touringcar/verplichte_route.json',
+            'roadwork_routes' => 'https://open.data.amsterdam.nl/ivv/touringcar/wegwerkzaamheden.json'
+        ]
     ]
 ];
 EOF
