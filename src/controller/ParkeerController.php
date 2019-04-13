@@ -31,6 +31,12 @@ class ParkeerController {
             $res = $guzzle->request('GET', $settings['parkeerUrl']);
             $jsonData = json_decode($res->getBody());
         } catch (\Exception $e) {
+            $this->ci->get('logger')->error('Exception while loading parkeerInfo from datasource', [
+                'type' => get_class($e),
+                'message' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile()
+            ]);
             header("HTTP/1.1 404 Not Found");
             exit;
         }
@@ -45,6 +51,12 @@ class ParkeerController {
                 }
             }
         } catch (\Exception $e) {
+            $this->ci->get('logger')->warning('Exception while loading parkeerInfo from datasource', [
+                'type' => get_class($e),
+                'message' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile()
+            ]);
             // void ignore
         }
 

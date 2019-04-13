@@ -30,6 +30,12 @@ class HaltesController {
             $res = $guzzle->request('GET', $settings['haltesUrl']);
             $jsonData = json_decode($res->getBody());
         } catch (\Exception $e) {
+            $this->ci->get('logger')->error('Exception while loading haltes from datasource', [
+                'type' => get_class($e),
+                'message' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile()
+            ]);
             header("HTTP/1.1 404 Not Found");
             exit;
         }
@@ -45,6 +51,12 @@ class HaltesController {
             }
         } catch (\Exception $e) {
             // void ignore
+            $this->ci->get('logger')->warning('Exception while loading haltes from datasource', [
+                'type' => get_class($e),
+                'message' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile()
+            ]);
         }
 
         $result = [
