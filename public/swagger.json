@@ -1269,7 +1269,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "type",
+                        "name": "key",
                         "in": "path",
                         "description": "Key van de route zoals verkregen met /routes/{type}",
                         "required": true,

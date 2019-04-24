@@ -554,7 +554,7 @@ $app->get('/routes/{type}/geojson', 'App\Controller\RouteController:indexGeoJson
  *     produces={"application/json"},
  *     summary="Geeft de route als GeoJSON",
  *     @SWG\Parameter(description="Type route: recommended|mandatory|roadwork", in="path", name="type", required=true, type="string"),
- *     @SWG\Parameter(description="Key van de route zoals verkregen met /routes/{type}", in="path", name="type", required=true, type="string"),
+ *     @SWG\Parameter(description="Key van de route zoals verkregen met /routes/{type}", in="path", name="key", required=true, type="string"),
  *     @SWG\Response(response=200, description="Succes"),
  *     @SWG\Response(response=404, description="Type of key onbekend")
  * )
