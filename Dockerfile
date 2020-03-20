@@ -23,6 +23,7 @@ RUN wget https://getcomposer.org/composer.phar \
   && sed -i '/\;pm\.max_requests\ \=\ 500/c\pm\.max_requests\ \=\ 100' /etc/php/7.0/fpm/pool.d/www.conf \
   && echo "server_tokens off;" > /etc/nginx/conf.d/extra.conf \
   && echo "client_max_body_size 20m;" >> /etc/nginx/conf.d/extra.conf \
+  && echo "client_body_buffer_size 20m;" >> /etc/nginx/conf.d/extra.conf \
   && sed -i '/upload_max_filesize \= 2M/c\upload_max_filesize \= 20M' /etc/php/7.0/fpm/php.ini \
   && sed -i '/post_max_size \= 8M/c\post_max_size \= 21M' /etc/php/7.0/fpm/php.ini \
   && sed -i '/\;date\.timezone \=/c\date.timezone = Europe\/Amsterdam' /etc/php/7.0/fpm/php.ini \
