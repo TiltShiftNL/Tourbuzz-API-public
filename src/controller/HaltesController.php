@@ -34,7 +34,8 @@ class HaltesController {
                 'type' => get_class($e),
                 'message' => $e->getMessage(),
                 'line' => $e->getLine(),
-                'file' => $e->getFile()
+                'file' => $e->getFile(),
+                'url' => $settings['haltesUrl']
             ]);
             header("HTTP/1.1 404 Not Found");
             exit;
@@ -51,11 +52,12 @@ class HaltesController {
             }
         } catch (\Exception $e) {
             // void ignore
-            $this->ci->get('logger')->warning('Exception while loading haltes from datasource', [
+            $this->ci->get('logger')->warning('Exception while loading haltes (messages) from datasource', [
                 'type' => get_class($e),
                 'message' => $e->getMessage(),
                 'line' => $e->getLine(),
-                'file' => $e->getFile()
+                'file' => $e->getFile(),
+                'url' => $settings['messagesUrl']
             ]);
         }
 
