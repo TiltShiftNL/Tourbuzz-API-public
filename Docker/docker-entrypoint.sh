@@ -50,9 +50,9 @@ return [
                 'password' => '${DB_PASSWORD}',
             ]
         ],
-        'haltesUrl'              => 'https://open.data.amsterdam.nl/ivv/touringcar/in_uitstaphaltes.json',
+        'haltesUrl'              => 'https://api.data.amsterdam.nl/dcatd/datasets/IuAYhr-__qZj9Q/purls/uEOyRO9EKBNIeA', // 'https://open.data.amsterdam.nl/ivv/touringcar/in_uitstaphaltes.json',
         'messagesUrl'            => 'https://${ACC}api.tourbuzz.nl/berichten/' . date("Y/m/d"),
-        'parkeerUrl'             => 'https://open.data.amsterdam.nl/ivv/touringcar/parkeerplaatsen.json',
+        'parkeerUrl'             => 'https://api.data.amsterdam.nl/dcatd/datasets/IuAYhr-__qZj9Q/purls/uB95bElRaUcD0A', // 'https://open.data.amsterdam.nl/ivv/touringcar/parkeerplaatsen.json',
         'wachtwoordVergetenUrl'  => 'https://${ACC}tourbuzz.nl/wachtwoordvergeten/',
         'mailConfirmUrl'         => 'https://${ACC}tourbuzz.nl/mailbevestigen/',
         'mailUnsubscribeUrl'     => 'https://${ACC}tourbuzz.nl/mailannuleren/',
@@ -64,9 +64,9 @@ return [
         'sendgridApiKey'         => '${SENDGRID_API_KEY}',
         'messagebirdApiKey'      => '${MESSAGEBIRD_API_KEY}',
         'datasource' => [
-            'recommended_routes' => 'https://open.data.amsterdam.nl/ivv/touringcar/aanbevolen_route.json',
-            'mandatory_routes' => 'https://open.data.amsterdam.nl/ivv/touringcar/verplichte_route.json',
-            'roadwork_routes' => 'https://open.data.amsterdam.nl/ivv/touringcar/wegwerkzaamheden.json'
+            'recommended_routes' => 'https://api.data.amsterdam.nl/dcatd/datasets/IuAYhr-__qZj9Q/purls/wFSs8bEzvW7S9w', // 'https://open.data.amsterdam.nl/ivv/touringcar/aanbevolen_route.json',
+            'mandatory_routes' => 'https://api.data.amsterdam.nl/dcatd/datasets/IuAYhr-__qZj9Q/purls/6PQYbDv09_dhpA', // 'https://open.data.amsterdam.nl/ivv/touringcar/verplichte_route.json',
+            'roadwork_routes' => 'https://api.data.amsterdam.nl/dcatd/datasets/IuAYhr-__qZj9Q/purls/csfA78CYaXgnsw', // 'https://open.data.amsterdam.nl/ivv/touringcar/wegwerkzaamheden.json'
         ]
     ]
 ];
