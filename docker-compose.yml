@@ -2,19 +2,21 @@ version: "3.2"
 
 services:
   database:
-    image: amsterdam/postgres
-    ports:
-      - "5432:5432"
+    image: postgis/postgis:10-2.5-alpine
+    networks:
+        - tourbuzz
     environment:
       POSTGRES_USER: tourbuzz
       POSTGRES_PASSWORD: insecure
 
   web:
     build: .
+    networks:
+        - tourbuzz
     ports:
       - "80:80"
-    links:
-      - database:database
+    depends_on:
+      - database
     environment:
       TOURBUZZ__ENVIRONMENT: "acc."
       TOURBUZZ__DATABASE_HOST: "database"
@@ -26,3 +28,7 @@ services:
       TOURBUZZ__MESSAGEBIRD_API_KEY: "insecure"
       TOURBUZZ__TRANSLATE_API_KEY: "insecure"
       TOURBUZZ__SENDGRID_API_KEY: "insecure"
+
+networks:
+  tourbuzz:
+    driver: bridge
