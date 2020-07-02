@@ -1,5 +1,5 @@
-FROM nginx:1.18.0
-MAINTAINER datapunt@amsterdam.nl
+FROM nginx:1.17
+MAINTAINER apps@tiltshift.nl
 
 ENV TOURBUZZ__ENVIRONMENT acc.
 ENV TOURBUZZ__DATABASE_HOST database
@@ -11,16 +11,32 @@ ENV TOURBUZZ__MESSAGEBIRD_ENABLE true
 ENV TOURBUZZ__MESSAGEBIRD_API_KEY insecure
 ENV TOURBUZZ__TRANSLATE_API_KEY insecure
 ENV TOURBUZZ__SENDGRID_API_KEY insecure
-
 EXPOSE 80
 
 # install php packages
 RUN apt-get update \
- && apt-get install -y git vim wget curl cron rsync unzip apt-transport-https lsb-release ca-certificates \
- && wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
- && sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list' \
- && apt-get update \
- && apt-get -y install php7.0-fpm php7.0-intl php7.0-pgsql php7.0-curl php7.0-cli php7.0-gd php7.0-intl php7.0-mbstring php7.0-mcrypt php7.0-opcache php7.0-sqlite3 php7.0-xml php7.0-xsl php7.0-zip php7.0-igbinary php7.0-json php7.0-memcached php7.0-msgpack php7.0-xmlrpc php7.0-imagick \
+ && apt-get install -y apt-transport-https ca-certificates \
+
+RUN apt-get update && apt-get -y install git wget cron rsync curl unzip \
+  php-fpm \
+  php-intl \
+  php-pgsql \
+  php-curl \
+  php-cli \
+  php-gd \
+  php-mbstring \
+  # php-mcrypt \ DEPRECATED
+  php-opcache \
+  php-sqlite3 \
+  php-xml \
+  php-xsl \
+  php-zip \
+  php-igbinary \
+  php-json \
+  php-memcached \
+  php-msgpack \
+  php-xmlrpc \
+  php-imagick \
  && apt-get -y upgrade \
  && apt-get clean
 
@@ -28,14 +44,10 @@ RUN apt-get update \
 # project setup
 COPY . /srv/web/tourbuzz-api
 WORKDIR /srv/web
-
-#COPY Docker/parameters.yml /srv/web/tourbuzz-api/app/config/parameters.yml
-
+RUN wget https://getcomposer.org/composer.phar
 # nginx and php setup
 COPY Docker/tourbuzz-api.vhost /etc/nginx/conf.d/tourbuzz-api.vhost.conf
-RUN wget https://getcomposer.org/composer.phar \
-  && php composer.phar install -d tourbuzz-api/ \
-  && rm /etc/nginx/conf.d/default.conf \
+RUN rm /etc/nginx/conf.d/default.conf \
   && sed -i '/\;listen\.mode\ \=\ 0660/c\listen\.mode=0666' /etc/php/7.0/fpm/pool.d/www.conf \
   && sed -i '/pm.max_children = 5/c\pm.max_children = 20' /etc/php/7.0/fpm/pool.d/www.conf \
   && sed -i '/\;pm\.max_requests\ \=\ 500/c\pm\.max_requests\ \=\ 100' /etc/php/7.0/fpm/pool.d/www.conf \
@@ -49,6 +61,9 @@ RUN wget https://getcomposer.org/composer.phar \
   && sed -e 's/;clear_env = no/clear_env = no/' -i /etc/php/7.0/fpm/pool.d/www.conf
 
 RUN chown www-data:www-data /srv/web/tourbuzz-api/cache/proxies
+# only install dependencies
+ENV COMPOSER_ALLOW_SUPERUSER 1
+RUN php composer.phar install -d tourbuzz/tourbuzz/ --prefer-dist --no-progress --no-scripts
 
 # run
 COPY Docker/docker-entrypoint.sh /docker-entrypoint.sh
