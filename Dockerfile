@@ -16,6 +16,7 @@ EXPOSE 80
 # install php packages
 RUN apt-get update \
  && apt-get install -y apt-transport-https ca-certificates \
+ && apt update
 
 RUN apt-get update && apt-get -y install git wget cron rsync curl unzip \
   php-fpm \
