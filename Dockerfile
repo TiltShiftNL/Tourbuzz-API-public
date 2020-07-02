@@ -64,7 +64,7 @@ RUN rm /etc/nginx/conf.d/default.conf \
 RUN chown www-data:www-data /srv/web/tourbuzz-api/cache/proxies
 # only install dependencies
 ENV COMPOSER_ALLOW_SUPERUSER 1
-RUN php composer.phar install -d tourbuzz/tourbuzz/ --prefer-dist --no-progress --no-scripts
+RUN php composer.phar install -d tourbuzz-api/ --prefer-dist --no-progress --no-scripts
 
 # run
 COPY Docker/docker-entrypoint.sh /docker-entrypoint.sh
