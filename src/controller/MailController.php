@@ -16,7 +16,7 @@ class MailController extends Controller {
      */
     protected $mailService;
 
-    public function __construct(\Interop\Container\ContainerInterface $ci)
+    public function __construct(\Psr\Container\ContainerInterface $ci)
     {
         $this->mailService = $ci->get('mail');
         parent::__construct($ci);

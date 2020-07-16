@@ -12,14 +12,14 @@ use App\View\Mail\NewsletterMail;
 use App\View\Mail\RegisterMail;
 use App\View\Mail\UnsubscribeMail;
 use Doctrine\ORM\EntityManager;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Ramsey\Uuid\Uuid;
 
 class MailService {
 
 
     /**
-     * @var \Interop\Container\ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected $ci;
 
@@ -35,7 +35,7 @@ class MailService {
 
     /**
      * MailService constructor.
-     * @param \Interop\Container\ContainerInterface $ci
+     * @param \Psr\Container\ContainerInterface $ci
      */
     public function __construct(ContainerInterface $ci) {
         $this->ci        = $ci;

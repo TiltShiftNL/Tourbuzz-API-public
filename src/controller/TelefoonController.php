@@ -9,7 +9,7 @@ use Slim\Http\Response;
 
 class TelefoonController extends Controller {
 
-    public function __construct(\Interop\Container\ContainerInterface $ci)
+    public function __construct(\Psr\Container\ContainerInterface $ci)
     {
         parent::__construct($ci);
     }

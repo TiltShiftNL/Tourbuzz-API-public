@@ -7,7 +7,7 @@ use Slim\Http\Request;
 class HaltesController {
     protected $ci;
     //Constructor
-    public function __construct(\Interop\Container\ContainerInterface $ci) {
+    public function __construct(\Psr\Container\ContainerInterface $ci) {
         $this->ci = $ci;
     }
 

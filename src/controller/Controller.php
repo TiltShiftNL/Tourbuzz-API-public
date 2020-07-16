@@ -11,7 +11,7 @@ use Slim\Http\Response;
 class Controller {
 
     /**
-     * @var \Interop\Container\ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected $ci;
 
@@ -21,10 +21,10 @@ class Controller {
     protected $authService;
 
     /**
-     * AccountController constructor.
-     * @param \Interop\Container\ContainerInterface $ci
+     * Controller constructor.
+     * @param \Psr\Container\ContainerInterface $ci
      */
-    public function __construct(\Interop\Container\ContainerInterface $ci) {
+    public function __construct(\Psr\Container\ContainerInterface $ci) {
         $this->ci = $ci;
         $this->authService = $ci->get('auth');
     }

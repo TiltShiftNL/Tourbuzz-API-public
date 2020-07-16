@@ -15,7 +15,7 @@ use App\Exception\UnknownCredentialsException;
 use App\Exception\UsernameExistsException;
 use App\View\Mail\ForgotPasswordMail;
 use Doctrine\ORM\EntityManager;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Ramsey\Uuid\Uuid;
 
 class AuthService {
@@ -26,7 +26,7 @@ class AuthService {
     protected $maxAge = 3600 * 8;
 
     /**
-     * @var \Interop\Container\ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected $ci;
 
@@ -52,7 +52,7 @@ class AuthService {
 
     /**
      * AuthService constructor.
-     * @param \Interop\Container\ContainerInterface $ci
+     * @param \Psr\Container\ContainerInterface $ci
      */
     public function __construct(ContainerInterface $ci) {
         $this->ci        = $ci;
