@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: tourbuzz
       POSTGRES_PASSWORD: insecure
 
-  web:
+  api:
     build: .
     networks:
         - tourbuzz

@@ -81,11 +81,4 @@ class AfbeeldingController extends Controller {
         return $response;
     }
 
-    public function options(Request $request, Response $response) {
-        $response = $response
-            ->withStatus(200)
-            ->withHeader('Access-Control-Allow-Origin', '*')
-            ->withHeader('Access-Control-Allow-Headers', 'file, Content-Type');
-        return $response;
-    }
 }
